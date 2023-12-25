@@ -19,6 +19,7 @@ This is the source code for the Massachusetts Coding League website!
 1. Have `nodejs`.
 2. Clone this repo.
 3. `yarn` to install dependencies.
+4. Copy .env.sample to .env.local and fill out environment variables.
 
 ## Development
 
@@ -30,3 +31,5 @@ lint, (`yarn run lint` / `yarn run writeLint`) and type-check. (`yarn run typech
 ## Build and serve
 
 `yarn run build` and `yarn run start`.
+
+[//]: # (The Massachusetts Coding League website is currently deployed on Vercel at [https://ma-coding-league.com]&#40;https://ma-coding-league.com&#41;.)
