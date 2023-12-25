@@ -21,6 +21,10 @@ function Footer(): JSX.Element {
         title: "Home",
         link: "/",
       },
+      {
+        title: "Help",
+        link: "/help",
+      },
       { title: "Legal", link: "/legal" },
       {
         title: "GitHub",
