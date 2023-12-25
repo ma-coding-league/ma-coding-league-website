@@ -2,6 +2,27 @@
   "name": "ma-coding-league-website",
   "version": "0.1.0",
   "private": true,
+  "keywords": [
+    "react",
+    "bootstrap",
+    "website",
+    "ma-coding-league",
+    "ma-coding-league-website",
+    "massachusetts-coding-league",
+    "massachusetts-coding-league-website"
+  ],
+  "homepage": "https://github.com/ma-coding-league/ma-coding-league-website",
+  "bugs": "https://github.com/ma-coding-league/ma-coding-league-website/issues",
+  "license": "GPL-2.1-or-later",
+  "author": {
+    "name": "UnsignedArduino",
+    "email": "UnsignedArduino@outlook.com",
+    "url": "https://github.com/UnsignedArduino"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ma-coding-league/ma-coding-league-website.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
