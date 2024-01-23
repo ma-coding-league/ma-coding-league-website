@@ -26,6 +26,12 @@ function Footer(): JSX.Element {
         link: "/help",
       },
       { title: "Legal", link: "/legal" },
+    ],
+    [
+      {
+        title: "Status page",
+        link: "https://stats.uptimerobot.com/6qGRKCVxXx",
+      },
       {
         title: "GitHub",
         link: "https://github.com/ma-coding-league/ma-coding-league-website",

@@ -1,9 +1,10 @@
 import Link from "next/link";
 import React from "react";
 import { NavbarDropdownThemePicker } from "./ThemePicker";
-// import icon from "../../../public/android-chrome-512x512.png";
+import icon from "../../../public/android-chrome-512x512.png";
 import { AppProps } from "../WithAppProps";
 import Profile from "@/components/Authentication/Profile";
+import Image from "next/image";
 
 const NavbarPages = {
   Home: "/",
@@ -29,16 +30,16 @@ function Navbar({
     <nav className="navbar sticky-top bg-body-tertiary navbar-expand-md">
       <div className="container-fluid">
         <div className="d-inline-flex align-items-center text-start">
-          {/*<Image*/}
-          {/*  src={icon}*/}
-          {/*  alt="Logo"*/}
-          {/*  className="d-inline-block me-1"*/}
-          {/*  style={{*/}
-          {/*    width: "1.5em",*/}
-          {/*    height: "1.5em",*/}
-          {/*    objectFit: "contain",*/}
-          {/*  }}*/}
-          {/*/>*/}
+          <Image
+            src={icon}
+            alt="Logo"
+            className="d-inline-block me-1"
+            style={{
+              width: "1.5em",
+              height: "1.5em",
+              objectFit: "contain",
+            }}
+          />
           <Link className="navbar-brand mb-0 ms-1 h1" href="/">
             {appName}
           </Link>
