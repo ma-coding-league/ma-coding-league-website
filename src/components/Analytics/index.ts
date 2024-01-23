@@ -9,4 +9,4 @@ export {
   setAnalyticsStorageConsent,
 } from "./analytics";
 
-export { AnalyticEvents } from "./specific";
+export type { AnalyticEvents } from "./specific";
