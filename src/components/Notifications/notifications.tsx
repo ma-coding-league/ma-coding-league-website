@@ -26,7 +26,7 @@ export function notify(
   text: string,
   type: NotificationType,
   autoHide?: boolean,
-  progress?: number | undefined
+  progress?: number | undefined,
 ): Id {
   const opts: ToastOptions = {
     position: "bottom-right",
@@ -74,7 +74,7 @@ export function promiseNotify(
   waiting: string,
   success: string,
   failure: string,
-  autoHide?: boolean
+  autoHide?: boolean,
 ) {
   const opts: ToastOptions = {
     position: "bottom-right",
@@ -88,7 +88,7 @@ export function promiseNotify(
   toast.promise(
     promise,
     { pending: waiting, error: failure, success: success },
-    opts
+    opts,
   );
 }
 
@@ -102,7 +102,7 @@ export function loadingNotify(
   loadingText: string,
   successText: string,
   errorText: string,
-  canceledText: string
+  canceledText: string,
 ): LoadingNotifyReturn {
   const id = toast.loading(loadingText);
   return {
@@ -150,7 +150,7 @@ export function Notifications(): JSX.Element {
 
     window.document.documentElement.addEventListener(
       "themeused",
-      onThemeChange
+      onThemeChange,
     );
 
     setTheme(theme as Theme);

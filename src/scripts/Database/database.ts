@@ -3,7 +3,7 @@ import { getEnvironment } from "@/components/WithAppProps";
 
 export default function queryDb(
   queryTextOrConfig: string | QueryConfig<any[]>,
-  values?: any[] | undefined
+  values?: any[] | undefined,
 ): Promise<QueryResult<any>> {
   const pool = new Pool({
     host: process.env.POSTGRES_HOST,

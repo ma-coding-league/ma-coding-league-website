@@ -20,7 +20,7 @@ export function dataURLtoBlob(dataurl: string): Blob | undefined {
 //**blob to dataURL**
 export function blobToDataURL(
   blob: Blob,
-  callback: (_: string | ArrayBuffer | null) => void
+  callback: (_: string | ArrayBuffer | null) => void,
 ) {
   const a = new FileReader();
   a.onload = function (e) {

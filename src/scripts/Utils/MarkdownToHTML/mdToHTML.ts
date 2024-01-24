@@ -23,6 +23,6 @@ export default async function markdownToHTML(md: string): Promise<string> {
         .use(rehypeKatex)
         .use(rehypeStringify)
         .process(md)
-    ).toString()
+    ).toString(),
   );
 }

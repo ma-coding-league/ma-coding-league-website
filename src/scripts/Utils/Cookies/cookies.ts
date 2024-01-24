@@ -1,12 +1,12 @@
 export function setCookie(
   cookieName: string,
   cookieValue: string,
-  expireInSecs: number
+  expireInSecs: number,
 ) {
   let date = new Date();
   date.setTime(date.getTime() + expireInSecs * 1000);
   document.cookie = `${cookieName} = ${encodeURIComponent(
-    cookieValue
+    cookieValue,
   )}; expires = ${date.toUTCString()}`;
   // console.log(new Date().toUTCString());
   // console.log(

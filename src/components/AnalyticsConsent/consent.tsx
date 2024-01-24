@@ -96,7 +96,7 @@ function AnalyticsStorageConsent({
 
   React.useEffect(() => {
     consentChangedSetter(
-      analyticsStorageConsentValue !== getAnalyticsStorageConsent()
+      analyticsStorageConsentValue !== getAnalyticsStorageConsent(),
     );
   }, [analyticsStorageConsentValue, consentChangedSetter]);
 
@@ -111,7 +111,7 @@ function AnalyticsStorageConsent({
         value={analyticsStorageConsentValue}
         onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
           setAnalyticsStorageConsentValue(
-            event.target.selectedOptions[0].value
+            event.target.selectedOptions[0].value,
           );
         }}
         aria-labelledby="analyticsStorageConsentLabel"
@@ -137,7 +137,7 @@ export function AnalyticsConsent(): JSX.Element {
     setShowReloadRequired(
       adStorageConsentChanged ||
         adsDataRedactionConsentChanged ||
-        analyticsStorageConsentChanged
+        analyticsStorageConsentChanged,
     );
   }, [
     adStorageConsentChanged,
@@ -170,18 +170,18 @@ export function AnalyticsConsent(): JSX.Element {
               };
               setAdStorageConsent(
                 (getElement("useGoogleAnalyticsSelect") as HTMLSelectElement)
-                  .selectedOptions[0].value
+                  .selectedOptions[0].value,
               );
               setAdsDataRedaction(
                 (getElement("adsDataRedactionSelect") as HTMLSelectElement)
-                  .selectedOptions[0].value
+                  .selectedOptions[0].value,
               );
               setAnalyticsStorageConsent(
                 (
                   getElement(
-                    "analyticsStorageConsentSelect"
+                    "analyticsStorageConsentSelect",
                   ) as HTMLSelectElement
-                ).selectedOptions[0].value
+                ).selectedOptions[0].value,
               );
               window.location.reload();
             }}

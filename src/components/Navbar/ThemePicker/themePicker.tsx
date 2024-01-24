@@ -41,7 +41,7 @@ export function NavbarDropdownThemePicker({
   React.useEffect(() => {
     window.document.documentElement.addEventListener(
       "themechange",
-      onThemeChange
+      onThemeChange,
     );
   }, []);
 
@@ -67,7 +67,7 @@ export function NavbarDropdownThemePicker({
               window.document.documentElement.dispatchEvent(
                 new CustomEvent<ThemeOptions>("themechangerequest", {
                   detail: "Light",
-                })
+                }),
               );
             }}
           >
@@ -85,7 +85,7 @@ export function NavbarDropdownThemePicker({
               window.document.documentElement.dispatchEvent(
                 new CustomEvent<ThemeOptions>("themechangerequest", {
                   detail: "Dark",
-                })
+                }),
               );
             }}
           >
@@ -103,7 +103,7 @@ export function NavbarDropdownThemePicker({
               window.document.documentElement.dispatchEvent(
                 new CustomEvent<ThemeOptions>("themechangerequest", {
                   detail: "Auto",
-                })
+                }),
               );
             }}
           >
@@ -127,7 +127,7 @@ export function ThemeProxy(): JSX.Element {
 
   React.useEffect(() => {
     const userTheme = window.localStorage.getItem(
-      "theme"
+      "theme",
     ) as ThemeOptions | null;
     if (userTheme != null) {
       setDropdownTheme(userTheme);
@@ -139,7 +139,7 @@ export function ThemeProxy(): JSX.Element {
 
     window.document.documentElement.addEventListener(
       "themechangerequest",
-      onThemeChangeRequest
+      onThemeChangeRequest,
     );
   }, []);
 
@@ -150,7 +150,7 @@ export function ThemeProxy(): JSX.Element {
           setActualTheme(
             window.matchMedia("(prefers-color-scheme: dark)").matches
               ? "Dark"
-              : "Light"
+              : "Light",
           );
           break;
         }
@@ -162,7 +162,7 @@ export function ThemeProxy(): JSX.Element {
       window.document.documentElement.dispatchEvent(
         new CustomEvent<ThemeOptions>("themechange", {
           detail: dropdownTheme,
-        })
+        }),
       );
       window.localStorage.setItem("theme", dropdownTheme);
     }
@@ -172,13 +172,13 @@ export function ThemeProxy(): JSX.Element {
     if (loadedPreferredTheme) {
       window.document.documentElement.setAttribute(
         "data-bs-theme",
-        actualTheme.toLowerCase()
+        actualTheme.toLowerCase(),
       );
     }
     window.document.documentElement.dispatchEvent(
       new CustomEvent<ThemeOptions>("themeused", {
         detail: actualTheme,
-      })
+      }),
     );
     window.localStorage.setItem("themeUsed", actualTheme);
   }, [actualTheme, loadedPreferredTheme]);
@@ -199,7 +199,7 @@ export function ThemeProxy(): JSX.Element {
 
     window.document.documentElement.addEventListener(
       "themeused",
-      onThemeChange
+      onThemeChange,
     );
 
     setTheme(theme as "dark" | "light");

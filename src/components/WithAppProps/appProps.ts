@@ -4,8 +4,8 @@ export function getEnvironment(): Environment {
   return process.env.VERCEL_ENV != undefined
     ? (process.env.VERCEL_ENV as Environment)
     : process.env.NODE_ENV != undefined
-    ? (process.env.NODE_ENV as Environment)
-    : "production";
+      ? (process.env.NODE_ENV as Environment)
+      : "production";
 }
 
 export function getBranch(): "main" | "staging" {

@@ -11,6 +11,6 @@ export function downloadSomething(href: string, fileName: string): void {
 export default function downloadText(text: string, fileName: string): void {
   downloadSomething(
     "data:text/plain;charset=utf-16," + encodeURIComponent(text),
-    fileName
+    fileName,
   );
 }

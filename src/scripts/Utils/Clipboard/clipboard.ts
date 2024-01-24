@@ -27,13 +27,13 @@ export function copyTextToClipboard(text: string): boolean {
     (err) => {
       console.error("Failed to copy text to clipboard, using fallback: " + err);
       copyToClipboardFallback(text);
-    }
+    },
   );
   return true;
 }
 
 export function readTextFromClipboard(
-  callback: (_text: string | undefined) => void
+  callback: (_text: string | undefined) => void,
 ): void {
   if (!navigator.clipboard) {
     return;
@@ -45,7 +45,7 @@ export function readTextFromClipboard(
     (err) => {
       console.error("Failed to read from clipboard: " + err);
       callback(undefined);
-    }
+    },
   );
 }
 

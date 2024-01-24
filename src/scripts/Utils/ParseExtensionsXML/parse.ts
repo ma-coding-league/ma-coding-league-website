@@ -85,7 +85,7 @@ function findElementInElement(element: any, elementName: string): any {
 function findElementWithAttributeValue(
   elements: any[],
   attributeName: string,
-  attributeValue: string
+  attributeValue: string,
 ): any {
   for (const element of elements) {
     const attributes = element[":@"];
@@ -121,7 +121,7 @@ async function gatherExtensionList(exts: any[]): Promise<Extension[]> {
   for (const extension of exts) {
     const ext = findElementInElement(extension, "extension").extension;
     const description = await markdownToHTML(
-      findElementInElement(ext, "description").description[0]["#text"]
+      findElementInElement(ext, "description").description[0]["#text"],
     );
     const links: URLLink[] = findElementInElement(ext, "links").links.map(
       (obj: any): URLLink => {
@@ -131,7 +131,7 @@ async function gatherExtensionList(exts: any[]): Promise<Extension[]> {
           url: obj.url[0]["#text"],
           isPrimary: stringToBool(obj[":@"]["@_isPrimary"]),
         };
-      }
+      },
     );
     const url = links.filter((link) => {
       return link.isPrimary;
@@ -190,7 +190,7 @@ async function gatherToolList(tools: any[]): Promise<Tool[]> {
   for (const tool of tools) {
     const t = findElementInElement(tool, "tool").tool;
     const description = await markdownToHTML(
-      findElementInElement(t, "description").description[0]["#text"]
+      findElementInElement(t, "description").description[0]["#text"],
     );
     const links: URLLink[] = findElementInElement(t, "links").links.map(
       (obj: any): URLLink => {
@@ -200,7 +200,7 @@ async function gatherToolList(tools: any[]): Promise<Tool[]> {
           url: obj.url[0]["#text"],
           isPrimary: stringToBool(obj[":@"]["@_isPrimary"]),
         };
-      }
+      },
     );
     const url = links.filter((link) => {
       return link.isPrimary;
@@ -237,7 +237,7 @@ async function gatherToolList(tools: any[]): Promise<Tool[]> {
 }
 
 export default async function parseExtensionXML(
-  xml: string
+  xml: string,
 ): Promise<ExtensionList> {
   const parser = new XMLParser({
     preserveOrder: true,
@@ -250,17 +250,17 @@ export default async function parseExtensionXML(
   const builtIn = findElementWithAttributeValue(
     allExtensions,
     "label",
-    "Built in"
+    "Built in",
   ).extensionList;
   const notBuiltIn = findElementWithAttributeValue(
     allExtensions,
     "label",
-    "Not built in"
+    "Not built in",
   ).extensionList;
   const tools = findElementWithAttributeValue(
     allExtensions,
     "label",
-    "Tools"
+    "Tools",
   ).toolList;
 
   return {
