@@ -1,16 +1,16 @@
 # ma-coding-league-website
 
-[//]: # ([![Deployed on Vercel]&#40;https://img.shields.io/badge/Deployed%20on-Vercel-blue?logo=vercel&#41;]&#40;https://ma-coding-league.com/&#41;)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-blue?logo=vercel)](https://ma-coding-league.vercel.app/)
 
-[//]: # ([![Uptime]&#40;https://img.shields.io/uptimerobot/ratio/m794171188-6455a1d3da81f48d1cda84e9?label=Uptime&#41;]&#40;https://stats.uptimerobot.com/pjpkZH9Y0k&#41;)
+[![Uptime](https://img.shields.io/uptimerobot/ratio/m794171188-6455a1d3da81f48d1cda84e9?label=Uptime)](https://stats.uptimerobot.com/pjpkZH9Y0k)
 
-[//]: # ([![Lint]&#40;https://github.com/LogicalSimulator/LogicalSimulator/actions/workflows/eslint.yml/badge.svg&#41;]&#40;https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/eslint.yml&#41;)
+[![Lint](https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/eslint.yml/badge.svg)](https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/eslint.yml)
 
-[//]: # ([![Format]&#40;https://github.com/LogicalSimulator/LogicalSimulator/actions/workflows/prettier.yml/badge.svg?branch=main&#41;]&#40;https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/prettier.yml&#41;)
+[![Format](https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/prettier.yml/badge.svg?branch=main)](https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/prettier.yml)
 
-[//]: # ([![CodeFactor]&#40;https://www.codefactor.io/repository/github/ma-coding-league/ma-coding-league-website/badge&#41;]&#40;https://www.codefactor.io/repository/github/ma-coding-league/ma-coding-league-website&#41;)
+[![CodeFactor](https://www.codefactor.io/repository/github/ma-coding-league/ma-coding-league-website/badge)](https://www.codefactor.io/repository/github/ma-coding-league/ma-coding-league-website)
 
-[//]: # ([![Contribute with Gitpod]&#40;https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod&#41;]&#40;https://gitpod.io/#https://github.com/ma-coding-league/ma-coding-league-website/tree/staging&#41;)
+[![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#https://github.com/ma-coding-league/ma-coding-league-website)
 
 This is the source code for the Massachusetts Coding League website!
 
@@ -32,4 +32,4 @@ lint, (`yarn run lint` / `yarn run writeLint`) and type-check. (`yarn run typech
 
 `yarn run build` and `yarn run start`.
 
-[//]: # (The Massachusetts Coding League website is currently deployed on Vercel at [https://ma-coding-league.com]&#40;https://ma-coding-league.com&#41;.)
+The Massachusetts Coding League website is currently deployed on Vercel at [https://ma-coding-league.vercel.app/](https://ma-coding-league.vercel.app/).
