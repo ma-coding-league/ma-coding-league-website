@@ -2,11 +2,11 @@
 
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-blue?logo=vercel)](https://ma-coding-league.vercel.app/)
 
-[![Uptime](https://img.shields.io/uptimerobot/ratio/m794171188-6455a1d3da81f48d1cda84e9?label=Uptime)](https://stats.uptimerobot.com/pjpkZH9Y0k)
+[![Uptime](https://img.shields.io/uptimerobot/ratio/m796228539-bd51714b7741f220d84958c6?label=Uptime)](https://stats.uptimerobot.com/6qGRKCVxXx)
 
 [![Lint](https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/eslint.yml/badge.svg)](https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/eslint.yml)
 
-[![Format](https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/prettier.yml/badge.svg?branch=main)](https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/prettier.yml)
+[![Format](https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/prettier.yml/badge.svg)](https://github.com/ma-coding-league/ma-coding-league-website/actions/workflows/prettier.yml)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/ma-coding-league/ma-coding-league-website/badge)](https://www.codefactor.io/repository/github/ma-coding-league/ma-coding-league-website)
 

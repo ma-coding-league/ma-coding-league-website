@@ -10,6 +10,7 @@ import Notifications from "../Notifications";
 import TOSBanner from "../TOSBanner";
 import { AppProps } from "../WithAppProps";
 import ProfileOffcanvas from "@/components/Authentication/Offcanvas";
+import WebsiteAlerts from "@/components/WebsiteResources/WebsiteAlerts";
 
 const appName = "Massachusetts Coding League";
 
@@ -182,22 +183,22 @@ LayoutProps): JSX.Element {
       <ErrorBoundary>
         <main>
           {(() => {
+            const content = (
+              <>
+                <WebsiteAlerts
+                  resGSheetID={
+                    process.env.NEXT_PUBLIC_GSHEET_MCL_WEBSITE_RESOURCES!
+                  }
+                />
+                {breadCrumbsHTML}
+                {children}
+              </>
+            );
+
             if (putInDIV == undefined || putInDIV) {
-              return (
-                <div className="container-fluid p-2">
-                  <>
-                    {breadCrumbsHTML}
-                    {children}
-                  </>
-                </div>
-              );
+              return <div className="container-fluid p-2">{content}</div>;
             } else {
-              return (
-                <>
-                  {breadCrumbsHTML}
-                  {children}
-                </>
-              );
+              return content;
             }
           })()}
         </main>
