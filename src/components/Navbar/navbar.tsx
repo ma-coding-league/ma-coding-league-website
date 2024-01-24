@@ -8,6 +8,7 @@ import Image from "next/image";
 
 const NavbarPages = {
   Home: "/",
+  Competitions: "/competitions",
   Help: "/help",
   GitHub: "https://github.com/ma-coding-league/ma-coding-league-website",
 };

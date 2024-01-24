@@ -23,13 +23,14 @@ function Footer(): JSX.Element {
         title: "Home",
         link: "/",
       },
+      { title: "Competitions", link: "/competitions" },
       {
         title: "Help",
         link: "/help",
       },
-      { title: "Legal", link: "/legal" },
     ],
     [
+      { title: "Legal", link: "/legal" },
       {
         title: "Status page",
         link: "https://stats.uptimerobot.com/6qGRKCVxXx",
