@@ -19,7 +19,7 @@ export default function MassachusettsCodingLeague({
 
   return (
     <ErrorBoundary>
-      <NextNProgress color="#FFF603" options={{ showSpinner: false }} />
+      <NextNProgress color="#44FFFF" options={{ showSpinner: false }} />
       <Analytics />
       <Adsense />
       <SessionProvider session={session}>
