@@ -1,7 +1,9 @@
 import getAppProps, { AppProps } from "@/components/WithAppProps";
 import React from "react";
 import Layout from "@/components/Layout";
-import MCLCompetitionYearsProvider from "@/components/MCLCompetition/CompetitionYears/MCLCompetitionYearProvider";
+import MCLCompetitionYearsProvider, {
+  MCLCompetitionYearsContext,
+} from "@/components/MCLCompetition/CompetitionYears/MCLCompetitionYearProvider";
 import MCLCompetitionYearsRenderer from "@/components/MCLCompetition/CompetitionYears/MCLCompetitionYearsRenderer";
 
 const pageName = "Competitions";
@@ -31,10 +33,22 @@ export default function Competitions({
 }
 
 function CompetitionsContent(): JSX.Element {
+  const years = React.useContext(MCLCompetitionYearsContext);
+
   return (
     <>
       <h1>Competitions</h1>
-      <h2>Years</h2>
+      {(() => {
+        switch (years.state) {
+          case "error":
+          case "loading":
+            return <h2>Current year</h2>;
+          case "loaded":
+            return <h2>{years.years[0].yearFull} year</h2>;
+        }
+      })()}
+      <p>(competitions for this year)</p>
+      <h2>All years</h2>
       <p>
         These are links to all of the competition years! Click on one to view
         all the competitions of that year!
