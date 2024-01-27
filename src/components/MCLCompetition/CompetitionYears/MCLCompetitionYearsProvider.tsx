@@ -1,11 +1,11 @@
 import React from "react";
 import getCompetitionYears, {
-  MCLCompetitionYear,
+  MCLCompetitionsYear,
 } from "@/components/MCLCompetition/CompetitionYears/getCompetitionYears";
 
 export type MCLCompetitionYearsContextType = {
   state: "loading" | "loaded" | "error";
-  years: MCLCompetitionYear[];
+  years: MCLCompetitionsYear[];
 };
 
 export const MCLCompetitionYearsContext =

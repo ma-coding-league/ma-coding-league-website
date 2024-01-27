@@ -1,6 +1,6 @@
 import PublicGoogleSheetsParser from "public-google-sheets-parser";
 
-export type MCLCompetitionYear = {
+export type MCLCompetitionsYear = {
   yearStart: number;
   yearEnd: number;
   yearFull: string;
@@ -10,14 +10,14 @@ export type MCLCompetitionYear = {
 
 export default function getCompetitionYears(
   compYearsGSheetID: string,
-): Promise<MCLCompetitionYear[]> {
+): Promise<MCLCompetitionsYear[]> {
   return new Promise((resolve, reject) => {
     console.log("Getting competition years");
     const parser = new PublicGoogleSheetsParser();
     parser
-      .parse(compYearsGSheetID, "CompetitionYears")
+      .parse(compYearsGSheetID, "Years")
       .then((data) => {
-        const years: MCLCompetitionYear[] = data.map((year) => {
+        const years: MCLCompetitionsYear[] = data.map((year) => {
           const yearNum = year["Year"];
           const url: string = year["Competition spreadsheet"];
           const secondHalf = url.replaceAll(

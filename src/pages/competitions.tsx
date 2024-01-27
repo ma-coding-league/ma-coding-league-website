@@ -3,8 +3,10 @@ import React from "react";
 import Layout from "@/components/Layout";
 import MCLCompetitionYearsProvider, {
   MCLCompetitionYearsContext,
-} from "@/components/MCLCompetition/CompetitionYears/MCLCompetitionYearProvider";
+} from "@/components/MCLCompetition/CompetitionYears/MCLCompetitionYearsProvider";
 import MCLCompetitionYearsRenderer from "@/components/MCLCompetition/CompetitionYears/MCLCompetitionYearsRenderer";
+import MCLCompetitionsProvider from "@/components/MCLCompetition/Competitions/MCLCompetitionsProvider";
+import MCLCompetitionsRenderer from "@/components/MCLCompetition/Competitions/MCLCompetitionsRenderer";
 
 const pageName = "Competitions";
 
@@ -38,22 +40,49 @@ function CompetitionsContent(): JSX.Element {
   return (
     <>
       <h1>Competitions</h1>
-      {(() => {
-        switch (years.state) {
-          case "error":
-          case "loading":
-            return <h2>Current year</h2>;
-          case "loaded":
-            return <h2>{years.years[0].yearFull} year</h2>;
-        }
-      })()}
-      <p>(competitions for this year)</p>
-      <h2>All years</h2>
       <p>
-        These are links to all of the competition years! Click on one to view
-        all the competitions of that year!
+        Here is where you can find all the competitions for any school year.
       </p>
-      <MCLCompetitionYearsRenderer />
+      <div className="mb-3">
+        {(() => {
+          switch (years.state) {
+            case "error":
+            case "loading":
+              return <h2>Current year</h2>;
+            case "loaded":
+              return <h2>{years.years[0].yearFull} year</h2>;
+          }
+        })()}
+        {(() => {
+          switch (years.state) {
+            case "error":
+              return (
+                <div className="alert alert-warning" role="alert">
+                  There was a problem loading all the competitions of this year,
+                  try refreshing the page!
+                </div>
+              );
+            case "loading":
+              return <p>Loading...</p>;
+            case "loaded":
+              return (
+                <MCLCompetitionsProvider
+                  compsGSheetID={years.years[0].competitionGSheetID}
+                >
+                  <MCLCompetitionsRenderer />
+                </MCLCompetitionsProvider>
+              );
+          }
+        })()}
+      </div>
+      <div>
+        <h2>All years</h2>
+        <p>
+          These are links to all of the competition years. Click on one to view
+          all the competitions of that year.
+        </p>
+        <MCLCompetitionYearsRenderer />
+      </div>
     </>
   );
 }

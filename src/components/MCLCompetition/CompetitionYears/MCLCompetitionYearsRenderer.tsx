@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { MCLCompetitionYearsContext } from "@/components/MCLCompetition/CompetitionYears/MCLCompetitionYearProvider";
+import { MCLCompetitionYearsContext } from "@/components/MCLCompetition/CompetitionYears/MCLCompetitionYearsProvider";
 
 export default function MCLCompetitionYearsRenderer(): JSX.Element {
   const years = React.useContext(MCLCompetitionYearsContext);
