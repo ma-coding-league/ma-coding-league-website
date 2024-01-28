@@ -23,6 +23,12 @@ export default function CompetitionYear({
   competitions,
 }: CompetitionYearProps): JSX.Element {
   const pageName = `${year} competitions`;
+  const breadCrumbs: { [title: string]: string }[] = [
+    { Competitions: "/competitions" },
+  ];
+  const endBreadCrumb: { [title: string]: string } = {};
+  endBreadCrumb[year] = `/competitions/${year}`;
+  breadCrumbs.push(endBreadCrumb);
 
   return (
     <Layout
@@ -31,6 +37,7 @@ export default function CompetitionYear({
       appProps={appProps}
       description="This is a list of all Massachusetts Coding League competitions!"
       keywords="MA Coding League, Massachusetts Coding League, MA Coding League website, Massachusetts Coding League website, Competitions, MA Coding League Competitions, Massachusetts Coding League Competitions"
+      breadCrumbs={breadCrumbs}
     >
       <h1>{pageName}</h1>
       <MCLCompetitionsRenderer currentYear={year} competitions={competitions} />
