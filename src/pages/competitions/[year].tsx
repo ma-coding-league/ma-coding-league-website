@@ -1,11 +1,11 @@
 import getAppProps, { AppProps } from "@/components/WithAppProps";
 import React from "react";
 import Layout from "@/components/Layout";
-import MCLCompetitionsRenderer from "@/components/MCLCompetition/Competitions/MCLCompetitionsRenderer";
-import getCompetitionYears from "@/scripts/MCLCompetition/CompetitionYears/getCompetitionYears";
+import MCLCompetitionsRenderer from "@/components/MCLCompetition/MCLCompetitionsRenderer";
+import getCompetitionYears from "@/scripts/MCLCompetition/getCompetitionYears";
 import getCompetitions, {
   MCLCompetition,
-} from "@/scripts/MCLCompetition/Competitions/getCompetitions";
+} from "@/scripts/MCLCompetition/getCompetitions";
 
 type CompetitionYearParams = {
   year: string;

@@ -1,14 +1,14 @@
 import getAppProps, { AppProps } from "@/components/WithAppProps";
 import React from "react";
 import Layout from "@/components/Layout";
-import MCLCompetitionYearsRenderer from "@/components/MCLCompetition/CompetitionYears/MCLCompetitionYearsRenderer";
-import MCLCompetitionsRenderer from "@/components/MCLCompetition/Competitions/MCLCompetitionsRenderer";
+import MCLCompetitionYearsRenderer from "@/components/MCLCompetition/MCLCompetitionYearsRenderer";
+import MCLCompetitionsRenderer from "@/components/MCLCompetition/MCLCompetitionsRenderer";
 import getCompetitionYears, {
   MCLCompetitionsYear,
-} from "@/scripts/MCLCompetition/CompetitionYears/getCompetitionYears";
+} from "@/scripts/MCLCompetition/getCompetitionYears";
 import getCompetitionWithResult, {
   MCLCompetition,
-} from "@/scripts/MCLCompetition/Competitions/getCompetitions";
+} from "@/scripts/MCLCompetition/getCompetitions";
 
 const pageName = "Competitions";
 

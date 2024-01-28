@@ -1,6 +1,6 @@
-import MCLCompetitionCard from "../Competition/MCLCompetitionRenderer";
+import MCLCompetitionCard from "./MCLCompetitionRenderer";
 import React from "react";
-import { MCLCompetition } from "@/scripts/MCLCompetition/Competitions/getCompetitions";
+import { MCLCompetition } from "@/scripts/MCLCompetition/getCompetitions";
 
 export default function MCLCompetitionsRenderer({
   currentYear,

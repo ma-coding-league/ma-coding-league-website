@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { MCLCompetitionsYear } from "@/scripts/MCLCompetition/CompetitionYears/getCompetitionYears";
+import { MCLCompetitionsYear } from "@/scripts/MCLCompetition/getCompetitionYears";
 
 export default function MCLCompetitionYearsRenderer({
   years,

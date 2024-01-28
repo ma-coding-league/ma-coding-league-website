@@ -10,14 +10,23 @@ export type MCLCompetitionWithResult = {
   hideThisOnWebsite: boolean;
   showResultOnWebsite: boolean;
   theme: string;
+  result: MCLCompetitionResult;
 };
+
+export type MCLCompetitionResult = {
+  team: string;
+  submissionURL: string;
+  score: string;
+}[];
 
 export default function getCompetitionWithResult(
   compsGSheetID: string,
   compName: string,
 ): Promise<MCLCompetitionWithResult> {
+  let competition: MCLCompetitionWithResult;
+
   return new Promise((resolve, reject) => {
-    console.log("Getting competition");
+    console.log("Getting competition with result");
     const parser = new PublicGoogleSheetsParser();
     parser
       .parse(compsGSheetID, "Competitions")
@@ -25,7 +34,6 @@ export default function getCompetitionWithResult(
         const comp = data.find((comp) => {
           return comp["Name"] === compName;
         });
-        console.log("COMP", comp);
         const date = GSDateToJSDate(comp["Date"]);
         const startTime = GSDateToJSDate(comp["Starting time"]);
         startTime.setFullYear(
@@ -39,7 +47,7 @@ export default function getCompetitionWithResult(
           date.getMonth(),
           date.getDate(),
         );
-        const competition = {
+        competition = {
           name: comp["Name"],
           place: comp["Place"],
           date: date.toISOString(),
@@ -48,12 +56,31 @@ export default function getCompetitionWithResult(
           hideThisOnWebsite: comp["Hide this on website"] ?? false,
           showResultOnWebsite: comp["Show result on website"] ?? false,
           theme: comp["Theme"],
+          result: [],
         };
-        console.log(`Got competition ${compName}`);
+        return parser.parse(compsGSheetID, `${compName} result`);
+      })
+      .then((data) => {
+        const scoreToDecimal = (score: string) => {
+          const scoreSplit = score.split("/");
+          return parseInt(scoreSplit[0]) / parseInt(scoreSplit[1]);
+        };
+        competition.result = data
+          .map((submission) => {
+            return {
+              team: submission["Team"] ?? null,
+              submissionURL: submission["Submission URL"] ?? null,
+              score: submission["Score"] ?? "0/0",
+            };
+          })
+          .sort((a, b) => {
+            return scoreToDecimal(b.score) - scoreToDecimal(a.score);
+          });
+        console.log(`Got competition ${compName} with result`);
         resolve(competition);
       })
       .catch((err) => {
-        console.error("Error getting competition");
+        console.error("Error getting competition with result");
         reject(err);
       });
   });

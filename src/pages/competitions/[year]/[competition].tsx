@@ -1,12 +1,15 @@
 import getAppProps, { AppProps } from "@/components/WithAppProps";
 import React from "react";
 import Layout from "@/components/Layout";
-import getCompetitionYears from "@/scripts/MCLCompetition/CompetitionYears/getCompetitionYears";
-import getCompetitions from "@/scripts/MCLCompetition/Competitions/getCompetitions";
+import getCompetitionYears from "@/scripts/MCLCompetition/getCompetitionYears";
+import getCompetitions from "@/scripts/MCLCompetition/getCompetitions";
 import getCompetitionWithResult, {
   MCLCompetitionWithResult,
-} from "@/scripts/MCLCompetition/CompetitionWithResult/getCompetitionWithResult";
+} from "@/scripts/MCLCompetition/getCompetitionWithResult";
 import { createBreadCrumbSegment } from "@/components/Layout/layout";
+import { formatDateLong, formatTime } from "@/scripts/Utils/DateAndTime/Format";
+import { dp, isBeforeNow } from "@/scripts/Utils/DateAndTime/Helpers";
+import MCLCompetitionResultRenderer from "@/components/MCLCompetition/MCLCompetitionResultRenderer";
 
 type CompetitionParams = {
   year: string;
@@ -42,11 +45,40 @@ export default function Competition({
       title={pageName}
       currentPage={pageName}
       appProps={appProps}
-      description={`These are all the ${year} competitions in Massachusetts Coding League!`}
+      description={`${year} ${
+        competition.showResultOnWebsite ? "result" : "details"
+      }`}
       keywords="MA Coding League, Massachusetts Coding League, MA Coding League website, Massachusetts Coding League website, Competitions, MA Coding League Competitions, Massachusetts Coding League Competitions"
       breadCrumbs={breadCrumbs}
     >
       <h1>{pageName}</h1>
+      <p>
+        Place:{" "}
+        <a
+          href={`https://www.google.com/maps/search/${competition.place}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {competition.place}
+        </a>
+        <br />
+        Date: {formatDateLong(dp(competition.date))}
+        <br />
+        {isBeforeNow(dp(competition.startingTime))
+          ? "Started"
+          : "Starting"}: {formatTime(dp(competition.startingTime))}
+        <br />
+        {isBeforeNow(dp(competition.endingTime)) ? "Ended" : "Ending"}:{" "}
+        {formatTime(dp(competition.endingTime))}
+        <br />
+        Theme: {competition.theme}
+      </p>
+      <h2>Results</h2>
+      {competition.showResultOnWebsite ? (
+        <MCLCompetitionResultRenderer result={competition.result} />
+      ) : (
+        <em>Results not made available yet.</em>
+      )}
     </Layout>
   );
 }
