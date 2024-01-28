@@ -32,6 +32,12 @@ type LayoutProps = {
   dontShowSignIn?: boolean;
 };
 
+export const createBreadCrumbSegment = (title: string, url: string) => {
+  const breadCrumb: { [title: string]: string } = {};
+  breadCrumb[title] = url;
+  return breadCrumb;
+};
+
 function Layout({
   children,
   title,

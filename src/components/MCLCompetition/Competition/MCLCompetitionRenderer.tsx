@@ -2,14 +2,14 @@ import { formatDateLong, formatTime } from "@/scripts/Utils/DateAndTime/Format";
 import Link from "next/link";
 import React from "react";
 import { dp, isBeforeNow } from "@/scripts/Utils/DateAndTime/Helpers";
-import { MCLCompetitionWithResult } from "@/scripts/MCLCompetition/Competitions/getCompetitions";
+import { MCLCompetition } from "@/scripts/MCLCompetition/Competitions/getCompetitions";
 
 export default function MCLCompetitionCard({
   currentYear,
   competition,
 }: {
   currentYear: string;
-  competition: MCLCompetitionWithResult;
+  competition: MCLCompetition;
 }): JSX.Element {
   return (
     <div className="col">
@@ -36,16 +36,12 @@ export default function MCLCompetitionCard({
             <br />
             Theme: {competition.theme}
           </p>
-          {competition.showResultOnWebsite ? (
-            <Link
-              href={`/competitions/${currentYear}/${competition.name}`}
-              className="card-link"
-            >
-              View results
-            </Link>
-          ) : (
-            <></>
-          )}
+          <Link
+            href={`/competitions/${currentYear}/${competition.name}`}
+            className="card-link"
+          >
+            {competition.showResultOnWebsite ? "View results" : "View details"}
+          </Link>
         </div>
       </div>
     </div>

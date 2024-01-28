@@ -7,7 +7,7 @@ import getCompetitionYears, {
   MCLCompetitionsYear,
 } from "@/scripts/MCLCompetition/CompetitionYears/getCompetitionYears";
 import getCompetitionWithResult, {
-  MCLCompetitionWithResult,
+  MCLCompetition,
 } from "@/scripts/MCLCompetition/Competitions/getCompetitions";
 
 const pageName = "Competitions";
@@ -17,7 +17,7 @@ type CompetitionsProps = {
   years: MCLCompetitionsYear[];
   currentYear: {
     yearFull: string;
-    competitions: MCLCompetitionWithResult[];
+    competitions: MCLCompetition[];
   };
 };
 
