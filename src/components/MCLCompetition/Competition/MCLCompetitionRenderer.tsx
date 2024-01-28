@@ -1,27 +1,16 @@
 import { formatDateLong, formatTime } from "@/scripts/Utils/DateAndTime/Format";
 import Link from "next/link";
 import React from "react";
-import { MCLCompetitionYearsContext } from "@/components/MCLCompetition/CompetitionYears/MCLCompetitionYearsProvider";
-import { isBeforeNow } from "@/scripts/Utils/DateAndTime/Helpers";
-
-export type MCLCompetition = {
-  name: string;
-  place: string;
-  date: Date;
-  startingTime: Date;
-  endingTime: Date;
-  hideThisOnWebsite: boolean;
-  showResultOnWebsite: boolean;
-  theme: string;
-};
+import { dp, isBeforeNow } from "@/scripts/Utils/DateAndTime/Helpers";
+import { MCLCompetition } from "@/components/MCLCompetition/Competitions/getCompetitions";
 
 export default function MCLCompetitionCard({
+  currentYear,
   competition,
 }: {
+  currentYear: string;
   competition: MCLCompetition;
 }): JSX.Element {
-  const years = React.useContext(MCLCompetitionYearsContext);
-
   return (
     <div className="col">
       <div className="card h-100">
@@ -37,20 +26,19 @@ export default function MCLCompetitionCard({
               {competition.place}
             </a>
             <br />
-            Date: {formatDateLong(competition.date)}
+            Date: {formatDateLong(dp(competition.date))}
             <br />
-            {isBeforeNow(competition.startingTime)
-              ? "Started"
-              : "Starting"}: {formatTime(competition.startingTime)}
+            {isBeforeNow(dp(competition.startingTime)) ? "Started" : "Starting"}
+            : {formatTime(dp(competition.startingTime))}
             <br />
-            {isBeforeNow(competition.endingTime) ? "Ended" : "Ending"}:{" "}
-            {formatTime(competition.endingTime)}
+            {isBeforeNow(dp(competition.endingTime)) ? "Ended" : "Ending"}:{" "}
+            {formatTime(dp(competition.endingTime))}
             <br />
             Theme: {competition.theme}
           </p>
           {competition.showResultOnWebsite ? (
             <Link
-              href={`/competitions/${years.years[0].yearFull}/${competition.name}`}
+              href={`/competitions/${currentYear}/${competition.name}`}
               className="card-link"
             >
               View results

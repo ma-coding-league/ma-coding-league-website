@@ -29,7 +29,7 @@ export default function getCompetitionYears(
             yearStart: parseInt(yearNum.split("-")[0]),
             yearEnd: parseInt(yearNum.split("-")[1]),
             yearFull: yearNum,
-            hide: year["Hide on website"],
+            hide: year["Hide on website"] ?? false,
             competitionGSheetID,
           };
         });
