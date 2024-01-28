@@ -2,7 +2,7 @@ import { formatDateLong, formatTime } from "@/scripts/Utils/DateAndTime/Format";
 import Link from "next/link";
 import React from "react";
 import { dp, isBeforeNow } from "@/scripts/Utils/DateAndTime/Helpers";
-import { MCLCompetition } from "@/components/MCLCompetition/Competitions/getCompetitions";
+import { MCLCompetition } from "@/scripts/MCLCompetition/Competitions/getCompetitions";
 
 export default function MCLCompetitionCard({
   currentYear,
