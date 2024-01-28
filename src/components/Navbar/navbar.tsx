@@ -136,7 +136,7 @@ function Navbar({
           }
           elements.push({
             key: "ThemePicker",
-            jsx: <NavbarDropdownThemePicker />,
+            jsx: <NavbarDropdownThemePicker alignEnd />,
           });
 
           return elements.map((ele, index) => {
