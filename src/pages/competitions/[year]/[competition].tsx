@@ -45,9 +45,9 @@ export default function Competition({
       title={pageName}
       currentPage={pageName}
       appProps={appProps}
-      description={`${year} ${
-        competition.showResultOnWebsite ? "result" : "details"
-      }`}
+      description={`This is the Massachusetts Coding League's ${
+        competition.name
+      } ${competition.showResultOnWebsite ? "result" : "details"}`}
       keywords="MA Coding League, Massachusetts Coding League, MA Coding League website, Massachusetts Coding League website, Competitions, MA Coding League Competitions, Massachusetts Coding League Competitions"
       breadCrumbs={breadCrumbs}
     >

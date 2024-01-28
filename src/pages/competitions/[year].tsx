@@ -35,7 +35,7 @@ export default function CompetitionYear({
       title={pageName}
       currentPage={pageName}
       appProps={appProps}
-      description={`These are all the ${year} competitions in Massachusetts Coding League!`}
+      description={`These are all the ${year} competitions in the Massachusetts Coding League!`}
       keywords="MA Coding League, Massachusetts Coding League, MA Coding League website, Massachusetts Coding League website, Competitions, MA Coding League Competitions, Massachusetts Coding League Competitions"
       breadCrumbs={breadCrumbs}
     >
