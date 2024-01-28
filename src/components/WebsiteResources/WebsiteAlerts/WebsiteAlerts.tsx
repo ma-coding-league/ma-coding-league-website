@@ -6,6 +6,7 @@ import getWebsiteAlerts, {
 import markdownToHTML from "@/scripts/Utils/MarkdownToHTML";
 import Link from "next/link";
 import { isExternalLink } from "@/scripts/Utils/PageUtils";
+import { nowBetween } from "@/scripts/Utils/DateAndTime/Helpers";
 
 function WebsiteAlert({ alert }: { alert: WebsiteAlert }): JSX.Element {
   const [state, setState] = React.useState<"loading" | "loaded" | "error">(
@@ -102,11 +103,6 @@ export default function WebsiteAlerts({
       });
   }, [resGSheetID]);
 
-  const nowBetween = (start: Date, end: Date) => {
-    const now = new Date();
-    return now >= start && now <= end;
-  };
-
   return (
     <ErrorBoundary>
       {(() => {
@@ -116,13 +112,18 @@ export default function WebsiteAlerts({
           case "loaded":
             return (
               <>
-                {alerts.map((alert) => {
-                  return alert.enable && nowBetween(alert.show, alert.end) ? (
-                    <WebsiteAlert alert={alert} />
-                  ) : (
-                    <></>
-                  );
-                })}
+                {alerts
+                  .filter((alert) => {
+                    return alert.enable && nowBetween(alert.show, alert.end);
+                  })
+                  .map((alert) => {
+                    return (
+                      <WebsiteAlert
+                        alert={alert}
+                        key={alert.content + "_" + alert.end.toISOString()}
+                      />
+                    );
+                  })}
               </>
             );
           default:

@@ -13,3 +13,12 @@ export function dp(date: Date | string) {
 export function isBeforeNow(date: Date) {
   return date.getTime() < Date.now();
 }
+
+export function isAfterNow(date: Date) {
+  return date.getTime() > Date.now();
+}
+
+export function nowBetween(start: Date, end: Date) {
+  const now = new Date();
+  return now >= start && now <= end;
+}
