@@ -28,26 +28,26 @@ export default function Error({ appProps }: { appProps: AppProps }) {
 
   return (
     <Layout title={pageName} currentPage={pageName} appProps={appProps}>
-      <>
-        <h1>Authentication error</h1>
-        <p>{error}</p>
-        <p>
-          Go back to <Link href="/">home</Link>?
-        </p>
-        <p>
-          You can report{" "}
-          <a
-            href="https://github.com/ma-coding-league/ma-coding-league-website"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            issues
-          </a>{" "}
-          like this in the GitHub repository.
-        </p>
-      </>
-    </Layout>
-  );
+    <>
+      <h1>Authentication error</h1>
+  <p>{error}</p>
+  <p>
+  Go back to <Link href="/">home</Link>?
+    </p>
+    <p>
+    You can report{" "}
+  <a
+    href="https://github.com/ma-coding-league/ma-coding-league-website"
+  target="_blank"
+  rel="noopener noreferrer"
+    >
+    issues
+    </a>{" "}
+  like this in the GitHub repository.
+  </p>
+  </>
+  </Layout>
+);
 }
 
 export async function getStaticProps(): Promise<{

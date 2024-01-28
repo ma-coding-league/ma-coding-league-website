@@ -5,10 +5,10 @@ import MCLCompetitionYearsRenderer from "@/components/MCLCompetition/Competition
 import MCLCompetitionsRenderer from "@/components/MCLCompetition/Competitions/MCLCompetitionsRenderer";
 import getCompetitionYears, {
   MCLCompetitionsYear,
-} from "@/components/MCLCompetition/CompetitionYears/getCompetitionYears";
+} from "@/scripts/MCLCompetition/CompetitionYears/getCompetitionYears";
 import getCompetitions, {
   MCLCompetition,
-} from "@/components/MCLCompetition/Competitions/getCompetitions";
+} from "@/scripts/MCLCompetition/Competitions/getCompetitions";
 
 const pageName = "Competitions";
 
