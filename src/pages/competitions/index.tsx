@@ -6,8 +6,8 @@ import MCLCompetitionsRenderer from "@/components/MCLCompetition/Competitions/MC
 import getCompetitionYears, {
   MCLCompetitionsYear,
 } from "@/scripts/MCLCompetition/CompetitionYears/getCompetitionYears";
-import getCompetitions, {
-  MCLCompetition,
+import getCompetitionWithResult, {
+  MCLCompetitionWithResult,
 } from "@/scripts/MCLCompetition/Competitions/getCompetitions";
 
 const pageName = "Competitions";
@@ -17,7 +17,7 @@ type CompetitionsProps = {
   years: MCLCompetitionsYear[];
   currentYear: {
     yearFull: string;
-    competitions: MCLCompetition[];
+    competitions: MCLCompetitionWithResult[];
   };
 };
 
@@ -68,7 +68,9 @@ export async function getStaticProps(): Promise<{ props: CompetitionsProps }> {
       years: compYears,
       currentYear: {
         yearFull: compYears[0].yearFull,
-        competitions: await getCompetitions(compYears[0].competitionGSheetID),
+        competitions: await getCompetitionWithResult(
+          compYears[0].competitionGSheetID,
+        ),
       },
     },
   };

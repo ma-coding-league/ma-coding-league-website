@@ -35,7 +35,7 @@ export default function CompetitionYear({
       title={pageName}
       currentPage={pageName}
       appProps={appProps}
-      description="This is a list of all Massachusetts Coding League competitions!"
+      description={`These are all the ${year} competitions in Massachusetts Coding League!`}
       keywords="MA Coding League, Massachusetts Coding League, MA Coding League website, Massachusetts Coding League website, Competitions, MA Coding League Competitions, Massachusetts Coding League Competitions"
       breadCrumbs={breadCrumbs}
     >
@@ -50,8 +50,6 @@ export async function getStaticProps({
 }: {
   params: CompetitionYearParams;
 }): Promise<{ props: CompetitionYearProps }> {
-  console.log("PARAMS", params);
-
   const year = params.year;
 
   const compYears = await getCompetitionYears(
@@ -75,22 +73,30 @@ export async function getStaticPaths(): Promise<{
   paths: { params: CompetitionYearParams }[];
   fallback: boolean;
 }> {
-  const compYears = await getCompetitionYears(
-    process.env.NEXT_PUBLIC_GSHEET_MCL_COMPETITION_YEARS!,
+  const paths: { params: CompetitionYearParams }[] = [];
+
+  const compYears = (
+    await getCompetitionYears(
+      process.env.NEXT_PUBLIC_GSHEET_MCL_COMPETITION_YEARS!,
+    )
+  ).filter((year) => {
+    return !year.hide;
+  });
+
+  paths.push(
+    ...compYears.map((year) => {
+      return {
+        params: {
+          year: year.yearFull,
+        },
+      };
+    }),
   );
 
+  // console.log(JSON.stringify(paths, null));
+
   return {
-    paths: compYears
-      .filter((year) => {
-        return !year.hide;
-      })
-      .map((year) => {
-        return {
-          params: {
-            year: year.yearFull,
-          },
-        };
-      }),
+    paths,
     fallback: false,
   };
 }
