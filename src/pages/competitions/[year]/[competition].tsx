@@ -10,6 +10,7 @@ import { createBreadCrumbSegment } from "@/components/Layout/layout";
 import { formatDateLong, formatTime } from "@/scripts/Utils/DateAndTime/Format";
 import { dp, isBeforeNow } from "@/scripts/Utils/DateAndTime/Helpers";
 import MCLCompetitionResultRenderer from "@/components/MCLCompetition/MCLCompetitionResultRenderer";
+import { GetStaticPathsResult, GetStaticPropsResult } from "next";
 
 type CompetitionParams = {
   year: string;
@@ -73,12 +74,28 @@ export default function Competition({
         <br />
         Theme: {competition.theme}
       </p>
+      <h2>Submission</h2>
+      <p>
+        {competition.showSubmissionURLOnWebsite ? (
+          <a
+            href={competition.submissionURL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Enter submission
+          </a>
+        ) : (
+          <em>Submissions are not open.</em>
+        )}
+      </p>
       <h2>Results</h2>
-      {competition.showResultOnWebsite ? (
-        <MCLCompetitionResultRenderer result={competition.result} />
-      ) : (
-        <em>Results not made available yet.</em>
-      )}
+      <p>
+        {competition.showResultOnWebsite ? (
+          <MCLCompetitionResultRenderer result={competition.result} />
+        ) : (
+          <em>Results not made available yet.</em>
+        )}
+      </p>
     </Layout>
   );
 }
@@ -87,7 +104,7 @@ export async function getStaticProps({
   params,
 }: {
   params: CompetitionParams;
-}): Promise<{ props: CompetitionProps }> {
+}): Promise<GetStaticPropsResult<CompetitionProps>> {
   const year = params.year;
   const competition = params.competition;
 
@@ -105,13 +122,13 @@ export async function getStaticProps({
       year: year,
       competition: await getCompetitionWithResult(gSheetID, competition),
     },
+    revalidate: 60,
   };
 }
 
-export async function getStaticPaths(): Promise<{
-  paths: { params: CompetitionParams }[];
-  fallback: boolean;
-}> {
+export async function getStaticPaths(): Promise<
+  GetStaticPathsResult<CompetitionParams>
+> {
   const paths: { params: CompetitionParams }[] = [];
 
   const compYears = (
@@ -137,6 +154,6 @@ export async function getStaticPaths(): Promise<{
 
   return {
     paths,
-    fallback: false,
+    fallback: "blocking",
   };
 }

@@ -8,8 +8,10 @@ export type MCLCompetition = {
   startingTime: string;
   endingTime: string;
   hideThisOnWebsite: boolean;
+  showSubmissionURLOnWebsite: boolean;
   showResultOnWebsite: boolean;
   theme: string;
+  submissionURL: string;
 };
 
 export default function getCompetitions(
@@ -42,8 +44,11 @@ export default function getCompetitions(
             startingTime: startTime.toISOString(),
             endingTime: endTime.toISOString(),
             hideThisOnWebsite: comp["Hide this on website"] ?? false,
+            showSubmissionURLOnWebsite:
+              comp["Show submission URL on website"] ?? false,
             showResultOnWebsite: comp["Show result on website"] ?? false,
             theme: comp["Theme"],
+            submissionURL: comp["Submission URL"] ?? null,
           };
         });
         console.log(`Got ${competitions.length} competitions`);

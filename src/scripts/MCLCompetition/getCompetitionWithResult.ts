@@ -1,15 +1,8 @@
 import PublicGoogleSheetsParser from "public-google-sheets-parser";
 import GSDateToJSDate from "@/scripts/Utils/GSheetDateToJSDate";
+import { MCLCompetition } from "@/scripts/MCLCompetition/getCompetitions";
 
-export type MCLCompetitionWithResult = {
-  name: string;
-  place: string;
-  date: string;
-  startingTime: string;
-  endingTime: string;
-  hideThisOnWebsite: boolean;
-  showResultOnWebsite: boolean;
-  theme: string;
+export type MCLCompetitionWithResult = MCLCompetition & {
   result: MCLCompetitionResult;
 };
 
@@ -54,8 +47,11 @@ export default function getCompetitionWithResult(
           startingTime: startTime.toISOString(),
           endingTime: endTime.toISOString(),
           hideThisOnWebsite: comp["Hide this on website"] ?? false,
+          showSubmissionURLOnWebsite:
+            comp["Show submission URL on website"] ?? false,
           showResultOnWebsite: comp["Show result on website"] ?? false,
           theme: comp["Theme"],
+          submissionURL: comp["Submission URL"] ?? null,
           result: [],
         };
         return parser.parse(compsGSheetID, `${compName} result`);

@@ -6,6 +6,7 @@ import getCompetitionYears from "@/scripts/MCLCompetition/getCompetitionYears";
 import getCompetitions, {
   MCLCompetition,
 } from "@/scripts/MCLCompetition/getCompetitions";
+import { GetStaticPathsResult, GetStaticPropsResult } from "next";
 
 type CompetitionYearParams = {
   year: string;
@@ -49,7 +50,7 @@ export async function getStaticProps({
   params,
 }: {
   params: CompetitionYearParams;
-}): Promise<{ props: CompetitionYearProps }> {
+}): Promise<GetStaticPropsResult<CompetitionYearProps>> {
   const year = params.year;
 
   const compYears = await getCompetitionYears(
@@ -66,13 +67,13 @@ export async function getStaticProps({
       year: year,
       competitions: await getCompetitions(gSheetID),
     },
+    revalidate: 60,
   };
 }
 
-export async function getStaticPaths(): Promise<{
-  paths: { params: CompetitionYearParams }[];
-  fallback: boolean;
-}> {
+export async function getStaticPaths(): Promise<
+  GetStaticPathsResult<CompetitionYearParams>
+> {
   const paths: { params: CompetitionYearParams }[] = [];
 
   const compYears = (
@@ -97,6 +98,6 @@ export async function getStaticPaths(): Promise<{
 
   return {
     paths,
-    fallback: false,
+    fallback: "blocking",
   };
 }

@@ -14,6 +14,11 @@ export default function MCLCompetitionCard({
   return (
     <div className="col">
       <div className="card h-100">
+        {competition.showSubmissionURLOnWebsite ? (
+          <div className="card-header">Submissions open!</div>
+        ) : (
+          <></>
+        )}
         <div className="card-body">
           <h5 className="card-title">{competition.name}</h5>
           <p className="card-text">
@@ -36,6 +41,18 @@ export default function MCLCompetitionCard({
             <br />
             Theme: {competition.theme}
           </p>
+          {competition.showSubmissionURLOnWebsite ? (
+            <a
+              href={competition.submissionURL}
+              className="card-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Enter submission
+            </a>
+          ) : (
+            <></>
+          )}
           <Link
             href={`/competitions/${currentYear}/${competition.name}`}
             className="card-link"
