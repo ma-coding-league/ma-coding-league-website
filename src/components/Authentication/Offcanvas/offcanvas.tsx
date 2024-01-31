@@ -9,6 +9,7 @@ import {
 import React from "react";
 // @ts-ignore
 import { BuiltInProviderType } from "next-auth/providers";
+import RolesRenderer from "@/components/Authentication/Roles/RolesRenderer";
 
 export default function ProfileOffcanvas() {
   const { data: session } = useSession();
@@ -45,6 +46,10 @@ export default function ProfileOffcanvas() {
               ></button>
             </div>
             <div className="offcanvas-body">
+              <div>
+                <RolesRenderer roles={session.user!.roles} />
+              </div>
+              <br />
               <button
                 type="button"
                 className="btn btn-secondary"
@@ -54,10 +59,6 @@ export default function ProfileOffcanvas() {
               >
                 Sign out
               </button>
-              <div className="alert alert-info mt-3" role="alert">
-                Signing in currently grants no additional features, but will be
-                used in the future!
-              </div>
             </div>
           </>
         ) : (
@@ -104,10 +105,6 @@ export default function ProfileOffcanvas() {
                   sign in with!
                 </p>
               )}
-              <div className="alert alert-info mt-3" role="alert">
-                Signing in currently grants no additional features, but will be
-                used in the future!
-              </div>
             </div>
           </>
         )}
