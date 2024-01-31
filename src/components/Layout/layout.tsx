@@ -121,8 +121,6 @@ LayoutProps): JSX.Element {
   const actualCanonicalURL =
     canonicalURL != undefined ? baseURL + canonicalURL : undefined;
 
-  dontShowSignIn = true;
-
   return (
     <ErrorBoundary>
       <Head>

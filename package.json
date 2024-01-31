@@ -43,6 +43,8 @@
     "@types/react": "18.2.45",
     "@types/react-dom": "18.2.18",
     "@vercel/postgres": "^0.5.1",
+    "@xata.io/cli": "^0.15.6",
+    "@xata.io/client": "^0.29.0",
     "bootstrap": "5.3.2",
     "bootstrap-icons": "^1.10.4",
     "dompurify": "^3.0.2",

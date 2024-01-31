@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Massachusetts-Coding-League-s-workspace-hud22v.us-east-1.xata.sh/db/ma-coding-league-db",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}
