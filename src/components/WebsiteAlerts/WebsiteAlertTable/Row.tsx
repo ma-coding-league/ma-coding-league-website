@@ -4,7 +4,6 @@ import {
 } from "@/components/WebsiteAlerts/websiteAlertsAPI";
 import React from "react";
 import { WebsiteAlertRenderer } from "@/components/WebsiteAlerts/WebsiteAlerts";
-import markdownToHTML from "@/scripts/Utils/MarkdownToHTML";
 import { nowBetween } from "@/scripts/Utils/DateAndTime/Helpers";
 import getElement from "@/scripts/Utils/Element";
 
@@ -33,6 +32,7 @@ export function WebsiteAlertRowEditModal({
         onShow,
       );
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -273,167 +273,89 @@ export function WebsiteAlertRow({
 }: {
   alert: WebsiteAlert;
 }): JSX.Element {
-  const [state, setState] = React.useState<"loading" | "loaded" | "error">(
-    "loading",
+  return (
+    <tr>
+      <td>
+        <div className="btn-group">
+          <button
+            type="button"
+            className="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target={`#editAlert${alert.id}`}
+          >
+            Edit
+          </button>
+          <button type="button" className="btn btn-sm btn-danger">
+            Delete
+          </button>
+        </div>
+      </td>
+      <th scope="row">
+        <code>{alert.id}</code>
+      </th>
+      <td>
+        <input
+          type="checkbox"
+          className="form-check-input"
+          defaultChecked={alert.enable}
+          disabled={true}
+        />
+      </td>
+      <td>
+        <input
+          type="datetime-local"
+          className="form-control"
+          defaultValue={alert.start.toISOString().split(".")[0]}
+          disabled={true}
+        />
+      </td>
+      <td>
+        <input
+          type="datetime-local"
+          className="form-control"
+          defaultValue={alert.end.toISOString().split(".")[0]}
+          disabled={true}
+        />
+      </td>
+      <td>
+        <select
+          className="form-select"
+          defaultValue={alert.type}
+          disabled={true}
+        >
+          {BoostrapAlertTypes.map((type) => {
+            return (
+              <option value={type} key={type}>
+                {type}
+              </option>
+            );
+          })}
+        </select>
+      </td>
+      <td>
+        <input
+          type="checkbox"
+          className="form-check-input"
+          defaultChecked={alert.canHide}
+          disabled={true}
+        />
+      </td>
+      <td>
+        <textarea
+          className="form-control"
+          rows={1}
+          defaultValue={alert.content}
+          disabled={true}
+        />
+      </td>
+      <td>
+        <textarea
+          className="form-control"
+          rows={1}
+          defaultValue={JSON.stringify(alert.links, null, 2)}
+          disabled={true}
+        />
+      </td>
+    </tr>
   );
-  const [html, setHTML] = React.useState<string>("");
-
-  React.useEffect(() => {
-    setHTML("");
-    setState("loading");
-    markdownToHTML(alert.content)
-      .then((html) => {
-        setHTML(html);
-        setState("loaded");
-      })
-      .catch((err) => {
-        console.error(err);
-        setState("error");
-      });
-  }, [alert.content]);
-
-  switch (state) {
-    case "loading":
-      return (
-        <tr className="placeholder-glow">
-          <td className="btn-group">
-            <button
-              type="button"
-              className="btn btn-sm btn-primary me-1 mb-1"
-              disabled={true}
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-danger"
-              disabled={true}
-            >
-              Delete
-            </button>
-          </td>
-          <th scope="row">
-            <span className="placeholder col-5" />
-          </th>
-          <td>
-            <span className="placeholder col-3" />
-          </td>
-          <td>
-            <span className="placeholder col-8" />
-          </td>
-          <td>
-            <span className="placeholder col-8" />
-          </td>
-          <td>
-            <span className="placeholder col-6" />
-          </td>
-          <td>
-            <span className="placeholder col-3" />
-          </td>
-          <td>
-            <span className="placeholder col-10" />
-          </td>
-          <td>
-            <span className="placeholder col-10" />
-          </td>
-        </tr>
-      );
-    default:
-    case "error":
-      return (
-        <tr>
-          <td colSpan={9}>
-            <div className="alert alert-warning" role="alert">
-              Error rendering this alert, try refreshing the page!
-            </div>
-          </td>
-        </tr>
-      );
-    case "loaded":
-      return (
-        <tr>
-          <td>
-            <div className="btn-group">
-              <button
-                type="button"
-                className="btn btn-sm btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target={`#editAlert${alert.id}`}
-              >
-                Edit
-              </button>
-              <button type="button" className="btn btn-sm btn-danger">
-                Delete
-              </button>
-            </div>
-          </td>
-          <th scope="row">
-            <code>{alert.id}</code>
-          </th>
-          <td>
-            <input
-              type="checkbox"
-              className="form-check-input"
-              defaultChecked={alert.enable}
-              disabled={true}
-            />
-          </td>
-          <td>
-            <input
-              type="datetime-local"
-              className="form-control"
-              defaultValue={alert.start.toISOString().split(".")[0]}
-              disabled={true}
-            />
-          </td>
-          <td>
-            <input
-              type="datetime-local"
-              className="form-control"
-              defaultValue={alert.end.toISOString().split(".")[0]}
-              disabled={true}
-            />
-          </td>
-          <td>
-            <select
-              className="form-select"
-              defaultValue={alert.type}
-              disabled={true}
-            >
-              {BoostrapAlertTypes.map((type) => {
-                return (
-                  <option value={type} key={type}>
-                    {type}
-                  </option>
-                );
-              })}
-            </select>
-          </td>
-          <td>
-            <input
-              type="checkbox"
-              className="form-check-input"
-              defaultChecked={alert.canHide}
-              disabled={true}
-            />
-          </td>
-          <td>
-            <textarea
-              className="form-control"
-              rows={1}
-              defaultValue={alert.content}
-              disabled={true}
-            />
-          </td>
-          <td>
-            <textarea
-              className="form-control"
-              rows={1}
-              defaultValue={JSON.stringify(alert.links, null, 2)}
-              disabled={true}
-            />
-          </td>
-        </tr>
-      );
-  }
 }

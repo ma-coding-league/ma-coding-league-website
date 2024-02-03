@@ -53,6 +53,7 @@ export default function ProfileOffcanvas() {
               <br />
               {roleHasAdmin(session.user!.roles) ? (
                 <p>
+                  {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
                   <a href="/admin">Admin dashboard</a>
                 </p>
               ) : (

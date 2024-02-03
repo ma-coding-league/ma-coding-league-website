@@ -189,11 +189,7 @@ LayoutProps): JSX.Element {
           {(() => {
             const content = (
               <>
-                <WebsiteAlerts
-                  resGSheetID={
-                    process.env.NEXT_PUBLIC_GSHEET_MCL_WEBSITE_RESOURCES!
-                  }
-                />
+                <WebsiteAlerts />
                 {breadCrumbsHTML}
                 {children}
               </>
