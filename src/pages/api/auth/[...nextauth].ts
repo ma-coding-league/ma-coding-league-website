@@ -42,6 +42,7 @@ export const authOptions = {
       const xata = getXataClient();
       if (user) {
         const dbUser = await xata.db.users.read(user.id);
+        token.id = user.id;
         token.roles = dbUser != null ? dbUser.roles : "";
       }
       return token;
@@ -54,6 +55,7 @@ export const authOptions = {
       token: JWT;
       user: AdapterUser;
     }) {
+      session.user.id = token.id;
       session.user.roles = token.roles;
       return session;
     },

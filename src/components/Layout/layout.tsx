@@ -10,7 +10,7 @@ import Notifications from "../Notifications";
 import TOSBanner from "../TOSBanner";
 import { AppProps } from "../WithAppProps";
 import ProfileOffcanvas from "@/components/Authentication/Offcanvas";
-import WebsiteAlerts from "@/components/WebsiteResources/WebsiteAlerts";
+import WebsiteAlerts from "../WebsiteAlerts";
 
 const appName = "Massachusetts Coding League";
 

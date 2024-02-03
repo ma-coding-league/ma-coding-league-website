@@ -10,6 +10,7 @@ import React from "react";
 // @ts-ignore
 import { BuiltInProviderType } from "next-auth/providers";
 import RolesRenderer from "@/components/Authentication/Roles/RolesRenderer";
+import { roleHasAdmin } from "@/database/users/roles";
 
 export default function ProfileOffcanvas() {
   const { data: session } = useSession();
@@ -50,6 +51,13 @@ export default function ProfileOffcanvas() {
                 <RolesRenderer roles={session.user!.roles} />
               </div>
               <br />
+              {roleHasAdmin(session.user!.roles) ? (
+                <p>
+                  <a href="/admin">Admin dashboard</a>
+                </p>
+              ) : (
+                <></>
+              )}
               <button
                 type="button"
                 className="btn btn-secondary"

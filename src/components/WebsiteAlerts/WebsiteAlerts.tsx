@@ -1,14 +1,20 @@
 import ErrorBoundary from "@/components/ErrorBoundary";
 import React from "react";
-import getWebsiteAlerts, {
-  WebsiteAlert,
-} from "@/components/WebsiteResources/WebsiteAlerts/getWebsiteAlerts";
 import markdownToHTML from "@/scripts/Utils/MarkdownToHTML";
 import Link from "next/link";
 import { isExternalLink } from "@/scripts/Utils/PageUtils";
 import { nowBetween } from "@/scripts/Utils/DateAndTime/Helpers";
+import getWebsiteAlertsFromAPI, {
+  WebsiteAlert,
+} from "@/components/WebsiteAlerts/websiteAlertsAPI";
 
-function WebsiteAlert({ alert }: { alert: WebsiteAlert }): JSX.Element {
+export function WebsiteAlertRenderer({
+  alert,
+  forceExternal = false,
+}: {
+  alert: WebsiteAlert;
+  forceExternal?: boolean;
+}): JSX.Element {
   const [state, setState] = React.useState<"loading" | "loaded" | "error">(
     "loading",
   );
@@ -31,7 +37,7 @@ function WebsiteAlert({ alert }: { alert: WebsiteAlert }): JSX.Element {
   return (
     <div
       className={`alert alert-${state === "error" ? "warning" : alert.type} ${
-        alert.links.length === 0 ? "pb-0" : ""
+        alert.links == null || alert.links.length === 0 ? "pb-0" : ""
       }`}
       role="alert"
       key={alert.content}
@@ -53,7 +59,7 @@ function WebsiteAlert({ alert }: { alert: WebsiteAlert }): JSX.Element {
         }
       })()}
       {alert.links.map((link) => {
-        return isExternalLink(link.url) ? (
+        return isExternalLink(link.url) || forceExternal ? (
           <a
             className={`btn btn-${link.type} btn-sm me-1`}
             href={link.url}
@@ -79,11 +85,7 @@ function WebsiteAlert({ alert }: { alert: WebsiteAlert }): JSX.Element {
   );
 }
 
-export default function WebsiteAlerts({
-  resGSheetID,
-}: {
-  resGSheetID: string;
-}) {
+export default function WebsiteAlerts() {
   const [state, setState] = React.useState<"loading" | "loaded" | "error">(
     "loading",
   );
@@ -92,7 +94,7 @@ export default function WebsiteAlerts({
   React.useEffect(() => {
     setState("loading");
     setAlerts([]);
-    getWebsiteAlerts(resGSheetID)
+    getWebsiteAlertsFromAPI()
       .then((alerts) => {
         setAlerts(alerts);
         setState("loaded");
@@ -101,7 +103,7 @@ export default function WebsiteAlerts({
         console.error(err);
         setState("error");
       });
-  }, [resGSheetID]);
+  }, []);
 
   return (
     <ErrorBoundary>
@@ -114,11 +116,11 @@ export default function WebsiteAlerts({
               <>
                 {alerts
                   .filter((alert) => {
-                    return alert.enable && nowBetween(alert.show, alert.end);
+                    return alert.enable && nowBetween(alert.start, alert.end);
                   })
                   .map((alert) => {
                     return (
-                      <WebsiteAlert
+                      <WebsiteAlertRenderer
                         alert={alert}
                         key={alert.content + "_" + alert.end.toISOString()}
                       />

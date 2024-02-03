@@ -13,6 +13,60 @@ const tables = [
       { name: "roles", type: "string", notNull: true, defaultValue: "user" },
     ],
   },
+  {
+    name: "alerts",
+    columns: [
+      { name: "enable", type: "bool", notNull: true, defaultValue: "false" },
+      { name: "start", type: "datetime", defaultValue: "now" },
+      { name: "end", type: "datetime" },
+      { name: "type", type: "string", defaultValue: "secondary" },
+      { name: "canHide", type: "bool", notNull: true, defaultValue: "false" },
+      { name: "content", type: "string", defaultValue: "" },
+      { name: "links", type: "string" },
+    ],
+  },
+  {
+    name: "competitions",
+    columns: [
+      { name: "name", type: "string" },
+      { name: "location", type: "string" },
+      { name: "start", type: "datetime" },
+      { name: "end", type: "datetime" },
+      { name: "theme", type: "string" },
+      { name: "hideThis", type: "bool", notNull: true, defaultValue: "true" },
+      {
+        name: "showSubmissions",
+        type: "bool",
+        notNull: true,
+        defaultValue: "false",
+      },
+      {
+        name: "showResults",
+        type: "bool",
+        notNull: true,
+        defaultValue: "false",
+      },
+    ],
+  },
+  {
+    name: "teams",
+    columns: [{ name: "name", type: "string", unique: true }],
+    revLinks: [{ column: "team", table: "submissions" }],
+  },
+  {
+    name: "submissions",
+    columns: [
+      { name: "team", type: "link", link: { table: "teams" }, unique: true },
+      { name: "submissionURL", type: "string" },
+      { name: "scoreNumerator", type: "int" },
+      {
+        name: "scoreDenominator",
+        type: "int",
+        notNull: true,
+        defaultValue: "100",
+      },
+    ],
+  },
 ] as const;
 
 export type SchemaTables = typeof tables;
@@ -21,8 +75,24 @@ export type InferredTypes = SchemaInference<SchemaTables>;
 export type Users = InferredTypes["users"];
 export type UsersRecord = Users & XataRecord;
 
+export type Alerts = InferredTypes["alerts"];
+export type AlertsRecord = Alerts & XataRecord;
+
+export type Competitions = InferredTypes["competitions"];
+export type CompetitionsRecord = Competitions & XataRecord;
+
+export type Teams = InferredTypes["teams"];
+export type TeamsRecord = Teams & XataRecord;
+
+export type Submissions = InferredTypes["submissions"];
+export type SubmissionsRecord = Submissions & XataRecord;
+
 export type DatabaseSchema = {
   users: UsersRecord;
+  alerts: AlertsRecord;
+  competitions: CompetitionsRecord;
+  teams: TeamsRecord;
+  submissions: SubmissionsRecord;
 };
 
 const DatabaseClient = buildClient();
