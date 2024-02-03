@@ -27,10 +27,12 @@ export function WebsiteAlertRowEditModal({
     );
 
     return () => {
-      getElement(`editAlert${alert.id}`).removeEventListener(
-        "show.bs.modal",
-        onShow,
-      );
+      try {
+        getElement(`editAlert${alert.id}`).removeEventListener(
+          "show.bs.modal",
+          onShow,
+        );
+      } catch (_) {}
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
