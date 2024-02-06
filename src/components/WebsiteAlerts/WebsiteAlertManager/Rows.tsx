@@ -6,6 +6,10 @@ import React from "react";
 import { WebsiteAlertRenderer } from "@/components/WebsiteAlerts/WebsiteAlerts";
 import { nowBetween } from "@/scripts/Utils/DateAndTime/Helpers";
 import getElement from "@/scripts/Utils/Element";
+import {
+  WebsiteAlertManagerStateFunctionsContext,
+  WebsiteAlertManagerStateStoreContext,
+} from "@/components/WebsiteAlerts/WebsiteAlertManager/context";
 
 export function WebsiteAlertRowEditModal({
   alert,
@@ -270,122 +274,103 @@ export function WebsiteAlertRowEditModal({
   );
 }
 
-export function WebsiteAlertRow({
-  alert,
-  refreshCbRef,
-}: {
-  alert: WebsiteAlert;
-  refreshCbRef: () => void;
-}): JSX.Element {
-  const [disableThisRow, setDisableThisRow] = React.useState(false);
+export function WebsiteAlertTableRows(): React.ReactNode {
+  const state = React.useContext(WebsiteAlertManagerStateStoreContext);
+  const functions = React.useContext(WebsiteAlertManagerStateFunctionsContext);
 
-  const deleteThisAlert = () => {
-    console.log("Deleting this alert");
-    setDisableThisRow(true);
-    fetch("/api/alerts", { method: "DELETE", body: alert.id })
-      .then((response) => {
-        if (response.status !== 200) {
-          throw new Error("Failed to delete alert");
-        }
-        refreshCbRef();
-      })
-      .catch(() => {
-        console.error("Failed to delete alert");
-      })
-      .finally(() => {
-        refreshCbRef();
-      });
-  };
-
-  return (
-    <tr>
-      <td>
-        <div className="btn-group">
-          <button
-            type="button"
-            className="btn btn-sm btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target={`#editAlert${alert.id}`}
-            disabled={disableThisRow}
+  return state?.alerts.map((alert) => {
+    return (
+      <tr key={alert.id}>
+        <td>
+          <div className="btn-group">
+            <button
+              type="button"
+              className="btn btn-sm btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target={`#editAlert${alert.id}`}
+              disabled={state?.status !== "loaded"}
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              className="btn btn-sm btn-danger"
+              disabled={state?.status !== "loaded"}
+              onClick={() => {
+                functions?.deleteAlert(alert.id);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </td>
+        <th scope="row">
+          <code>{alert.id}</code>
+        </th>
+        <td>
+          <input
+            type="checkbox"
+            className="form-check-input"
+            defaultChecked={alert.enable}
+            disabled={true}
+          />
+        </td>
+        <td>
+          <input
+            type="datetime-local"
+            className="form-control"
+            defaultValue={alert.start.toISOString().split(".")[0]}
+            disabled={true}
+          />
+        </td>
+        <td>
+          <input
+            type="datetime-local"
+            className="form-control"
+            defaultValue={alert.end.toISOString().split(".")[0]}
+            disabled={true}
+          />
+        </td>
+        <td>
+          <select
+            className="form-select"
+            defaultValue={alert.type}
+            disabled={true}
           >
-            Edit
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-danger"
-            disabled={disableThisRow}
-            onClick={deleteThisAlert}
-          >
-            Delete
-          </button>
-        </div>
-      </td>
-      <th scope="row">
-        <code>{alert.id}</code>
-      </th>
-      <td>
-        <input
-          type="checkbox"
-          className="form-check-input"
-          defaultChecked={alert.enable}
-          disabled={true}
-        />
-      </td>
-      <td>
-        <input
-          type="datetime-local"
-          className="form-control"
-          defaultValue={alert.start.toISOString().split(".")[0]}
-          disabled={true}
-        />
-      </td>
-      <td>
-        <input
-          type="datetime-local"
-          className="form-control"
-          defaultValue={alert.end.toISOString().split(".")[0]}
-          disabled={true}
-        />
-      </td>
-      <td>
-        <select
-          className="form-select"
-          defaultValue={alert.type}
-          disabled={true}
-        >
-          {BoostrapAlertTypes.map((type) => {
-            return (
-              <option value={type} key={type}>
-                {type}
-              </option>
-            );
-          })}
-        </select>
-      </td>
-      <td>
-        <input
-          type="checkbox"
-          className="form-check-input"
-          defaultChecked={alert.canHide}
-          disabled={true}
-        />
-      </td>
-      <td>
-        <textarea
-          className="form-control"
-          rows={1}
-          defaultValue={alert.content}
-          disabled={true}
-        />
-      </td>
-      <td>
-        <textarea
-          className="form-control"
-          rows={1}
-          defaultValue={JSON.stringify(alert.links, null, 2)}
-          disabled={true}
-        />
-      </td>
-    </tr>
-  );
+            {BoostrapAlertTypes.map((type) => {
+              return (
+                <option value={type} key={type}>
+                  {type}
+                </option>
+              );
+            })}
+          </select>
+        </td>
+        <td>
+          <input
+            type="checkbox"
+            className="form-check-input"
+            defaultChecked={alert.canHide}
+            disabled={true}
+          />
+        </td>
+        <td>
+          <textarea
+            className="form-control"
+            rows={1}
+            defaultValue={alert.content}
+            disabled={true}
+          />
+        </td>
+        <td>
+          <textarea
+            className="form-control"
+            rows={1}
+            defaultValue={JSON.stringify(alert.links, null, 2)}
+            disabled={true}
+          />
+        </td>
+      </tr>
+    );
+  });
 }

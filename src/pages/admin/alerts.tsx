@@ -3,7 +3,8 @@ import React from "react";
 import Layout from "@/components/Layout";
 import { useSession } from "next-auth/react";
 import RequireAdminAuthorized from "@/components/Authorization/RequireAdminAuthorized";
-import WebsiteAlertManagerTable from "@/components/WebsiteAlerts/WebsiteAlertTable";
+import WebsiteAlertManagerTable from "../../components/WebsiteAlerts/WebsiteAlertManager";
+import WebsiteAlertManagerStateProviders from "@/components/WebsiteAlerts/WebsiteAlertManager/context";
 
 const pageName = "Website alerts manager | Admin dashboard";
 
@@ -31,7 +32,9 @@ export default function WebsiteAlertsManager({
             These alerts are shown site wide before the heading at the top of
             the page.
           </p>
-          <WebsiteAlertManagerTable />
+          <WebsiteAlertManagerStateProviders>
+            <WebsiteAlertManagerTable />
+          </WebsiteAlertManagerStateProviders>
         </>
       </RequireAdminAuthorized>
     </Layout>

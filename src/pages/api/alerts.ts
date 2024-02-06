@@ -10,6 +10,7 @@ export default async function handler(
 
   if (req.method === "POST") {
     await authorizeToRunCallback(req, res, xata, "admin", async (_) => {
+      // @ts-ignore
       await xata.db.alerts.create({
         enable: true,
         start: new Date(),
