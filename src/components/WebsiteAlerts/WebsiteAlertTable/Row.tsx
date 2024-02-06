@@ -272,9 +272,31 @@ export function WebsiteAlertRowEditModal({
 
 export function WebsiteAlertRow({
   alert,
+  refreshCbRef,
 }: {
   alert: WebsiteAlert;
+  refreshCbRef: () => void;
 }): JSX.Element {
+  const [disableThisRow, setDisableThisRow] = React.useState(false);
+
+  const deleteThisAlert = () => {
+    console.log("Deleting this alert");
+    setDisableThisRow(true);
+    fetch("/api/alerts", { method: "DELETE", body: alert.id })
+      .then((response) => {
+        if (response.status !== 200) {
+          throw new Error("Failed to delete alert");
+        }
+        refreshCbRef();
+      })
+      .catch(() => {
+        console.error("Failed to delete alert");
+      })
+      .finally(() => {
+        refreshCbRef();
+      });
+  };
+
   return (
     <tr>
       <td>
@@ -284,10 +306,16 @@ export function WebsiteAlertRow({
             className="btn btn-sm btn-primary"
             data-bs-toggle="modal"
             data-bs-target={`#editAlert${alert.id}`}
+            disabled={disableThisRow}
           >
             Edit
           </button>
-          <button type="button" className="btn btn-sm btn-danger">
+          <button
+            type="button"
+            className="btn btn-sm btn-danger"
+            disabled={disableThisRow}
+            onClick={deleteThisAlert}
+          >
             Delete
           </button>
         </div>

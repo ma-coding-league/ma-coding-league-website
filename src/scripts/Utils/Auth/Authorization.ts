@@ -36,3 +36,32 @@ export async function getServerSessionAndCheckForRole(
     return [null, null, "unauthenticated"];
   }
 }
+
+export async function authorizeToRunCallback(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  dbClient: XataClient,
+  role: string,
+  runIfAuthenticated: (session: Session) => Promise<void>,
+) {
+  const [session, _, error] = await getServerSessionAndCheckForRole(
+    req,
+    res,
+    dbClient,
+    role,
+  );
+  if (session) {
+    try {
+      await runIfAuthenticated(session);
+    } catch (err) {
+      console.error(err);
+      res.status(500).end();
+    }
+  } else if (error === "unauthorized") {
+    res.status(403).end();
+  } else if (error === "unauthenticated") {
+    res.status(401).end();
+  } else {
+    res.status(500).end();
+  }
+}
