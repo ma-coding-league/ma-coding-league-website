@@ -46,28 +46,23 @@ const tables = [
         notNull: true,
         defaultValue: "false",
       },
+      { name: "submissions", type: "json", notNull: true, defaultValue: "[]" },
     ],
-    revLinks: [{ column: "competition", table: "submissions" }],
   },
+  { name: "teams", columns: [{ name: "name", type: "string", unique: true }] },
   {
-    name: "teams",
-    columns: [{ name: "name", type: "string", unique: true }],
-    revLinks: [{ column: "team", table: "submissions" }],
-  },
-  {
-    name: "submissions",
+    name: "officers",
     columns: [
-      { name: "team", type: "link", link: { table: "teams" }, unique: true },
-      { name: "submissionURL", type: "string" },
-      { name: "scoreNumerator", type: "int" },
+      { name: "role", type: "string" },
+      { name: "description", type: "string" },
+      { name: "personName", type: "string" },
+      { name: "personSchool", type: "string" },
       {
-        name: "scoreDenominator",
-        type: "int",
+        name: "openForApplication",
+        type: "bool",
         notNull: true,
-        defaultValue: "100",
+        defaultValue: "false",
       },
-      { name: "competition", type: "link", link: { table: "competitions" } },
-      { name: "verificationCode", type: "string" },
     ],
   },
 ] as const;
@@ -87,15 +82,15 @@ export type CompetitionsRecord = Competitions & XataRecord;
 export type Teams = InferredTypes["teams"];
 export type TeamsRecord = Teams & XataRecord;
 
-export type Submissions = InferredTypes["submissions"];
-export type SubmissionsRecord = Submissions & XataRecord;
+export type Officers = InferredTypes["officers"];
+export type OfficersRecord = Officers & XataRecord;
 
 export type DatabaseSchema = {
   users: UsersRecord;
   alerts: AlertsRecord;
   competitions: CompetitionsRecord;
   teams: TeamsRecord;
-  submissions: SubmissionsRecord;
+  officers: OfficersRecord;
 };
 
 const DatabaseClient = buildClient();

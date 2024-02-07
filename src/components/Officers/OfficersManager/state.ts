@@ -1,157 +1,152 @@
-import getWebsiteAlertsFromAPI, {
-  WebsiteAlert,
-} from "@/components/WebsiteAlerts/websiteAlertsAPI";
+import getOfficersFromAPI, { Officer } from "@/components/Officers/officersAPI";
 
-export type WebsiteAlertManagerStatesType = {
+export type OfficersManagerStatesType = {
   status: "loading" | "loaded" | "error";
-  alerts: WebsiteAlert[];
+  officers: Officer[];
 };
 
-export function getDefaultWebsiteAlertManagerStates(): WebsiteAlertManagerStatesType {
+export function getDefaultOfficersManagerStates(): OfficersManagerStatesType {
   return {
     status: "loading",
-    alerts: [],
+    officers: [],
   };
 }
 
-export class WebsiteAlertManagerFunctions {
+export class OfficersManagerFunctions {
   static REFRESH_THROTTLE = 200;
 
-  public stateStore: WebsiteAlertManagerStatesType;
+  public stateStore: OfficersManagerStatesType;
   public setStateStoreCallback: React.Dispatch<
-    React.SetStateAction<WebsiteAlertManagerStatesType>
+    React.SetStateAction<OfficersManagerStatesType>
   >;
 
   public constructor(
-    stateStore: WebsiteAlertManagerStatesType,
+    stateStore: OfficersManagerStatesType,
     setStateStoreCallback: React.Dispatch<
-      React.SetStateAction<WebsiteAlertManagerStatesType>
+      React.SetStateAction<OfficersManagerStatesType>
     >,
   ) {
     this.stateStore = stateStore;
     this.setStateStoreCallback = setStateStoreCallback;
   }
 
-  public refreshAlerts(): Promise<void> {
+  public refreshOfficers(): Promise<void> {
     return new Promise((resolve, reject) => {
-      console.log("Refreshing alerts");
+      console.log("Refreshing officers");
       this.setStateStoreCallback({
         status: "loading",
-        alerts: [],
+        officers: [],
       });
       setTimeout(() => {
-        getWebsiteAlertsFromAPI()
-          .then((alerts) => {
-            console.log("Got alerts");
+        getOfficersFromAPI()
+          .then((officers) => {
+            console.log("Got officers");
             this.setStateStoreCallback({
               status: "loaded",
-              alerts: alerts,
+              officers: officers,
             });
             resolve();
           })
           .catch((err) => {
-            console.error("Failed to get alerts");
+            console.error("Failed to get officers");
             console.error(err);
             this.setStateStoreCallback({
               status: "error",
-              alerts: [],
+              officers: [],
             });
             reject();
           });
-      }, WebsiteAlertManagerFunctions.REFRESH_THROTTLE);
+      }, OfficersManagerFunctions.REFRESH_THROTTLE);
     });
   }
 
-  public createNewAlert(): Promise<void> {
-    console.log("Creating new alert");
+  public createNewOfficer(): Promise<void> {
+    console.log("Creating new officer");
     this.setStateStoreCallback({
       status: "loading",
-      alerts: [],
+      officers: [],
     });
     return new Promise((resolve, reject) => {
-      fetch("/api/alerts", { method: "POST" })
+      fetch("/api/officers", { method: "POST" })
         .then((res) => {
           if (res.status !== 201) {
-            throw new Error("Failed to create new alert");
+            throw new Error("Failed to create new officer");
           }
-          console.log("Alert created");
-          return this.refreshAlerts();
+          console.log("Officer created");
+          return this.refreshOfficers();
         })
         .then(() => {
           resolve();
         })
         .catch((err) => {
-          console.error("Failed to create new alert");
+          console.error("Failed to create new officer");
           console.error(err);
           this.setStateStoreCallback({
             status: "error",
-            alerts: [],
+            officers: [],
           });
           reject();
         });
     });
   }
 
-  public editAlert(alert: WebsiteAlert): Promise<void> {
-    console.log(`Editing alert ${alert.id}`);
+  public editOfficer(officer: Officer): Promise<void> {
+    console.log("Editing officer");
     this.setStateStoreCallback({
       status: "loading",
-      alerts: [],
+      officers: [],
     });
     return new Promise((resolve, reject) => {
-      fetch("/api/alerts", {
+      fetch("/api/officers", {
         method: "PUT",
-        body: JSON.stringify(alert),
+        body: JSON.stringify(officer),
       })
         .then((res) => {
           if (res.status !== 200) {
-            throw new Error("Failed to edit alert");
+            throw new Error("Failed to edit officer");
           }
-          console.log("Alert edited");
-          return this.refreshAlerts();
+          console.log("Team edited");
+          return this.refreshOfficers();
         })
         .then(() => {
           resolve();
         })
         .catch((err) => {
-          console.error("Failed to edit alert");
+          console.error("Failed to edit officer");
           console.error(err);
           this.setStateStoreCallback({
             status: "error",
-            alerts: [],
+            officers: [],
           });
           reject();
         });
     });
   }
 
-  public deleteAlert(alertID: string): Promise<void> {
-    console.log(`Deleting alert ${alertID}`);
+  public deleteOfficer(id: string): Promise<void> {
+    console.log("Deleting officer");
     this.setStateStoreCallback({
       status: "loading",
-      alerts: [],
+      officers: [],
     });
     return new Promise((resolve, reject) => {
-      fetch("/api/alerts", {
-        method: "DELETE",
-        body: alertID,
-      })
+      fetch("/api/officers", { method: "DELETE", body: id })
         .then((res) => {
           if (res.status !== 200) {
-            throw new Error("Failed to delete alert");
+            throw new Error("Failed to delete officer");
           }
-          console.log("Alert deleted");
-          return this.refreshAlerts();
+          console.log("Officer deleted");
+          return this.refreshOfficers();
         })
         .then(() => {
           resolve();
         })
         .catch((err) => {
-          console.error("Failed to delete alert");
+          console.error("Failed to delete officer");
           console.error(err);
           this.setStateStoreCallback({
             status: "error",
-            alerts: [],
+            officers: [],
           });
           reject();
         });

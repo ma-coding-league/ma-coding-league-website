@@ -35,6 +35,12 @@ export default function AdminDashboard({
       link: "/admin/alerts",
       linkText: "Manage alerts",
     },
+    {
+      name: "Officers manager",
+      description: "Manage the officers in the MCL.",
+      link: "/admin/officers",
+      linkText: "Manage officers",
+    },
   ];
 
   return (

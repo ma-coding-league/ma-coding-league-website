@@ -66,24 +66,28 @@ export class TeamsManagerFunctions {
       status: "loading",
       teams: [],
     });
-    return fetch("/api/teams", { method: "POST" })
-      .then((res) => {
-        if (res.status !== 201) {
-          throw new Error("Failed to create new team");
-        }
-        console.log("Team created");
-      })
-      .catch((err) => {
-        console.error("Failed to create new team");
-        console.error(err);
-        this.setStateStoreCallback({
-          status: "error",
-          teams: [],
+    return new Promise((resolve, reject) => {
+      fetch("/api/teams", { method: "POST" })
+        .then((res) => {
+          if (res.status !== 201) {
+            throw new Error("Failed to create new team");
+          }
+          console.log("Team created");
+          return this.refreshTeams();
+        })
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          console.error("Failed to create new team");
+          console.error(err);
+          this.setStateStoreCallback({
+            status: "error",
+            teams: [],
+          });
+          reject();
         });
-      })
-      .finally(() => {
-        return this.refreshTeams();
-      });
+    });
   }
 
   public editTeam(team: Team): Promise<void> {
@@ -92,24 +96,28 @@ export class TeamsManagerFunctions {
       status: "loading",
       teams: [],
     });
-    return fetch("/api/teams", { method: "PUT", body: JSON.stringify(team) })
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error("Failed to edit team");
-        }
-        console.log("Team edited");
-      })
-      .catch((err) => {
-        console.error("Failed to edit team");
-        console.error(err);
-        this.setStateStoreCallback({
-          status: "error",
-          teams: [],
+    return new Promise((resolve, reject) => {
+      fetch("/api/teams", { method: "PUT", body: JSON.stringify(team) })
+        .then((res) => {
+          if (res.status !== 200) {
+            throw new Error("Failed to edit team");
+          }
+          console.log("Team edited");
+          return this.refreshTeams();
+        })
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          console.error("Failed to edit team");
+          console.error(err);
+          this.setStateStoreCallback({
+            status: "error",
+            teams: [],
+          });
+          reject();
         });
-      })
-      .finally(() => {
-        return this.refreshTeams();
-      });
+    });
   }
 
   public deleteTeam(id: string): Promise<void> {
@@ -118,23 +126,27 @@ export class TeamsManagerFunctions {
       status: "loading",
       teams: [],
     });
-    return fetch("/api/teams", { method: "DELETE", body: id })
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error("Failed to delete team");
-        }
-        console.log("Team deleted");
-      })
-      .catch((err) => {
-        console.error("Failed to delete team");
-        console.error(err);
-        this.setStateStoreCallback({
-          status: "error",
-          teams: [],
+    return new Promise((resolve, reject) => {
+      fetch("/api/teams", { method: "DELETE", body: id })
+        .then((res) => {
+          if (res.status !== 200) {
+            throw new Error("Failed to delete team");
+          }
+          console.log("Team deleted");
+          return this.refreshTeams();
+        })
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          console.error("Failed to delete team");
+          console.error(err);
+          this.setStateStoreCallback({
+            status: "error",
+            teams: [],
+          });
+          reject();
         });
-      })
-      .finally(() => {
-        return this.refreshTeams();
-      });
+    });
   }
 }
