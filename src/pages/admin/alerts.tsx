@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import RequireAdminAuthorized from "@/components/Authorization/RequireAdminAuthorized";
 import WebsiteAlertManagerTable from "../../components/WebsiteAlerts/WebsiteAlertManager";
 import WebsiteAlertManagerStateProviders from "@/components/WebsiteAlerts/WebsiteAlertManager/context";
+import { RoleRequirements } from "@/components/Authentication/Roles/RoleBadges";
 
 const pageName = "Website alerts manager | Admin dashboard";
 
@@ -28,6 +29,12 @@ export default function WebsiteAlertsManager({
       <RequireAdminAuthorized session={session} status={status}>
         <>
           <h1>Alert manager</h1>
+          <RoleRequirements
+            toView="admin"
+            toCreate="admin"
+            toEdit="admin"
+            toDelete="admin"
+          />
           <p>
             These alerts are shown site wide before the heading at the top of
             the page.

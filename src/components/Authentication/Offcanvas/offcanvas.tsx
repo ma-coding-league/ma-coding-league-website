@@ -9,7 +9,7 @@ import {
 import React from "react";
 // @ts-ignore
 import { BuiltInProviderType } from "next-auth/providers";
-import RolesRenderer from "@/components/Authentication/Roles/RolesRenderer";
+import RoleBadges from "@/components/Authentication/Roles/RoleBadges";
 import { roleHasAdmin } from "@/database/users/roles";
 import Link from "next/link";
 import { BootstrapLibContext } from "@/pages/_app";
@@ -56,7 +56,7 @@ export default function ProfileOffcanvas() {
             </div>
             <div className="offcanvas-body">
               <div>
-                <RolesRenderer roles={session.user!.roles} />
+                <RoleBadges roles={session.user!.roles} />
               </div>
               <br />
               {roleHasAdmin(session.user!.roles) ? (

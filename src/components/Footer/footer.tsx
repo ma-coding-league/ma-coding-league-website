@@ -24,6 +24,7 @@ function Footer(): JSX.Element {
         link: "/",
       },
       { title: "Competitions", link: "/competitions" },
+      { title: "Teams", link: "/teams" },
       {
         title: "Help",
         link: "/help",
