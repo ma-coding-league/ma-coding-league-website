@@ -1,1 +1,1 @@
-export { default, DEVELOPERS } from "./footer";
+export { default } from "./footer";

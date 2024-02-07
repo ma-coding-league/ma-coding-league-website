@@ -9,12 +9,18 @@ import Analytics from "../components/Analytics";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { SessionProvider } from "next-auth/react";
 
+export const BootstrapLibContext = React.createContext<any>(null);
+
 export default function MassachusettsCodingLeague({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps): JSX.Element {
+  const [bootstrapLib, setBootstrapLib] = React.useState<any>(null);
+
   React.useEffect(() => {
-    import("bootstrap");
+    import("bootstrap").then((bsLib) => {
+      setBootstrapLib(bsLib);
+    });
   }, []);
 
   return (
@@ -23,7 +29,9 @@ export default function MassachusettsCodingLeague({
       <Analytics />
       <Adsense />
       <SessionProvider session={session}>
-        <Component {...pageProps} />
+        <BootstrapLibContext.Provider value={bootstrapLib}>
+          <Component {...pageProps} />
+        </BootstrapLibContext.Provider>
       </SessionProvider>
     </ErrorBoundary>
   );

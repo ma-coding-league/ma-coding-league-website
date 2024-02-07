@@ -14,3 +14,10 @@ export function formatTime(date: Date) {
     minute: "numeric",
   });
 }
+
+export function formatDateForInput(date: Date) {
+  const firstHalf = date.toISOString().split(".")[0];
+  const pieces = firstHalf.split(":");
+  pieces.pop();
+  return pieces.join(":");
+}

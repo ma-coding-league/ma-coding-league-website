@@ -10,7 +10,7 @@ import Notifications from "../Notifications";
 import TOSBanner from "../TOSBanner";
 import { AppProps } from "../WithAppProps";
 import ProfileOffcanvas from "@/components/Authentication/Offcanvas";
-import WebsiteAlerts from "@/components/WebsiteResources/WebsiteAlerts";
+import WebsiteAlerts from "../WebsiteAlerts";
 
 const appName = "Massachusetts Coding League";
 
@@ -121,8 +121,6 @@ LayoutProps): JSX.Element {
   const actualCanonicalURL =
     canonicalURL != undefined ? baseURL + canonicalURL : undefined;
 
-  dontShowSignIn = true;
-
   return (
     <ErrorBoundary>
       <Head>
@@ -191,11 +189,7 @@ LayoutProps): JSX.Element {
           {(() => {
             const content = (
               <>
-                <WebsiteAlerts
-                  resGSheetID={
-                    process.env.NEXT_PUBLIC_GSHEET_MCL_WEBSITE_RESOURCES!
-                  }
-                />
+                <WebsiteAlerts />
                 {breadCrumbsHTML}
                 {children}
               </>

@@ -9,8 +9,14 @@ import {
 import React from "react";
 // @ts-ignore
 import { BuiltInProviderType } from "next-auth/providers";
+import RoleBadges from "@/components/Authentication/Roles/RoleBadges";
+import { roleHasAdmin } from "@/database/users/roles";
+import Link from "next/link";
+import { BootstrapLibContext } from "@/pages/_app";
 
 export default function ProfileOffcanvas() {
+  const bootstrapLib = React.useContext(BootstrapLibContext);
+
   const { data: session } = useSession();
   const [providers, setProviders] = React.useState<Record<
     LiteralUnion<BuiltInProviderType, string>,
@@ -22,6 +28,10 @@ export default function ProfileOffcanvas() {
       setProviders(result);
     });
   }, []);
+
+  const hideOffcanvas = () => {
+    bootstrapLib.Offcanvas.getOrCreateInstance("#profileOffcanvas").hide();
+  };
 
   return (
     <>
@@ -45,6 +55,19 @@ export default function ProfileOffcanvas() {
               ></button>
             </div>
             <div className="offcanvas-body">
+              <div>
+                <RoleBadges roles={session.user!.roles} />
+              </div>
+              <br />
+              {roleHasAdmin(session.user!.roles) ? (
+                <p>
+                  <Link href="/admin" onClick={hideOffcanvas}>
+                    Admin dashboard
+                  </Link>
+                </p>
+              ) : (
+                <></>
+              )}
               <button
                 type="button"
                 className="btn btn-secondary"
@@ -54,10 +77,6 @@ export default function ProfileOffcanvas() {
               >
                 Sign out
               </button>
-              <div className="alert alert-info mt-3" role="alert">
-                Signing in currently grants no additional features, but will be
-                used in the future!
-              </div>
             </div>
           </>
         ) : (
@@ -104,10 +123,6 @@ export default function ProfileOffcanvas() {
                   sign in with!
                 </p>
               )}
-              <div className="alert alert-info mt-3" role="alert">
-                Signing in currently grants no additional features, but will be
-                used in the future!
-              </div>
             </div>
           </>
         )}

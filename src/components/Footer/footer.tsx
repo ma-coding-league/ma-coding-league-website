@@ -3,13 +3,7 @@ import ErrorBoundary from "../ErrorBoundary";
 import Link from "next/link";
 import icon from "../../../public/android-chrome-512x512.png";
 import Image from "next/image";
-
-export const DEVELOPERS = [
-  {
-    name: "Cyrus Yiu",
-    github: "UnsignedArduino",
-  },
-];
+import { DEVELOPERS } from "@/people";
 
 function Footer(): JSX.Element {
   type FooterThing = {
@@ -24,12 +18,14 @@ function Footer(): JSX.Element {
         link: "/",
       },
       { title: "Competitions", link: "/competitions" },
+      { title: "Teams", link: "/teams" },
+      { title: "Officers", link: "/officers" },
+    ],
+    [
       {
         title: "Help",
         link: "/help",
       },
-    ],
-    [
       { title: "Legal", link: "/legal" },
       {
         title: "Status page",
@@ -62,13 +58,9 @@ function Footer(): JSX.Element {
       The Massachusetts Coding League website is developed and maintained by{" "}
       {DEVELOPERS.map((dev, index) => {
         return (
-          <span key={dev.name}>
-            <a
-              href={"https://github.com/" + dev.github}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {dev.name}
+          <span key={dev.person.name}>
+            <a href={dev.link} target="_blank" rel="noopener noreferrer">
+              {dev.person.name}
             </a>
             {index < DEVELOPERS.length - 2
               ? ", "
