@@ -19,7 +19,7 @@ const tables = [
       { name: "enable", type: "bool", notNull: true, defaultValue: "false" },
       { name: "start", type: "datetime", defaultValue: "now" },
       { name: "end", type: "datetime" },
-      { name: "type", type: "string", defaultValue: "secondary" },
+      { name: "type", type: "string" },
       { name: "canHide", type: "bool", notNull: true, defaultValue: "false" },
       { name: "content", type: "string", defaultValue: "" },
       { name: "links", type: "json" },
@@ -33,7 +33,8 @@ const tables = [
       { name: "start", type: "datetime" },
       { name: "end", type: "datetime" },
       { name: "theme", type: "string" },
-      { name: "hideThis", type: "bool", notNull: true, defaultValue: "true" },
+      { name: "showThis", type: "bool", notNull: true, defaultValue: "false" },
+      { name: "showTheme", type: "bool", notNull: true, defaultValue: "false" },
       {
         name: "showSubmissions",
         type: "bool",
