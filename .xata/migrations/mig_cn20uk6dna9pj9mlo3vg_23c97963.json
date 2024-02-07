@@ -1,0 +1,18 @@
+{
+  "id": "mig_cn20uk6dna9pj9mlo3vg",
+  "parentID": "mig_cn20uh7qqd6hle35rn70",
+  "checksum": "1:23c979639ebfc313b27416eaf1a83725aac60b6a1adc35d2371c7be208f26e7f",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "openForApplication",
+          "type": "bool",
+          "notNull": true,
+          "defaultValue": "false"
+        },
+        "table": "officers"
+      }
+    }
+  ]
+}

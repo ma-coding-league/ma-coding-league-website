@@ -1,0 +1,13 @@
+{
+  "id": "mig_cn20senqqd6hle35rmrg",
+  "parentID": "mig_cn20scvqqd6hle35rmqg",
+  "checksum": "1:506be556f21a83a0011cc2bbbe7bd4032ee6bbcc9798f12b743c5fb3ab109bdd",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "start",
+        "table": "alerts"
+      }
+    }
+  ]
+}

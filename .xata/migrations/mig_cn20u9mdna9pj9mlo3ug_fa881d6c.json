@@ -1,0 +1,12 @@
+{
+  "id": "mig_cn20u9mdna9pj9mlo3ug",
+  "parentID": "mig_cn20u7iqalf8r81r222g",
+  "checksum": "1:fa881d6cf8bdf32a9aa7a0eb4efaa90888b1afeb6f65b78b88ac1bdd67f4a60c",
+  "operations": [
+    {
+      "addTable": {
+        "table": "officers"
+      }
+    }
+  ]
+}

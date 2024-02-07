@@ -1,0 +1,16 @@
+{
+  "id": "mig_cn20sj6dna9pj9mlo3h0",
+  "parentID": "mig_cn20shudna9pj9mlo3g0",
+  "checksum": "1:2807ca5adf76f695eab6a5418cca24856557f236a708583f67956c3eb356f8dc",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "type",
+          "type": "string"
+        },
+        "table": "alerts"
+      }
+    }
+  ]
+}

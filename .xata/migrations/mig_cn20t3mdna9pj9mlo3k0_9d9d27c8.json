@@ -1,0 +1,16 @@
+{
+  "id": "mig_cn20t3mdna9pj9mlo3k0",
+  "parentID": "mig_cn20t26dna9pj9mlo3j0",
+  "checksum": "1:9d9d27c8317c062257b20ac1d45c2077f171438942115d40beb1b5dbdcaef657",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "start",
+          "type": "datetime"
+        },
+        "table": "competitions"
+      }
+    }
+  ]
+}

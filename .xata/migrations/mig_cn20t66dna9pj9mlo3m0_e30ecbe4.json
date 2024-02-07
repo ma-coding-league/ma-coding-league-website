@@ -1,0 +1,16 @@
+{
+  "id": "mig_cn20t66dna9pj9mlo3m0",
+  "parentID": "mig_cn20t4udna9pj9mlo3l0",
+  "checksum": "1:e30ecbe4b60e703605efd0c9085aaca279d92d19f8331cdd8d478c1fbcae000d",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "theme",
+          "type": "string"
+        },
+        "table": "competitions"
+      }
+    }
+  ]
+}

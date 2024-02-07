@@ -1,0 +1,18 @@
+{
+  "id": "mig_cn20td6dna9pj9mlo3o0",
+  "parentID": "mig_cn20taudna9pj9mlo3n0",
+  "checksum": "1:d3af30d9295686ebbdcf816a5d127dc880a2d60f66e8c43171fc45f903136431",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "hideThis",
+          "type": "bool",
+          "notNull": true,
+          "defaultValue": "true"
+        },
+        "table": "competitions"
+      }
+    }
+  ]
+}
