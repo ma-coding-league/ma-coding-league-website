@@ -1,0 +1,17 @@
+{
+  "id": "mig_cn20u7iqalf8r81r222g",
+  "parentID": "mig_cn20u4aqalf8r81r221g",
+  "checksum": "1:26f00f413687bef6027e60a81bc8ac5394033a92ca88f73ada07342ec7c354c7",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "name",
+          "type": "string",
+          "unique": true
+        },
+        "table": "teams"
+      }
+    }
+  ]
+}

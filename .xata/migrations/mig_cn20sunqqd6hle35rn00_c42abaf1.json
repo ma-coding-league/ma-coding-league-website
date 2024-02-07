@@ -1,0 +1,12 @@
+{
+  "id": "mig_cn20sunqqd6hle35rn00",
+  "parentID": "mig_cn20st7qqd6hle35rmug",
+  "checksum": "1:c42abaf1ceb9fc74ade8d85c0270a5850cdf7c3d30cd15596c843cd167c76e48",
+  "operations": [
+    {
+      "addTable": {
+        "table": "competitions"
+      }
+    }
+  ]
+}

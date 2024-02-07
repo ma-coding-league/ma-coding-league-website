@@ -1,0 +1,18 @@
+{
+  "id": "mig_cn20u2fqqd6hle35rn40",
+  "parentID": "mig_cn20tv6dna9pj9mlo3t0",
+  "checksum": "1:f8cd9ce4b95166ade7dc9b74346953100ebdb3a634902b5d3b34403d75c018e9",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "submissions",
+          "type": "json",
+          "notNull": true,
+          "defaultValue": "[]"
+        },
+        "table": "competitions"
+      }
+    }
+  ]
+}
