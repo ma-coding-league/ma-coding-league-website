@@ -1,376 +1,420 @@
 import {
   BoostrapAlertTypes,
+  BootstrapAlertType,
   WebsiteAlert,
 } from "@/components/WebsiteAlerts/websiteAlertsAPI";
 import React from "react";
-import { WebsiteAlertRenderer } from "@/components/WebsiteAlerts/WebsiteAlerts";
-import { nowBetween } from "@/scripts/Utils/DateAndTime/Helpers";
-import getElement from "@/scripts/Utils/Element";
 import {
   WebsiteAlertManagerStateFunctionsContext,
   WebsiteAlertManagerStateStoreContext,
 } from "@/components/WebsiteAlerts/WebsiteAlertManager/context";
+import { formatDateForInput } from "@/scripts/Utils/DateAndTime/Format";
 
-export function WebsiteAlertRowEditModal({
+function WebsiteAlertTableRow({
   alert,
 }: {
   alert: WebsiteAlert;
-}): JSX.Element {
-  const [modifiedAlert, setModifiedAlert] = React.useState<WebsiteAlert>(alert);
-  const [showPreview, setShowPreview] = React.useState(false);
+}): React.ReactNode {
+  const state = React.useContext(WebsiteAlertManagerStateStoreContext);
+  const functions = React.useContext(WebsiteAlertManagerStateFunctionsContext);
 
-  React.useEffect(() => {
-    const onShow = () => {
-      setModifiedAlert(structuredClone(alert));
-      setShowPreview(false);
-    };
+  const [modifiedAlert, setModifiedAlert] = React.useState<WebsiteAlert>(
+    structuredClone(alert),
+  );
+  const [editing, setEditing] = React.useState(false);
 
-    getElement(`editAlert${alert.id}`).addEventListener(
-      "show.bs.modal",
-      onShow,
-    );
+  const cancelChanges = () => {
+    console.log("Cancel changes");
+    setEditing(false);
+  };
 
-    return () => {
-      try {
-        getElement(`editAlert${alert.id}`).removeEventListener(
-          "show.bs.modal",
-          onShow,
-        );
-      } catch (_) {}
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const saveChanges = () => {
+    functions?.editAlert(modifiedAlert);
+    setEditing(false);
+  };
 
   return (
-    <div className="modal fade" id={`editAlert${alert.id}`}>
-      <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5">
-              {showPreview ? "Previewing" : "Editing"} website alert{" "}
-              <code>{alert.id}</code>
-            </h1>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            {showPreview ? (
-              <div>
-                <>
-                  {/*<p>*/}
-                  {/*  <code>{JSON.stringify(modifiedAlert, null, 2)}</code>*/}
-                  {/*</p>*/}
-                  {modifiedAlert.enable ? (
-                    <p>
-                      <em>Alert will be enabled.</em>
-                    </p>
-                  ) : (
-                    <p>
-                      <em>Alert will not be enabled.</em>
-                    </p>
-                  )}
-                  {nowBetween(modifiedAlert.start, modifiedAlert.end) ? (
-                    <p>
-                      <em>Alert will be active.</em>
-                    </p>
-                  ) : (
-                    <p>
-                      <em>Alert will not be active.</em>
-                    </p>
-                  )}
-                </>
-                <p>
-                  <em>Preview:</em>
-                </p>
-                <WebsiteAlertRenderer alert={modifiedAlert} forceExternal />
-              </div>
-            ) : (
-              <form>
-                <div className="mb-3 form-check">
-                  <input
-                    type="checkbox"
-                    id={`editAlertEnableCheckInput${modifiedAlert.id}`}
-                    className="form-check-input"
-                    checked={modifiedAlert.enable}
-                    onChange={(e) => {
-                      setModifiedAlert({
-                        ...modifiedAlert,
-                        enable: e.target.checked,
-                      });
-                    }}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor={`editAlertEnableCheckInput${modifiedAlert.id}`}
-                  >
-                    Enable
-                  </label>
-                </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor={`editAlertStartInput${modifiedAlert.id}`}
-                    className="form-label"
-                  >
-                    Start
-                  </label>
-                  <input
-                    type="datetime-local"
-                    id={`editAlertStartInput${modifiedAlert.id}`}
-                    className="form-control"
-                    value={modifiedAlert.start.toISOString().split(".")[0]}
-                    onChange={(e) => {
-                      setModifiedAlert({
-                        ...modifiedAlert,
-                        start: new Date(e.target.value),
-                      });
-                    }}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor={`editAlertEndInput${modifiedAlert.id}`}
-                    className="form-label"
-                  >
-                    End
-                  </label>
-                  <input
-                    type="datetime-local"
-                    id={`editAlertEndInput${modifiedAlert.id}`}
-                    className="form-control"
-                    value={modifiedAlert.end.toISOString().split(".")[0]}
-                    onChange={(e) => {
-                      setModifiedAlert({
-                        ...modifiedAlert,
-                        end: new Date(e.target.value),
-                      });
-                    }}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor={`editAlertTypeSelect${modifiedAlert.id}`}
-                    className="form-label"
-                  >
-                    Type
-                  </label>
-                  <select
-                    id={`editAlertTypeSelect${modifiedAlert.id}`}
-                    className="form-select"
-                    value={modifiedAlert.type}
-                    onChange={(e) => {
-                      setModifiedAlert({
-                        ...modifiedAlert,
-                        // @ts-ignore
-                        type: e.target.value,
-                      });
-                    }}
-                  >
-                    {BoostrapAlertTypes.map((type) => {
-                      return (
-                        <option value={type} key={type}>
-                          {type}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-                <div className="mb-3 form-check">
-                  <input
-                    type="checkbox"
-                    id={`editAlertCanHideCheckInput${modifiedAlert.id}`}
-                    className="form-check-input"
-                    checked={modifiedAlert.canHide}
-                    onChange={(e) => {
-                      setModifiedAlert({
-                        ...modifiedAlert,
-                        canHide: e.target.checked,
-                      });
-                    }}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor={`editAlertCanHideCheckInput${modifiedAlert.id}`}
-                  >
-                    Can hide
-                  </label>
-                </div>
-                <div className="mb-3">
-                  <label
-                    className="form-label"
-                    htmlFor={`editAlertContextTextarea${modifiedAlert.id}`}
-                  >
-                    Content
-                  </label>
-                  <textarea
-                    className="form-control"
-                    id={`editAlertContextTextarea${modifiedAlert.id}`}
-                    value={modifiedAlert.content}
-                    onChange={(e) => {
-                      setModifiedAlert({
-                        ...modifiedAlert,
-                        content: e.target.value,
-                      });
-                    }}
-                    rows={3}
-                  />
-                  <div id="passwordHelpBlock" className="form-text">
-                    Markdown, extended / {'"'}GitHub{'"'} markdown, and LaTeX is
-                    supported.
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <label
-                    className="form-label"
-                    htmlFor={`editAlertLinksTextarea${modifiedAlert.id}`}
-                  >
-                    Links
-                  </label>
-                  <textarea
-                    className="form-control"
-                    id={`editAlertContextTextarea${modifiedAlert.id}`}
-                    value={JSON.stringify(modifiedAlert.links, null, 2)}
-                    onChange={(e) => {
-                      try {
-                        setModifiedAlert({
-                          ...modifiedAlert,
-                          links: JSON.parse(e.target.value),
-                        });
-                      } catch (_) {}
-                    }}
-                    rows={3}
-                  />
-                </div>
-              </form>
-            )}
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => {
-                setShowPreview(!showPreview);
-              }}
-            >
-              {showPreview ? "Edit" : "Preview"}
-            </button>
-            <button
-              type="button"
-              className="btn btn-danger"
-              data-bs-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <button type="button" className="btn btn-success">
-              Save changes
-            </button>
-          </div>
+    <tr>
+      <td>
+        <div className="btn-group">
+          {editing ? (
+            <>
+              <button
+                type="button"
+                className="btn btn-sm btn-success"
+                disabled={state?.status !== "loaded"}
+                onClick={() => {
+                  saveChanges();
+                }}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="btn btn-sm btn-danger"
+                disabled={state?.status !== "loaded"}
+                onClick={() => {
+                  cancelChanges();
+                }}
+              >
+                Cancel
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="btn btn-sm btn-primary"
+                disabled={state?.status !== "loaded"}
+                onClick={() => {
+                  setEditing(true);
+                }}
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                className="btn btn-sm btn-danger"
+                disabled={state?.status !== "loaded"}
+                onClick={() => {
+                  functions?.deleteAlert(alert.id);
+                }}
+              >
+                Delete
+              </button>
+            </>
+          )}
         </div>
-      </div>
-    </div>
+      </td>
+      <th scope="row">
+        <code>{alert.id}</code>
+      </th>
+      <td>
+        <input
+          type="checkbox"
+          className="form-check-input"
+          checked={!editing ? alert.enable : undefined}
+          defaultChecked={editing ? modifiedAlert.enable : undefined}
+          onChange={(e) => {
+            setModifiedAlert({
+              ...modifiedAlert,
+              enable: e.target.checked,
+            });
+          }}
+          disabled={!editing}
+        />
+      </td>
+      <td>
+        <input
+          type="datetime-local"
+          className="form-control"
+          style={{ width: "12em" }}
+          value={!editing ? formatDateForInput(alert.start) : undefined}
+          defaultValue={
+            editing ? formatDateForInput(modifiedAlert.start) : undefined
+          }
+          onBlur={(e) => {
+            setModifiedAlert({
+              ...modifiedAlert,
+              start: new Date(e.target.value),
+            });
+          }}
+          disabled={!editing}
+        />
+      </td>
+      <td>
+        <input
+          type="datetime-local"
+          className="form-control"
+          style={{ width: "12em" }}
+          value={!editing ? formatDateForInput(alert.end) : undefined}
+          defaultValue={
+            editing ? formatDateForInput(modifiedAlert.end) : undefined
+          }
+          onBlur={(e) => {
+            setModifiedAlert({
+              ...modifiedAlert,
+              end: new Date(e.target.value),
+            });
+          }}
+          disabled={!editing}
+        />
+      </td>
+      <td>
+        <select
+          className="form-select"
+          style={{ width: "7em" }}
+          value={!editing ? alert.type : undefined}
+          defaultValue={editing ? modifiedAlert.type : undefined}
+          onChange={(e) => {
+            setModifiedAlert({
+              ...modifiedAlert,
+              type: e.target.value as BootstrapAlertType,
+            });
+          }}
+          disabled={!editing}
+        >
+          {BoostrapAlertTypes.map((type) => {
+            return (
+              <option value={type} key={type}>
+                {type}
+              </option>
+            );
+          })}
+        </select>
+      </td>
+      <td>
+        <input
+          type="checkbox"
+          className="form-check-input"
+          checked={!editing ? alert.canHide : undefined}
+          defaultChecked={editing ? modifiedAlert.canHide : undefined}
+          onChange={(e) => {
+            setModifiedAlert({
+              ...modifiedAlert,
+              canHide: e.target.checked,
+            });
+          }}
+          disabled={!editing}
+        />
+      </td>
+      <td>
+        <textarea
+          className="form-control"
+          style={{ width: "25em" }}
+          rows={editing ? 3 : 1}
+          value={!editing ? alert.content : undefined}
+          defaultValue={editing ? modifiedAlert.content : undefined}
+          onChange={(e) => {
+            setModifiedAlert({
+              ...modifiedAlert,
+              content: e.target.value,
+            });
+          }}
+          disabled={!editing}
+        />
+      </td>
+      <td className="table-responsive">
+        <table className="table table-sm table-hover">
+          <thead>
+            <tr>
+              {editing ? <th scope="col" /> : undefined}
+              <th scope="col">Name</th>
+              <th scope="col">Type</th>
+              <th scope="col">URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            {modifiedAlert.links.length > 0 ? (
+              modifiedAlert.links.map((link) => {
+                return (
+                  <tr key={JSON.stringify(link)}>
+                    {editing ? (
+                      <th scope="row">
+                        <div className="btn-group">
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-danger"
+                            disabled={state?.status !== "loaded"}
+                            onClick={() => {
+                              setModifiedAlert({
+                                ...modifiedAlert,
+                                links: modifiedAlert.links.filter((l) => {
+                                  return l !== link;
+                                }),
+                              });
+                            }}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-secondary"
+                            disabled={
+                              state?.status !== "loaded" ||
+                              modifiedAlert.links.indexOf(link) === 0
+                            }
+                            onClick={() => {
+                              setModifiedAlert({
+                                ...modifiedAlert,
+                                links: (() => {
+                                  const index =
+                                    modifiedAlert.links.indexOf(link);
+                                  if (index === 0) {
+                                    return modifiedAlert.links;
+                                  }
+                                  const links = [...modifiedAlert.links];
+                                  const temp = links[index];
+                                  links[index] = links[index - 1];
+                                  links[index - 1] = temp;
+                                  return links;
+                                })(),
+                              });
+                            }}
+                          >
+                            Up
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-secondary"
+                            disabled={
+                              state?.status !== "loaded" ||
+                              modifiedAlert.links.indexOf(link) ===
+                                modifiedAlert.links.length - 1
+                            }
+                            onClick={() => {
+                              setModifiedAlert({
+                                ...modifiedAlert,
+                                links: (() => {
+                                  const index =
+                                    modifiedAlert.links.indexOf(link);
+                                  if (
+                                    index ===
+                                    modifiedAlert.links.length - 1
+                                  ) {
+                                    return modifiedAlert.links;
+                                  }
+                                  const links = [...modifiedAlert.links];
+                                  const temp = links[index];
+                                  links[index] = links[index + 1];
+                                  links[index + 1] = temp;
+                                  return links;
+                                })(),
+                              });
+                            }}
+                          >
+                            Down
+                          </button>
+                        </div>
+                      </th>
+                    ) : undefined}
+                    <td>
+                      <input
+                        className="form-control"
+                        style={{ width: "8em" }}
+                        value={!editing ? link.name : undefined}
+                        defaultValue={editing ? link.name : undefined}
+                        onBlur={(e) => {
+                          setModifiedAlert({
+                            ...modifiedAlert,
+                            links: modifiedAlert.links.map((l) => {
+                              if (l === link) {
+                                return {
+                                  ...l,
+                                  name: e.target.value,
+                                };
+                              } else {
+                                return l;
+                              }
+                            }),
+                          });
+                        }}
+                        disabled={!editing}
+                      />
+                    </td>
+                    <td>
+                      <select
+                        className="form-select"
+                        style={{ width: "7em" }}
+                        value={!editing ? link.type : undefined}
+                        defaultValue={editing ? link.type : undefined}
+                        onChange={(e) => {
+                          setModifiedAlert({
+                            ...modifiedAlert,
+                            links: modifiedAlert.links.map((l) => {
+                              if (l === link) {
+                                return {
+                                  ...l,
+                                  type: e.target.value as BootstrapAlertType,
+                                };
+                              } else {
+                                return l;
+                              }
+                            }),
+                          });
+                        }}
+                        disabled={!editing}
+                      >
+                        {BoostrapAlertTypes.map((type) => {
+                          return (
+                            <option value={type} key={type}>
+                              {type}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        type="url"
+                        className="form-control"
+                        style={{ width: "8em" }}
+                        value={!editing ? link.url : undefined}
+                        defaultValue={editing ? link.url : undefined}
+                        onBlur={(e) => {
+                          setModifiedAlert({
+                            ...modifiedAlert,
+                            links: modifiedAlert.links.map((l) => {
+                              if (l === link) {
+                                return {
+                                  ...l,
+                                  url: e.target.value,
+                                };
+                              } else {
+                                return l;
+                              }
+                            }),
+                          });
+                        }}
+                        disabled={!editing}
+                      />
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={3}>
+                  <div className="alert alert-primary mb-0" role="alert">
+                    {editing ? (
+                      "No links found, try adding one!"
+                    ) : (
+                      <em>No links</em>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+        {editing ? (
+          <button
+            type="button"
+            className="btn btn-sm btn-success"
+            disabled={state?.status !== "loaded"}
+            onClick={() => {
+              setModifiedAlert({
+                ...modifiedAlert,
+                links: [
+                  ...modifiedAlert.links,
+                  { name: "New link", type: "primary", url: "/" },
+                ],
+              });
+            }}
+          >
+            New link
+          </button>
+        ) : undefined}
+      </td>
+    </tr>
   );
 }
 
 export function WebsiteAlertTableRows(): React.ReactNode {
   const state = React.useContext(WebsiteAlertManagerStateStoreContext);
-  const functions = React.useContext(WebsiteAlertManagerStateFunctionsContext);
+  // const functions = React.useContext(WebsiteAlertManagerStateFunctionsContext);
 
   return state?.alerts.map((alert) => {
-    return (
-      <tr key={alert.id}>
-        <td>
-          <div className="btn-group">
-            <button
-              type="button"
-              className="btn btn-sm btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target={`#editAlert${alert.id}`}
-              disabled={state?.status !== "loaded"}
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-danger"
-              disabled={state?.status !== "loaded"}
-              onClick={() => {
-                functions?.deleteAlert(alert.id);
-              }}
-            >
-              Delete
-            </button>
-          </div>
-        </td>
-        <th scope="row">
-          <code>{alert.id}</code>
-        </th>
-        <td>
-          <input
-            type="checkbox"
-            className="form-check-input"
-            defaultChecked={alert.enable}
-            disabled={true}
-          />
-        </td>
-        <td>
-          <input
-            type="datetime-local"
-            className="form-control"
-            defaultValue={alert.start.toISOString().split(".")[0]}
-            disabled={true}
-          />
-        </td>
-        <td>
-          <input
-            type="datetime-local"
-            className="form-control"
-            defaultValue={alert.end.toISOString().split(".")[0]}
-            disabled={true}
-          />
-        </td>
-        <td>
-          <select
-            className="form-select"
-            defaultValue={alert.type}
-            disabled={true}
-          >
-            {BoostrapAlertTypes.map((type) => {
-              return (
-                <option value={type} key={type}>
-                  {type}
-                </option>
-              );
-            })}
-          </select>
-        </td>
-        <td>
-          <input
-            type="checkbox"
-            className="form-check-input"
-            defaultChecked={alert.canHide}
-            disabled={true}
-          />
-        </td>
-        <td>
-          <textarea
-            className="form-control"
-            rows={1}
-            defaultValue={alert.content}
-            disabled={true}
-          />
-        </td>
-        <td>
-          <textarea
-            className="form-control"
-            rows={1}
-            defaultValue={JSON.stringify(alert.links, null, 2)}
-            disabled={true}
-          />
-        </td>
-      </tr>
-    );
+    return <WebsiteAlertTableRow alert={alert} key={JSON.stringify(alert)} />;
   });
 }

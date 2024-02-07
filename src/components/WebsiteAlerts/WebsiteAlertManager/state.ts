@@ -84,6 +84,35 @@ export class WebsiteAlertManagerFunctions {
       });
   }
 
+  public editAlert(alert: WebsiteAlert) {
+    console.log(`Editing alert ${alert.id}`);
+    this.setStateStoreCallback({
+      status: "loading",
+      alerts: [],
+    });
+    fetch("/api/alerts", {
+      method: "PUT",
+      body: JSON.stringify(alert),
+    })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error("Failed to edit alert");
+        }
+        console.log("Alert edited");
+      })
+      .catch((err) => {
+        console.error("Failed to edit alert");
+        console.error(err);
+        this.setStateStoreCallback({
+          status: "error",
+          alerts: [],
+        });
+      })
+      .finally(() => {
+        this.refreshAlerts();
+      });
+  }
+
   public deleteAlert(alertID: string) {
     console.log(`Deleting alert ${alertID}`);
     this.setStateStoreCallback({

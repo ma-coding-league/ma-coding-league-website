@@ -22,7 +22,7 @@ const tables = [
       { name: "type", type: "string", defaultValue: "secondary" },
       { name: "canHide", type: "bool", notNull: true, defaultValue: "false" },
       { name: "content", type: "string", defaultValue: "" },
-      { name: "links", type: "string" },
+      { name: "links", type: "json" },
     ],
   },
   {
@@ -47,6 +47,7 @@ const tables = [
         defaultValue: "false",
       },
     ],
+    revLinks: [{ column: "competition", table: "submissions" }],
   },
   {
     name: "teams",
@@ -65,6 +66,8 @@ const tables = [
         notNull: true,
         defaultValue: "100",
       },
+      { name: "competition", type: "link", link: { table: "competitions" } },
+      { name: "verificationCode", type: "string" },
     ],
   },
 ] as const;

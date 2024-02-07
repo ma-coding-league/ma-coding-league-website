@@ -14,11 +14,16 @@ This is the source code for the Massachusetts Coding League website!
 1. Have `nodejs`.
 2. Clone this repo.
 3. `yarn` to install dependencies.
-4. Copy [`.env.sample`](/.env.sample) to `.env.local` and fill out environment variables.
+4. Have `@xata.io/cli@latest`.
+5. `xata init`. 
+6. Pull database types from Xata with `xata pull [BRANCH]`
+7. Copy [`.env.sample`](/.env.sample) to `.env.local` and fill out environment variables.
 
 ## Development
 
 Use `yarn run dev` to start a development server.
+
+Pull database types from Xata with `xata pull [BRANCH]`.
 
 Before commit, make sure to format, (`yarn run format` / `yarn run writeFormat`)
 lint, (`yarn run lint` / `yarn run writeLint`) and type-check. (`yarn run typecheck`)

@@ -32,6 +32,9 @@ export default function WebsiteAlertsManager({
             These alerts are shown site wide before the heading at the top of
             the page.
           </p>
+          <p>
+            <em>Can hide attribute does not have any effect yet.</em>
+          </p>
           <WebsiteAlertManagerStateProviders>
             <WebsiteAlertManagerTable />
           </WebsiteAlertManagerStateProviders>

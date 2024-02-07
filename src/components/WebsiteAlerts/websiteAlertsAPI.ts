@@ -28,27 +28,31 @@ export type WebsiteAlert = {
   links: WebsiteAlertLink[];
 };
 
-function convertStringDateToJSDate(date: string): Date {
-  const numString = date.replace("Date(", "").replace(")", "");
-  const numArray = numString.split(",");
-  if (numArray.length === 3) {
-    return new Date(
-      parseInt(numArray[0]),
-      parseInt(numArray[1]),
-      parseInt(numArray[2]),
-    );
-  } else if (numArray.length === 6) {
-    return new Date(
-      parseInt(numArray[0]),
-      parseInt(numArray[1]),
-      parseInt(numArray[2]),
-      parseInt(numArray[3]),
-      parseInt(numArray[4]),
-      parseInt(numArray[5]),
-    );
-  } else {
-    throw new Error("Invalid date format");
-  }
+export function serializeWebsiteAlert(alert: WebsiteAlert): string {
+  return JSON.stringify({
+    id: alert.id,
+    enable: alert.enable,
+    start: alert.start.toISOString(),
+    end: alert.end.toISOString(),
+    type: alert.type,
+    canHide: alert.canHide,
+    content: alert.content,
+    links: alert.links,
+  });
+}
+
+export function deserializeWebsiteAlert(alert: string): WebsiteAlert {
+  const alertObject = JSON.parse(alert);
+  return <WebsiteAlert>{
+    id: alertObject.id,
+    enable: alertObject.enable,
+    start: new Date(alertObject.start),
+    end: new Date(alertObject.end),
+    type: alertObject.type,
+    canHide: alertObject.canHide,
+    content: alertObject.content,
+    links: alertObject.links,
+  };
 }
 
 export default async function getWebsiteAlertsFromAPI(): Promise<
@@ -65,28 +69,7 @@ export default async function getWebsiteAlertsFromAPI(): Promise<
       type: alert.type,
       canHide: alert.canHide,
       content: alert.content,
-      links: (() => {
-        try {
-          return alert.links!.split("\n").map((link: string) => {
-            const linkParts = link.split(" :: ");
-            if (linkParts.length === 2) {
-              return {
-                name: linkParts[0],
-                type: "secondary",
-                url: linkParts[1],
-              };
-            } else {
-              return {
-                name: linkParts[0],
-                type: linkParts[1] as BootstrapAlertType,
-                url: linkParts[2],
-              };
-            }
-          });
-        } catch {
-          return [];
-        }
-      })(),
+      links: alert.links,
     };
   });
 }

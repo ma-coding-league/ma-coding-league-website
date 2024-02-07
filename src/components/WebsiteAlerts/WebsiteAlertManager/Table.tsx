@@ -30,7 +30,7 @@ export default function WebsiteAlertTable() {
         <button
           type="button"
           className="btn btn-secondary"
-          disabled={state?.status !== "loaded"}
+          disabled={state?.status === "loading"}
           onClick={() => {
             functions?.refreshAlerts();
           }}
@@ -99,11 +99,6 @@ export default function WebsiteAlertTable() {
             })()}
           </tbody>
         </table>
-        {/*{state?.status == "loaded"*/}
-        {/*  ? state?.alerts.map((alert) => {*/}
-        {/*    return <WebsiteAlertRowEditModal alert={alert} key={alert.id} />;*/}
-        {/*  })*/}
-        {/*  : null}*/}
       </div>
     </ErrorBoundary>
   );
