@@ -18,7 +18,9 @@ export default function MassachusettsCodingLeague({
   const [bootstrapLib, setBootstrapLib] = React.useState<any>(null);
 
   React.useEffect(() => {
-    setBootstrapLib(import("bootstrap"));
+    import("bootstrap").then((bsLib) => {
+      setBootstrapLib(bsLib);
+    });
   }, []);
 
   return (

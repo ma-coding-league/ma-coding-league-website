@@ -11,8 +11,12 @@ import React from "react";
 import { BuiltInProviderType } from "next-auth/providers";
 import RolesRenderer from "@/components/Authentication/Roles/RolesRenderer";
 import { roleHasAdmin } from "@/database/users/roles";
+import Link from "next/link";
+import { BootstrapLibContext } from "@/pages/_app";
 
 export default function ProfileOffcanvas() {
+  const bootstrapLib = React.useContext(BootstrapLibContext);
+
   const { data: session } = useSession();
   const [providers, setProviders] = React.useState<Record<
     LiteralUnion<BuiltInProviderType, string>,
@@ -24,6 +28,10 @@ export default function ProfileOffcanvas() {
       setProviders(result);
     });
   }, []);
+
+  const hideOffcanvas = () => {
+    bootstrapLib.Offcanvas.getOrCreateInstance("#profileOffcanvas").hide();
+  };
 
   return (
     <>
@@ -53,8 +61,9 @@ export default function ProfileOffcanvas() {
               <br />
               {roleHasAdmin(session.user!.roles) ? (
                 <p>
-                  {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-                  <a href="/admin">Admin dashboard</a>
+                  <Link href="/admin" onClick={hideOffcanvas}>
+                    Admin dashboard
+                  </Link>
                 </p>
               ) : (
                 <></>
