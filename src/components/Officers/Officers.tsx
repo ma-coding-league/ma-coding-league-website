@@ -87,7 +87,7 @@ export default function OfficersList(): React.ReactNode {
                             <h5 className="card-title">{officer.role}</h5>
                             {officer.personName != null ? (
                               <h6 className="card-subtitle text-body-secondary">
-                                Held by <b>{officer.personName}</b> of{" "}
+                                <b>{officer.personName}</b> of{" "}
                                 {officer.personSchool}.
                               </h6>
                             ) : null}

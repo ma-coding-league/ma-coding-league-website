@@ -2,6 +2,7 @@ import getAppProps, { AppProps } from "@/components/WithAppProps";
 import React from "react";
 import Layout from "@/components/Layout";
 import OfficersList from "@/components/Officers";
+import Link from "next/link";
 
 const pageName = "Officers";
 
@@ -19,6 +20,12 @@ export default function Officers({ appProps }: OfficersProps): JSX.Element {
       <h1>Officers</h1>
       <p>
         This is a list of all the officers in the Massachusetts Coding League!
+      </p>
+      <p>
+        Want to apply for an open position? Check out{" "}
+        <Link href="/help/application/officer">
+          the help page on applying to become an officer!
+        </Link>
       </p>
       <OfficersList />
     </Layout>

@@ -3,9 +3,13 @@ import React from "react";
 import Layout from "@/components/Layout";
 import getAppProps, { AppProps } from "@/components/WithAppProps";
 
-const pageName = "Help";
+const pageName = "Application help";
 
-export function Help({ appProps }: { appProps: AppProps }): JSX.Element {
+export function ApplicationHelp({
+  appProps,
+}: {
+  appProps: AppProps;
+}): JSX.Element {
   type HelpPage = {
     name: string;
     description: string;
@@ -15,18 +19,20 @@ export function Help({ appProps }: { appProps: AppProps }): JSX.Element {
 
   const helpPages: HelpPage[] = [
     {
-      name: "Application",
+      name: "Apply for your high school team",
       description:
-        "How to apply for your high school team to join the Massachusetts Coding League or apply as an officer.",
-      link: "/help/application",
-      linkText: "View help for applying",
+        "How to apply for your high school team to join the Massachusetts Coding League. " +
+        // TODO: Actually write this help page.
+        "TODO: Actually write this help page.",
+      link: "/help/application/teams",
+      linkText: "View help for applying your high school team",
     },
     {
-      name: "Legal",
+      name: "Apply as an officer",
       description:
-        "Everyone's favorite section, this includes a number of legal documents and settings to change how we process your data.",
-      link: "/legal",
-      linkText: "View the really fun section",
+        "How to apply as an officer for the Massachusetts Coding League.",
+      link: "/help/application/officer",
+      linkText: "View help for applying as an officer",
     },
   ];
 
@@ -35,8 +41,12 @@ export function Help({ appProps }: { appProps: AppProps }): JSX.Element {
       title={pageName}
       currentPage={pageName}
       appProps={appProps}
-      description="The Massachusetts Coding League website's help page."
-      keywords="MA Coding League, Massachusetts Coding League, MA Coding League website, Massachusetts Coding League website, Help, Help page, Main help page"
+      description="Application help to join the Massachusetts Coding League."
+      keywords="MA Coding League, Massachusetts Coding League, MA Coding League website, Massachusetts Coding League website, Help, Application help, Application help page"
+      breadCrumbs={[
+        { Help: "/help" },
+        { "Application help": "/help/application" },
+      ]}
     >
       <h1>{pageName}</h1>
       <div style={{ overflowX: "hidden" }}>
@@ -56,15 +66,7 @@ export function Help({ appProps }: { appProps: AppProps }): JSX.Element {
                     <div className="card-text">
                       <p>{feature.description}</p>
                     </div>
-                    <Link
-                      href={
-                        feature.link.startsWith("/")
-                          ? feature.link
-                          : `/help/${feature.link}`
-                      }
-                      passHref
-                      legacyBehavior
-                    >
+                    <Link href={feature.link} passHref legacyBehavior>
                       <a className="card-link stretched-link">
                         {feature.linkText}
                       </a>
@@ -109,4 +111,4 @@ export async function getStaticProps(): Promise<{
   };
 }
 
-export default Help;
+export default ApplicationHelp;
