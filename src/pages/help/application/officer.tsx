@@ -29,8 +29,8 @@ export function OfficerApplicationHelp({
         <Link href="/officers">here</Link>.
       </p>
       <p>
-        Usually positions open up during the summer before the school year,
-        check the page to see if a role is open for application!
+        Usually positions open up during May, check the page to see if a role is
+        open for application!
       </p>
       <h2>Requirements</h2>
       <ul>
@@ -51,7 +51,7 @@ export function OfficerApplicationHelp({
         >
           this document
         </a>{" "}
-        and then email a PDF of it to MA Coding League email address:{" "}
+        and then email a PDF of it to the MA Coding League email address:{" "}
         <a
           href="mailto:macodingleague@gmail.com"
           target="_blank"
@@ -62,8 +62,8 @@ export function OfficerApplicationHelp({
       </p>
       <p>
         Deadlines for application will be posted at the top of the website.
-        (usually before the start of the school year) Check back to see the
-        exact deadline if applications are open!
+        (usually by June) Check back to see the exact deadline if applications
+        are open!
       </p>
       <p>
         You should receive an email of whether or not you were accepted. These
