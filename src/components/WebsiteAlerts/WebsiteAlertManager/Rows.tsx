@@ -9,6 +9,7 @@ import {
   WebsiteAlertManagerStateStoreContext,
 } from "@/components/WebsiteAlerts/WebsiteAlertManager/context";
 import { formatDateForInput } from "@/scripts/Utils/DateAndTime/Format";
+import { loadingNotify } from "@/components/Notifications";
 
 function WebsiteAlertTableRow({
   alert,
@@ -29,8 +30,21 @@ function WebsiteAlertTableRow({
   };
 
   const saveChanges = () => {
-    functions?.editAlert(modifiedAlert);
-    setEditing(false);
+    const cbs = loadingNotify(
+      "Editing alert...",
+      "Successfully edited alert!",
+      "Failed to edit alert!",
+      "Canceled editing alert!",
+    );
+    setTimeout(() => {
+      functions
+        ?.editAlert(modifiedAlert)
+        .then(cbs.successCallback)
+        .catch(cbs.errorCallback)
+        .finally(() => {
+          setEditing(false);
+        });
+    });
   };
 
   return (
@@ -77,7 +91,16 @@ function WebsiteAlertTableRow({
                 className="btn btn-sm btn-danger"
                 disabled={state?.status !== "loaded"}
                 onClick={() => {
-                  functions?.deleteAlert(alert.id);
+                  const cbs = loadingNotify(
+                    "Deleting alert...",
+                    "Successfully deleted alert!",
+                    "Failed to delete alert!",
+                    "Canceled deleting alert!",
+                  );
+                  functions
+                    ?.deleteAlert(alert.id)
+                    .then(cbs.successCallback)
+                    .catch(cbs.errorCallback);
                 }}
               >
                 Delete

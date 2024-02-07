@@ -32,39 +32,43 @@ export class WebsiteAlertManagerFunctions {
     this.setStateStoreCallback = setStateStoreCallback;
   }
 
-  public refreshAlerts() {
-    console.log("Refreshing alerts");
-    this.setStateStoreCallback({
-      status: "loading",
-      alerts: [],
+  public refreshAlerts(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      console.log("Refreshing alerts");
+      this.setStateStoreCallback({
+        status: "loading",
+        alerts: [],
+      });
+      setTimeout(() => {
+        getWebsiteAlertsFromAPI()
+          .then((alerts) => {
+            console.log("Got alerts");
+            this.setStateStoreCallback({
+              status: "loaded",
+              alerts: alerts,
+            });
+            resolve();
+          })
+          .catch((err) => {
+            console.error("Failed to get alerts");
+            console.error(err);
+            this.setStateStoreCallback({
+              status: "error",
+              alerts: [],
+            });
+            reject();
+          });
+      }, WebsiteAlertManagerFunctions.REFRESH_THROTTLE);
     });
-    setTimeout(() => {
-      getWebsiteAlertsFromAPI()
-        .then((alerts) => {
-          console.log("Got alerts");
-          this.setStateStoreCallback({
-            status: "loaded",
-            alerts: alerts,
-          });
-        })
-        .catch((err) => {
-          console.error("Failed to get alerts");
-          console.error(err);
-          this.setStateStoreCallback({
-            status: "error",
-            alerts: [],
-          });
-        });
-    }, WebsiteAlertManagerFunctions.REFRESH_THROTTLE);
   }
 
-  public createNewAlert() {
+  public createNewAlert(): Promise<void> {
     console.log("Creating new alert");
     this.setStateStoreCallback({
       status: "loading",
       alerts: [],
     });
-    fetch("/api/alerts", { method: "POST" })
+    return fetch("/api/alerts", { method: "POST" })
       .then((res) => {
         if (res.status !== 201) {
           throw new Error("Failed to create new alert");
@@ -80,17 +84,17 @@ export class WebsiteAlertManagerFunctions {
         });
       })
       .finally(() => {
-        this.refreshAlerts();
+        return this.refreshAlerts();
       });
   }
 
-  public editAlert(alert: WebsiteAlert) {
+  public editAlert(alert: WebsiteAlert): Promise<void> {
     console.log(`Editing alert ${alert.id}`);
     this.setStateStoreCallback({
       status: "loading",
       alerts: [],
     });
-    fetch("/api/alerts", {
+    return fetch("/api/alerts", {
       method: "PUT",
       body: JSON.stringify(alert),
     })
@@ -109,17 +113,17 @@ export class WebsiteAlertManagerFunctions {
         });
       })
       .finally(() => {
-        this.refreshAlerts();
+        return this.refreshAlerts();
       });
   }
 
-  public deleteAlert(alertID: string) {
+  public deleteAlert(alertID: string): Promise<void> {
     console.log(`Deleting alert ${alertID}`);
     this.setStateStoreCallback({
       status: "loading",
       alerts: [],
     });
-    fetch("/api/alerts", {
+    return fetch("/api/alerts", {
       method: "DELETE",
       body: alertID,
     })
@@ -138,7 +142,7 @@ export class WebsiteAlertManagerFunctions {
         });
       })
       .finally(() => {
-        this.refreshAlerts();
+        return this.refreshAlerts();
       });
   }
 }

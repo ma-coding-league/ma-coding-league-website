@@ -14,19 +14,68 @@ export default function AdminDashboard({
 }: AdminDashboardProps): JSX.Element {
   const { data: session, status } = useSession();
 
+  type AdminPage = {
+    name: string;
+    description: string;
+    link: string;
+    linkText: string;
+  };
+
+  const adminPages: AdminPage[] = [
+    {
+      name: "Alert manager",
+      description:
+        "Manage the alerts (the notifications before the header) that appear on the website.",
+      link: "/admin/alerts",
+      linkText: "Manage alerts",
+    },
+  ];
+
   return (
     <Layout title={pageName} currentPage={pageName} appProps={appProps}>
       <RequireAdminAuthorized session={session} status={status}>
         <>
           <h1>
-            Welcome to the Massachusetts Coding League website{"'"}s
-            administrator dashboard{session ? `, ${session.user.name}` : ""}!
+            Welcome to the Massachusetts Coding League{"'"}s administrator
+            dashboard{session ? `, ${session.user.name}` : ""}!
           </h1>
-          <ul>
-            <li>
-              <Link href="/admin/alerts">Manage alerts</Link>
-            </li>
-          </ul>
+          <div style={{ overflowX: "hidden" }}>
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+              {adminPages.map((feature: AdminPage, index: number) => {
+                return (
+                  <div className="col mb-3 mt-1" key={`help-card-${index}`}>
+                    <div className="card mb-2 h-100">
+                      {/*<Image*/}
+                      {/*  src={feature.image}*/}
+                      {/*  alt={feature.altText}*/}
+                      {/*  className="card-img-top"*/}
+                      {/*  objectFit="cover"*/}
+                      {/*/>*/}
+                      <h5 className="card-title m-3 mb-0">{feature.name}</h5>
+                      <div className="card-body">
+                        <div className="card-text">
+                          <p>{feature.description}</p>
+                        </div>
+                        <Link
+                          href={
+                            feature.link.startsWith("/")
+                              ? feature.link
+                              : `/help/${feature.link}`
+                          }
+                          passHref
+                          legacyBehavior
+                        >
+                          <a className="card-link stretched-link">
+                            {feature.linkText}
+                          </a>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </>
       </RequireAdminAuthorized>
     </Layout>

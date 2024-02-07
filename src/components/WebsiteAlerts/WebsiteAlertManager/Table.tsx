@@ -5,6 +5,7 @@ import {
   WebsiteAlertManagerStateFunctionsContext,
   WebsiteAlertManagerStateStoreContext,
 } from "@/components/WebsiteAlerts/WebsiteAlertManager/context";
+import { loadingNotify } from "@/components/Notifications";
 
 export default function WebsiteAlertTable() {
   const state = React.useContext(WebsiteAlertManagerStateStoreContext);
@@ -22,7 +23,21 @@ export default function WebsiteAlertTable() {
           className="btn btn-success me-1"
           disabled={state?.status !== "loaded"}
           onClick={() => {
-            functions?.createNewAlert();
+            if (functions === null) {
+              return;
+            }
+            const cbs = loadingNotify(
+              "Creating new alert...",
+              "Successfully created new alert!",
+              "Failed to create new alert!",
+              "Canceled creating new alert!",
+            );
+            setTimeout(() => {
+              functions
+                .createNewAlert()
+                .then(cbs.successCallback)
+                .catch(cbs.errorCallback);
+            });
           }}
         >
           Add new
@@ -32,7 +47,19 @@ export default function WebsiteAlertTable() {
           className="btn btn-secondary"
           disabled={state?.status === "loading"}
           onClick={() => {
-            functions?.refreshAlerts();
+            if (functions === null) {
+              return;
+            }
+            const cbs = loadingNotify(
+              "Refreshing alerts...",
+              "Successfully refreshed alerts!",
+              "Failed to refresh alerts!",
+              "Canceled refreshing alerts!",
+            );
+            functions
+              .refreshAlerts()
+              .then(cbs.successCallback)
+              .catch(cbs.errorCallback);
           }}
         >
           Refresh
