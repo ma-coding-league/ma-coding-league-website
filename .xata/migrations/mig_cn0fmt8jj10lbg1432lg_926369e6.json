@@ -1,0 +1,16 @@
+{
+  "id": "mig_cn0fmt8jj10lbg1432lg",
+  "parentID": "mig_cn0fmi8jj10lbg1432kg",
+  "checksum": "1:926369e6de0f5b5a490b1fc41e7de7d114026cdef45fa3b3fce7b90565a95fcd",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "verificationCode",
+          "type": "string"
+        },
+        "table": "submissions"
+      }
+    }
+  ]
+}

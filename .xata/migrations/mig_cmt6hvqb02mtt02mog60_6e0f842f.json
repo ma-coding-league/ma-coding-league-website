@@ -1,0 +1,16 @@
+{
+  "id": "mig_cmt6hvqb02mtt02mog60",
+  "parentID": "mig_cmt6hu2b02mtt02mog50",
+  "checksum": "1:6e0f842fd85651d24d0d5bb6110f499c0c4ddab81ae306120e04b591fe845403",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "links",
+          "type": "string"
+        },
+        "table": "alerts"
+      }
+    }
+  ]
+}

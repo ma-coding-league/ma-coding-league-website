@@ -1,0 +1,16 @@
+{
+  "id": "mig_cn1tjm7qqd6hle35rl9g",
+  "parentID": "mig_cn1tjefqqd6hle35rl8g",
+  "checksum": "1:efa0e415abc97be402cf0020ae3347f6240c13500979443227629262368750b5",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "personName",
+          "type": "string"
+        },
+        "table": "officers"
+      }
+    }
+  ]
+}

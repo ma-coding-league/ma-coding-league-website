@@ -1,0 +1,16 @@
+{
+  "id": "mig_cmugl79p542r37ttvg90",
+  "parentID": "mig_cmugl49p542r37ttvg80",
+  "checksum": "1:a6015dc61db87ebf83f02dc844931957efc7a517917fab21c44b7facde44e77a",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "start",
+          "type": "datetime"
+        },
+        "table": "competitions"
+      }
+    }
+  ]
+}

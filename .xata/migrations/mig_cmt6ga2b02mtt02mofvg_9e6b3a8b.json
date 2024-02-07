@@ -1,0 +1,17 @@
+{
+  "id": "mig_cmt6ga2b02mtt02mofvg",
+  "parentID": "mig_cmt6g02b02mtt02mofug",
+  "checksum": "1:9e6b3a8b9339c204fc2b7c8844bb9afdc7c892b56a049a8fe7d49ce21436dcab",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "start",
+          "type": "datetime",
+          "defaultValue": "now"
+        },
+        "table": "alerts"
+      }
+    }
+  ]
+}
