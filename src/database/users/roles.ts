@@ -1,6 +1,9 @@
 export type UserRoles = "tech lead" | "admin" | "user";
 
 export function splitRoles(roles: string) {
+  if (roles == null) {
+    return [];
+  }
   return roles.split(",");
 }
 
