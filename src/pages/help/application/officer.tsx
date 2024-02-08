@@ -15,7 +15,7 @@ export function OfficerApplicationHelp({
       title={pageName}
       currentPage={pageName}
       appProps={appProps}
-      description="Application help to become an offier for the Massachusetts Coding League."
+      description="Application help to become an officer for the Massachusetts Coding League."
       keywords="MA Coding League, Massachusetts Coding League, MA Coding League website, Massachusetts Coding League website, Help, Application help, Officer application help, Officer application help page"
       breadCrumbs={[
         { Help: "/help" },

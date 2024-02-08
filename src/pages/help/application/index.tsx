@@ -21,9 +21,7 @@ export function ApplicationHelp({
     {
       name: "Apply for your high school team",
       description:
-        "How to apply for your high school team to join the Massachusetts Coding League. " +
-        // TODO: Actually write this help page.
-        "TODO: Actually write this help page.",
+        "How to apply for your high school team to join the Massachusetts Coding League.",
       link: "/help/application/teams",
       linkText: "View help for applying your high school team",
     },
