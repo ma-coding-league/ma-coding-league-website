@@ -77,6 +77,7 @@ export default function CompetitionsManagerTable() {
               <th scope="col">Location</th>
               <th scope="col">Start</th>
               <th scope="col">End</th>
+              <th scope="col">Year taking place</th>
               <th scope="col">Theme</th>
               <th scope="col">Show this</th>
               <th scope="col">Show theme</th>

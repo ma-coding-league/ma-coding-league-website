@@ -1,6 +1,6 @@
 import React from "react";
 import { loadingNotify } from "@/components/Notifications";
-import { Team } from "@/components/Teams/teamsAPI";
+import { Team } from "@/scripts/API/Teams";
 import {
   TeamsManagerStateFunctionsContext,
   TeamsManagerStatesStoreContext,

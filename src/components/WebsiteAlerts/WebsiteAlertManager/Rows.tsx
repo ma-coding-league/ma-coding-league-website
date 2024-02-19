@@ -2,7 +2,7 @@ import {
   BoostrapAlertTypes,
   BootstrapAlertType,
   WebsiteAlert,
-} from "@/components/WebsiteAlerts/websiteAlertsAPI";
+} from "@/scripts/API/WebsiteAlerts";
 import React from "react";
 import {
   WebsiteAlertManagerStateFunctionsContext,

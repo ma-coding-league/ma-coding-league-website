@@ -6,7 +6,7 @@ import {
   CompetitionsManagerStateFunctionsContext,
   CompetitionsManagerStatesStoreContext,
 } from "@/components/Competitions/CompetitionsManager/context";
-import { ServerSideCompetition } from "@/components/Competitions/competitionsAPI";
+import { ServerSideCompetition } from "@/scripts/API/Competitions/ServerSide";
 import { formatDateForInput } from "@/scripts/Utils/DateAndTime/Format";
 
 function CompetitionsTableRow({
@@ -201,6 +201,29 @@ function CompetitionsTableRow({
             setModifiedCompetition({
               ...modifiedCompetition,
               end: new Date(e.target.value),
+            });
+          }}
+          disabled={!editing}
+        />
+      </td>
+      <td>
+        <input
+          className="form-control"
+          style={{ width: "12em" }}
+          value={
+            !editing && competition.yearRange != null
+              ? competition.yearRange
+              : undefined
+          }
+          defaultValue={
+            editing && competition.yearRange != null
+              ? competition.yearRange
+              : undefined
+          }
+          onBlur={(e) => {
+            setModifiedCompetition({
+              ...modifiedCompetition,
+              yearRange: e.target.value.replaceAll(" ", ""),
             });
           }}
           disabled={!editing}

@@ -1,4 +1,4 @@
-import getTeamsFromAPI, { Team } from "@/components/Teams/teamsAPI";
+import getTeamsFromAPI, { Team } from "@/scripts/API/Teams";
 
 export type TeamsManagerStatesType = {
   status: "loading" | "loaded" | "error";

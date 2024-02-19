@@ -1,10 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getXataClient } from "@/xata";
 import { authorizeToRunCallback } from "@/scripts/Utils/Auth/Authorization";
-import { deserializeCompetition } from "@/components/Competitions/competitionsAPI";
+import { deserializeServerCompetition } from "@/scripts/API/Competitions/ServerSide";
 import {
   getCompetitionsAsServer,
   getCompetitionsAsUser,
+  getCompetitionYearsAsServer,
+  getCompetitionYearsAsUser,
 } from "@/database/competitions";
 
 export default async function handler(
@@ -23,7 +25,7 @@ export default async function handler(
     });
   } else if (req.method === "PUT") {
     await authorizeToRunCallback(req, res, xata, "admin", async (_) => {
-      const compEdit = deserializeCompetition(req.body);
+      const compEdit = deserializeServerCompetition(req.body);
       // @ts-ignore
       await xata.db.competitions.update(compEdit.id, compEdit);
       res.status(200).end();
@@ -34,17 +36,43 @@ export default async function handler(
       res.status(200).end();
     });
   } else {
-    await authorizeToRunCallback(
-      req,
-      res,
-      xata,
-      "admin", //
-      async (_) => {
-        res.status(200).json(await getCompetitionsAsServer(xata));
-      }, //
-      async (_) => {
-        res.status(200).json(await getCompetitionsAsUser(xata));
-      },
-    );
+    let year: null | string = null;
+    if (req.query.year != null) {
+      year = req.query.year as string;
+    }
+    const yearsOnly = req.query.yearsOnly != null;
+    if (yearsOnly) {
+      await authorizeToRunCallback(
+        req,
+        res,
+        xata,
+        "admin", //
+        async (_) => {
+          res.status(200).json(await getCompetitionYearsAsServer(xata));
+        }, //
+        async (_) => {
+          res.status(200).json(await getCompetitionYearsAsUser(xata));
+        }, //
+        async () => {
+          res.status(200).json(await getCompetitionYearsAsUser(xata));
+        },
+      );
+    } else {
+      await authorizeToRunCallback(
+        req,
+        res,
+        xata,
+        "admin", //
+        async (_) => {
+          res.status(200).json(await getCompetitionsAsServer(xata, year));
+        }, //
+        async (_) => {
+          res.status(200).json(await getCompetitionsAsUser(xata, year));
+        }, //
+        async () => {
+          res.status(200).json(await getCompetitionsAsUser(xata, year));
+        },
+      );
+    }
   }
 }

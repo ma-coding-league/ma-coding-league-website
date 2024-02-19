@@ -1,6 +1,6 @@
 import React from "react";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import getOfficersFromAPI, { Officer } from "@/components/Officers/officersAPI";
+import getOfficersFromAPI, { Officer } from "@/scripts/API/Officers";
 
 export default function OfficersList(): React.ReactNode {
   const [state, setState] = React.useState<"loading" | "loaded" | "error">(

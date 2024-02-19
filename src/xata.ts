@@ -48,6 +48,7 @@ const tables = [
         defaultValue: "false",
       },
       { name: "submissions", type: "json", notNull: true, defaultValue: "[]" },
+      { name: "yearRange", type: "string" },
     ],
   },
   { name: "teams", columns: [{ name: "name", type: "string", unique: true }] },

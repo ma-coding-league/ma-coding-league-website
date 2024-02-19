@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getXataClient } from "@/xata";
 import { authorizeToRunCallback } from "@/scripts/Utils/Auth/Authorization";
-import { deserializeTeam } from "@/components/Teams/teamsAPI";
+import { deserializeTeam } from "@/scripts/API/Teams";
 
 export default async function handler(
   req: NextApiRequest,

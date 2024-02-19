@@ -1,5 +1,5 @@
 import React from "react";
-import getTeamsFromAPI, { Team } from "@/components/Teams/teamsAPI";
+import getTeamsFromAPI, { Team } from "@/scripts/API/Teams";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 export default function TeamsTable(): React.ReactNode {

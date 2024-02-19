@@ -1,7 +1,7 @@
 import {
   getServerSideCompetitionsFromAPI,
   ServerSideCompetition,
-} from "@/components/Competitions/competitionsAPI";
+} from "@/scripts/API/Competitions/ServerSide";
 
 export type CompetitionsManagerStatesType = {
   status: "loading" | "loaded" | "error";
