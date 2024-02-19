@@ -1,3 +1,5 @@
+import { getUserTimezoneOffsetInMs } from "@/scripts/Utils/DateAndTime/Helpers";
+
 export function formatDateLong(date: Date) {
   const locale = new Intl.NumberFormat().resolvedOptions().locale;
   return date.toLocaleDateString(locale, {
@@ -16,7 +18,8 @@ export function formatTime(date: Date) {
 }
 
 export function formatDateForInput(date: Date) {
-  const firstHalf = date.toISOString().split(".")[0];
+  const dateWithOffset = new Date(date.getTime() - getUserTimezoneOffsetInMs());
+  const firstHalf = dateWithOffset.toISOString().split(".")[0];
   const pieces = firstHalf.split(":");
   pieces.pop();
   return pieces.join(":");

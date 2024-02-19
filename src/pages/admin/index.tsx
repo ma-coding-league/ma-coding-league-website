@@ -23,6 +23,12 @@ export default function AdminDashboard({
 
   const adminPages: AdminPage[] = [
     {
+      name: "Competitions manager",
+      description: "Manage the competitions in the MCL.",
+      link: "/admin/competitions",
+      linkText: "Manage competitions",
+    },
+    {
       name: "Team manager",
       description: "Manage the teams that have signed up for the MCL.",
       link: "/admin/teams",

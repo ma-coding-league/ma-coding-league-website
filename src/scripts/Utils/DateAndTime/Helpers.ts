@@ -22,3 +22,11 @@ export function nowBetween(start: Date, end: Date) {
   const now = new Date();
   return now >= start && now <= end;
 }
+
+export function getUserTimezoneOffsetInHrs() {
+  return new Date().getTimezoneOffset() / 60;
+}
+
+export function getUserTimezoneOffsetInMs() {
+  return new Date().getTimezoneOffset() * 60 * 1000;
+}

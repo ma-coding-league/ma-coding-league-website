@@ -42,7 +42,9 @@ export async function authorizeToRunCallback(
   res: NextApiResponse,
   dbClient: XataClient,
   role: string,
-  runIfAuthenticated: (session: Session) => Promise<void>,
+  runIfAuthorized: (session: Session) => Promise<void>,
+  runIfUnauthorized?: ((session: Session) => Promise<void>) | null,
+  runIfUnauthenticated?: (() => Promise<void>) | null,
 ) {
   const [session, _, error] = await getServerSessionAndCheckForRole(
     req,
@@ -52,15 +54,31 @@ export async function authorizeToRunCallback(
   );
   if (session) {
     try {
-      await runIfAuthenticated(session);
+      await runIfAuthorized(session);
     } catch (err) {
       console.error(err);
       res.status(500).end();
     }
   } else if (error === "unauthorized") {
-    res.status(403).end();
+    try {
+      if (runIfUnauthorized != null) {
+        await runIfUnauthorized(session!);
+      }
+      res.status(403).end();
+    } catch (err) {
+      console.error(err);
+      res.status(500).end();
+    }
   } else if (error === "unauthenticated") {
-    res.status(401).end();
+    try {
+      if (runIfUnauthenticated != null) {
+        await runIfUnauthenticated();
+      }
+      res.status(401).end();
+    } catch (err) {
+      console.error(err);
+      res.status(500).end();
+    }
   } else {
     res.status(500).end();
   }
