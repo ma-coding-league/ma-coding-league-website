@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getXataClient } from "@/xata";
 import { authorizeToRunCallback } from "@/scripts/Utils/Auth/Authorization";
-import { deserializeOfficer } from "@/components/Officers/officersAPI";
+import { deserializeOfficer } from "@/scripts/API/Officers";
 
 export default async function handler(
   req: NextApiRequest,

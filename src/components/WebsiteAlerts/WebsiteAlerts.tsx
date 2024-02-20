@@ -6,7 +6,7 @@ import { isExternalLink } from "@/scripts/Utils/PageUtils";
 import { nowBetween } from "@/scripts/Utils/DateAndTime/Helpers";
 import getWebsiteAlertsFromAPI, {
   WebsiteAlert,
-} from "@/components/WebsiteAlerts/websiteAlertsAPI";
+} from "@/scripts/API/WebsiteAlerts";
 
 export function WebsiteAlertRenderer({
   alert,

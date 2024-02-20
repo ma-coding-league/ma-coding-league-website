@@ -3,18 +3,18 @@ import React from "react";
 import Layout from "@/components/Layout";
 import { useSession } from "next-auth/react";
 import RequireAdminAuthorized from "@/components/Authorization/RequireAdminAuthorized";
-import WebsiteAlertManagerTable from "../../components/WebsiteAlerts/WebsiteAlertManager";
-import WebsiteAlertManagerStateProviders from "@/components/WebsiteAlerts/WebsiteAlertManager/context";
 import { RoleRequirements } from "@/components/Authentication/Roles/RoleBadges";
+import CompetitionsManagerStateProviders from "@/components/Competitions/CompetitionsManager/context";
+import CompetitionsManagerTable from "@/components/Competitions/CompetitionsManager/Table";
 import { getUserTimezoneOffsetInHrs } from "@/scripts/Utils/DateAndTime/Helpers";
 
-const pageName = "Website alerts manager | Admin dashboard";
+const pageName = "Competitions manager | Admin dashboard";
 
-type WebsiteAlertsManagerProps = { appProps: AppProps };
+type CompetitionsManagerProps = { appProps: AppProps };
 
-export default function WebsiteAlertsManager({
+export default function CompetitionsManager({
   appProps,
-}: WebsiteAlertsManagerProps): JSX.Element {
+}: CompetitionsManagerProps): JSX.Element {
   const { data: session, status } = useSession();
 
   return (
@@ -24,34 +24,28 @@ export default function WebsiteAlertsManager({
       appProps={appProps}
       breadCrumbs={[
         { "Admin dashboard": "/admin" },
-        { "Alert manager": "/admin/alerts" },
+        { "Competitions manager": "/admin/competitions" },
       ]}
     >
       <RequireAdminAuthorized session={session} status={status}>
         <>
-          <h1>Alert manager</h1>
+          <h1>Competitions manager</h1>
           <RoleRequirements
             toView="admin"
             toCreate="admin"
             toEdit="admin"
             toDelete="admin"
           />
-          <p>
-            These alerts are shown site wide before the heading at the top of
-            the page.
-          </p>
+          <p>These are all the competitions in the MCL.</p>
           <p>
             Times are shown and should be edited in your current time zone:{" "}
             <code>{Intl.DateTimeFormat().resolvedOptions().timeZone}</code>{" "}
             (which is {getUserTimezoneOffsetInHrs()} hours{" "}
             {getUserTimezoneOffsetInHrs() > 0 ? "behind" : "ahead"} of UTC)
           </p>
-          <p>
-            <em>Can hide attribute does not have any effect yet.</em>
-          </p>
-          <WebsiteAlertManagerStateProviders>
-            <WebsiteAlertManagerTable />
-          </WebsiteAlertManagerStateProviders>
+          <CompetitionsManagerStateProviders>
+            <CompetitionsManagerTable />
+          </CompetitionsManagerStateProviders>
         </>
       </RequireAdminAuthorized>
     </Layout>
@@ -59,7 +53,7 @@ export default function WebsiteAlertsManager({
 }
 
 export async function getStaticProps(): Promise<{
-  props: WebsiteAlertsManagerProps;
+  props: CompetitionsManagerProps;
 }> {
   return {
     props: {

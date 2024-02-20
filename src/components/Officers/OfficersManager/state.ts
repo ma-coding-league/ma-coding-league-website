@@ -1,4 +1,4 @@
-import getOfficersFromAPI, { Officer } from "@/components/Officers/officersAPI";
+import getOfficersFromAPI, { Officer } from "@/scripts/API/Officers";
 
 export type OfficersManagerStatesType = {
   status: "loading" | "loaded" | "error";

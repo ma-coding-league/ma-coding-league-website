@@ -1,6 +1,6 @@
 import getWebsiteAlertsFromAPI, {
   WebsiteAlert,
-} from "@/components/WebsiteAlerts/websiteAlertsAPI";
+} from "@/scripts/API/WebsiteAlerts";
 
 export type WebsiteAlertManagerStatesType = {
   status: "loading" | "loaded" | "error";
