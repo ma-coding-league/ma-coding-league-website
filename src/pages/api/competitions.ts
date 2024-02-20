@@ -3,6 +3,8 @@ import { getXataClient } from "@/xata";
 import { authorizeToRunCallback } from "@/scripts/Utils/Auth/Authorization";
 import { deserializeServerCompetition } from "@/scripts/API/Competitions/ServerSide";
 import {
+  getCompetitionByNameAsServer,
+  getCompetitionByNameAsUser,
   getCompetitionsAsServer,
   getCompetitionsAsUser,
   getCompetitionYearsAsServer,
@@ -37,11 +39,34 @@ export default async function handler(
     });
   } else {
     let year: null | string = null;
-    if (req.query.year != null) {
+    let name: null | string = null;
+    let yearsOnly = false;
+    if (req.query.name !== undefined) {
+      name = req.query.name as string;
+    }
+    if (req.query.yearsOnly !== undefined) {
+      yearsOnly = true;
+    }
+    if (req.query.year !== undefined) {
       year = req.query.year as string;
     }
-    const yearsOnly = req.query.yearsOnly != null;
-    if (yearsOnly) {
+    if (name !== null) {
+      await authorizeToRunCallback(
+        req,
+        res,
+        xata,
+        "admin", //
+        async (_) => {
+          res.status(200).json(await getCompetitionByNameAsServer(xata, name!));
+        }, //
+        async (_) => {
+          res.status(200).json(await getCompetitionByNameAsUser(xata, name!));
+        }, //
+        async () => {
+          res.status(200).json(await getCompetitionByNameAsUser(xata, name!));
+        },
+      );
+    } else if (yearsOnly) {
       await authorizeToRunCallback(
         req,
         res,

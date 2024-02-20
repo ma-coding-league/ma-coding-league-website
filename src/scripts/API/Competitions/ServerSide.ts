@@ -1,3 +1,5 @@
+import { UserSideCompetition } from "@/scripts/API/Competitions/UserSide";
+
 export type ServerSideSubmission = {
   team: string;
   submissionURL: string | null;
@@ -86,5 +88,18 @@ export async function getServerSideCompetitionYearsFromAPI(): Promise<
   string[]
 > {
   const response = await fetch("/api/competitions?yearsOnly");
-  return await response.json();
+  const comp = await response.json();
+  comp.start = comp.start != null ? new Date(comp.start) : null;
+  comp.end = comp.end != null ? new Date(comp.end) : null;
+  return comp;
+}
+
+export async function getServerSideCompetitionByNameFromAPI(
+  name: string,
+): Promise<UserSideCompetition | null> {
+  const response = await fetch(`/api/competitions?name=${name}`);
+  const comp = await response.json();
+  comp.start = comp.start != null ? new Date(comp.start) : null;
+  comp.end = comp.end != null ? new Date(comp.end) : null;
+  return comp;
 }

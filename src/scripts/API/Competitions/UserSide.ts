@@ -82,5 +82,18 @@ export async function getUserSideCompetitionsFromAPI(
 
 export async function getUserSideCompetitionYearsFromAPI(): Promise<string[]> {
   const response = await fetch("/api/competitions?yearsOnly");
-  return await response.json();
+  const comp = await response.json();
+  comp.start = comp.start != null ? new Date(comp.start) : null;
+  comp.end = comp.end != null ? new Date(comp.end) : null;
+  return comp;
+}
+
+export async function getUserSideCompetitionByNameFromAPI(
+  name: string,
+): Promise<UserSideCompetition | null> {
+  const response = await fetch(`/api/competitions?name=${name}`);
+  const comp = await response.json();
+  comp.start = comp.start != null ? new Date(comp.start) : null;
+  comp.end = comp.end != null ? new Date(comp.end) : null;
+  return comp;
 }

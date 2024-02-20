@@ -83,7 +83,9 @@ export async function getCompetitionsAsUser(
     });
 }
 
-export async function getCompetitionYearsAsServer(xata: XataClient) {
+export async function getCompetitionYearsAsServer(
+  xata: XataClient,
+): Promise<string[]> {
   const dbComps = await xata.db.competitions
     .sort("yearRange", "desc")
     .select(["yearRange"])
@@ -91,10 +93,12 @@ export async function getCompetitionYearsAsServer(xata: XataClient) {
   const years = dbComps.map((dbComp) => {
     return dbComp.yearRange;
   });
-  return Array.from(new Set(years));
+  return Array.from(new Set(years)) as string[];
 }
 
-export async function getCompetitionYearsAsUser(xata: XataClient) {
+export async function getCompetitionYearsAsUser(
+  xata: XataClient,
+): Promise<string[]> {
   const dbComps = await xata.db.competitions
     .sort("yearRange", "desc")
     .select(["yearRange", "showThis"])
@@ -106,5 +110,116 @@ export async function getCompetitionYearsAsUser(xata: XataClient) {
     .map((dbComp) => {
       return dbComp.yearRange;
     });
-  return Array.from(new Set(years));
+  return Array.from(new Set(years)) as string[];
+}
+
+export async function getCompetitionNamesAsServer(
+  xata: XataClient,
+  year?: string | null | undefined,
+): Promise<string[]> {
+  let dbComps;
+  if (year !== null && year !== undefined) {
+    dbComps = await xata.db.competitions
+      .select(["name", "yearRange"])
+      .filter("yearRange", year)
+      .getAll();
+  } else {
+    dbComps = await xata.db.competitions.select(["name"]).getAll();
+  }
+
+  return dbComps.map((dbComp) => {
+    return dbComp.name;
+  }) as string[];
+}
+
+export async function getCompetitionNamesAsUser(
+  xata: XataClient,
+  year?: string | null | undefined,
+): Promise<string[]> {
+  let dbComps;
+  if (year !== null && year !== undefined) {
+    dbComps = await xata.db.competitions
+      .select(["name", "yearRange", "showThis"])
+      .filter("yearRange", year)
+      .getAll();
+  } else {
+    dbComps = await xata.db.competitions.select(["name", "showThis"]).getAll();
+  }
+
+  return dbComps
+    .filter((dbComp) => {
+      return dbComp.showThis;
+    })
+    .map((dbComp) => {
+      return dbComp.name;
+    }) as string[];
+}
+
+export async function getCompetitionByNameAsServer(
+  xata: XataClient,
+  name: string,
+): Promise<ServerSideCompetition | null> {
+  const dbComp = await xata.db.competitions.filter("name", name).getFirst();
+
+  if (dbComp == null) {
+    return null;
+  } else {
+    return <ServerSideCompetition>{
+      id: dbComp.id,
+      name: dbComp.name,
+      location: dbComp.location,
+      start: dbComp.start,
+      end: dbComp.end,
+      yearRange: dbComp.yearRange,
+      theme: dbComp.theme,
+      showThis: dbComp.showThis,
+      showTheme: dbComp.showTheme,
+      showSubmissions: dbComp.showSubmissions,
+      showResults: dbComp.showResults,
+      submissions: dbComp.submissions.map((dbSub: any) => {
+        return {
+          team: dbSub.team,
+          submissionURL: dbSub.submissionURL,
+          scoreNumerator: dbSub.scoreNumerator,
+          scoreDenominator: dbSub.scoreDenominator,
+        };
+      }),
+    };
+  }
+}
+
+export async function getCompetitionByNameAsUser(
+  xata: XataClient,
+  name: string,
+): Promise<ServerSideCompetition | null> {
+  const dbComp = await xata.db.competitions
+    .filter("showThis", true)
+    .filter("name", name)
+    .getFirst();
+
+  if (dbComp == null) {
+    return null;
+  } else {
+    return <ServerSideCompetition>{
+      id: dbComp.id,
+      name: dbComp.name,
+      location: dbComp.location,
+      start: dbComp.start,
+      end: dbComp.end,
+      yearRange: dbComp.yearRange,
+      theme: dbComp.theme,
+      showThis: dbComp.showThis,
+      showTheme: dbComp.showTheme,
+      showSubmissions: dbComp.showSubmissions,
+      showResults: dbComp.showResults,
+      submissions: dbComp.submissions.map((dbSub: any) => {
+        return {
+          team: dbSub.team,
+          submissionURL: dbSub.submissionURL,
+          scoreNumerator: dbSub.scoreNumerator,
+          scoreDenominator: dbSub.scoreDenominator,
+        };
+      }),
+    };
+  }
 }

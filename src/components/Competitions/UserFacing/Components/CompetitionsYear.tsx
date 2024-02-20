@@ -3,7 +3,7 @@ import {
   getUserSideCompetitionsFromAPI,
   UserSideCompetition,
 } from "@/scripts/API/Competitions/UserSide";
-import Competition from "@/components/Competitions/UserFacing/Components/Competition";
+import CompetitionCard from "@/components/Competitions/UserFacing/Components/CompetitionCard";
 
 export default function CompetitionsYear({
   year,
@@ -43,7 +43,7 @@ export default function CompetitionsYear({
         <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
           {competitions.map((competition) => {
             return (
-              <Competition key={competition.id} competition={competition} />
+              <CompetitionCard key={competition.id} competition={competition} />
             );
           })}
         </div>
