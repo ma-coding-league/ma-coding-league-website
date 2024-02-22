@@ -8,10 +8,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { roleHasAdmin } from "@/database/users/roles";
 import { loadingNotify } from "@/components/Notifications";
 import { SubmissionsTableRows } from "@/components/Submissions/SubmissionsManager/Rows";
-import {
-  TeamsManagerStateFunctionsContext,
-  TeamsManagerStatesStoreContext,
-} from "@/components/Teams/TeamsManager/context";
+import { TeamsManagerStateFunctionsContext } from "@/components/Teams/TeamsManager/context";
 
 export default function SubmissionsManagerTable({
   compName,
@@ -21,7 +18,7 @@ export default function SubmissionsManagerTable({
   const { data: session } = useSession();
   const state = React.useContext(SubmissionsManagerStatesStoreContext);
   const functions = React.useContext(SubmissionsManagerStateFunctionsContext);
-  const teamState = React.useContext(TeamsManagerStatesStoreContext);
+  // const teamState = React.useContext(TeamsManagerStatesStoreContext);
   const teamFunctions = React.useContext(TeamsManagerStateFunctionsContext);
 
   React.useEffect(() => {

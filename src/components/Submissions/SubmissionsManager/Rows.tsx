@@ -7,10 +7,7 @@ import {
   SubmissionsManagerStateFunctionsContext,
   SubmissionsManagerStatesStoreContext,
 } from "@/components/Submissions/SubmissionsManager/context";
-import {
-  TeamsManagerStateFunctionsContext,
-  TeamsManagerStatesStoreContext,
-} from "@/components/Teams/TeamsManager/context";
+import { TeamsManagerStatesStoreContext } from "@/components/Teams/TeamsManager/context";
 
 function SubmissionsTableRow({
   submission,
@@ -21,7 +18,7 @@ function SubmissionsTableRow({
   const state = React.useContext(SubmissionsManagerStatesStoreContext);
   const functions = React.useContext(SubmissionsManagerStateFunctionsContext);
   const teamState = React.useContext(TeamsManagerStatesStoreContext);
-  const teamFunctions = React.useContext(TeamsManagerStateFunctionsContext);
+  // const teamFunctions = React.useContext(TeamsManagerStateFunctionsContext);
 
   const [modifiedSubmission, setModifiedSubmission] =
     React.useState<ServerSideSubmission>(structuredClone(submission));
