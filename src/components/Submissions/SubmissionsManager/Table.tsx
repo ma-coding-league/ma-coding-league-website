@@ -1,20 +1,30 @@
-import React from "react";
-import ErrorBoundary from "@/components/ErrorBoundary";
-import { loadingNotify } from "@/components/Notifications";
 import { useSession } from "next-auth/react";
-import { roleHasTechLead } from "@/database/users/roles";
-import { CompetitionsManagerStatesStoreContext } from "./context";
-import { CompetitionsManagerStateFunctionsContext } from "@/components/Competitions/CompetitionsManager/context";
-import { CompetitionsTableRows } from "@/components/Competitions/CompetitionsManager/Rows";
+import React from "react";
+import {
+  SubmissionsManagerStateFunctionsContext,
+  SubmissionsManagerStatesStoreContext,
+} from "@/components/Submissions/SubmissionsManager/context";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import { roleHasAdmin } from "@/database/users/roles";
+import { loadingNotify } from "@/components/Notifications";
+import { SubmissionsTableRows } from "@/components/Submissions/SubmissionsManager/Rows";
+import { TeamsManagerStateFunctionsContext } from "@/components/Teams/TeamsManager/context";
 
-export default function CompetitionsManagerTable() {
+export default function SubmissionsManagerTable({
+  compName,
+}: {
+  compName: string;
+}): React.ReactNode {
   const { data: session } = useSession();
-  const state = React.useContext(CompetitionsManagerStatesStoreContext);
-  const functions = React.useContext(CompetitionsManagerStateFunctionsContext);
+  const state = React.useContext(SubmissionsManagerStatesStoreContext);
+  const functions = React.useContext(SubmissionsManagerStateFunctionsContext);
+  // const teamState = React.useContext(TeamsManagerStatesStoreContext);
+  const teamFunctions = React.useContext(TeamsManagerStateFunctionsContext);
 
   React.useEffect(() => {
-    functions?.refreshCompetitions();
-  }, [functions]);
+    functions?.refreshSubmissions(compName);
+    teamFunctions?.refreshTeams();
+  }, [functions, compName, teamFunctions]);
 
   return (
     <ErrorBoundary>
@@ -24,21 +34,21 @@ export default function CompetitionsManagerTable() {
           className="btn btn-success me-1"
           disabled={
             state?.status !== "loaded" ||
-            !roleHasTechLead(session?.user.roles ?? "")
+            !roleHasAdmin(session?.user.roles ?? "")
           }
           onClick={() => {
             if (functions === null) {
               return;
             }
             const cbs = loadingNotify(
-              "Creating new competition...",
-              "Successfully created new competition!",
-              "Failed to create new competition!",
-              "Canceled creating new competition!",
+              "Creating new submission...",
+              "Successfully created new submission!",
+              "Failed to create new submission!",
+              "Canceled creating new submission!",
             );
             setTimeout(() => {
               functions
-                .createNewCompetition()
+                .createNewSubmission(compName)
                 .then(cbs.successCallback)
                 .catch(cbs.errorCallback);
             });
@@ -55,13 +65,16 @@ export default function CompetitionsManagerTable() {
               return;
             }
             const cbs = loadingNotify(
-              "Refreshing competitions...",
-              "Successfully refreshed competitions!",
-              "Failed to refresh competitions!",
-              "Canceled refreshing competitions!",
+              "Refreshing submissions...",
+              "Successfully refreshed submissions!",
+              "Failed to refresh submissions!",
+              "Canceled refreshing submissions!",
             );
             functions
-              .refreshCompetitions()
+              .refreshSubmissions(compName)
+              .then(() => {
+                return teamFunctions?.refreshTeams();
+              })
               .then(cbs.successCallback)
               .catch(cbs.errorCallback);
           }}
@@ -72,17 +85,11 @@ export default function CompetitionsManagerTable() {
           <thead>
             <tr>
               <th scope="col" />
-              <th scope="col">ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Location</th>
-              <th scope="col">Start</th>
-              <th scope="col">End</th>
-              <th scope="col">Year taking place</th>
-              <th scope="col">Theme</th>
-              <th scope="col">Show this</th>
-              <th scope="col">Show theme</th>
-              <th scope="col">Show submissions</th>
-              <th scope="col">Show results</th>
+              <th scope="col">Team</th>
+              <th scope="col">Submission URL</th>
+              <th scope="col">Score numerator</th>
+              <th scope="col">Score denominator</th>
+              <th scope="col">Passcode</th>
             </tr>
           </thead>
           <tbody>
@@ -91,40 +98,40 @@ export default function CompetitionsManagerTable() {
                 case "loading":
                   return (
                     <tr>
-                      <td colSpan={12}>
+                      <td colSpan={6}>
                         <div
                           className="alert alert-secondary mb-0"
                           role="alert"
                         >
-                          Loading competitions...
+                          Loading submissions for {compName}...
                         </div>
                       </td>
                     </tr>
                   );
                 case "loaded":
-                  if (state?.competitions.length === 0) {
+                  if (state?.submissions.length === 0) {
                     return (
                       <tr>
-                        <td colSpan={12}>
+                        <td colSpan={6}>
                           <div
                             className="alert alert-primary mb-0"
                             role="alert"
                           >
-                            No competitions found, try adding one!
+                            No submissions found, try adding one!
                           </div>
                         </td>
                       </tr>
                     );
                   } else {
-                    return <CompetitionsTableRows />;
+                    return <SubmissionsTableRows />;
                   }
                 default:
                 case "error":
                   return (
                     <tr>
-                      <td colSpan={12}>
+                      <td colSpan={6}>
                         <div className="alert alert-warning mb-0" role="alert">
-                          Error fetching competitions, try refreshing the page!
+                          Error fetching submissions, try refreshing the page!
                         </div>
                       </td>
                     </tr>

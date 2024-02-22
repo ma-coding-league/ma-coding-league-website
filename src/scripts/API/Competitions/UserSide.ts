@@ -1,9 +1,5 @@
-export type UserSideSubmission = {
-  team: string;
-  submissionURL?: string | null;
-  scoreNumerator?: number | null;
-  scoreDenominator?: number | null;
-};
+import { fixUserSideCompetitionJSONResponse } from "@/scripts/API/Competitions/helpers";
+import { UserSideSubmission } from "@/scripts/API/Submissions/UserSide";
 
 export type UserSideCompetition = {
   id: string;
@@ -39,20 +35,7 @@ export function serializeUserCompetition(comp: UserSideCompetition): string {
 
 export function deserializeUserCompetition(comp: string): UserSideCompetition {
   const compObject = JSON.parse(comp);
-  return <UserSideCompetition>{
-    id: compObject.id,
-    name: compObject.name,
-    location: compObject.location,
-    start: compObject.start,
-    end: compObject.end,
-    yearRange: compObject.yearRange,
-    theme: compObject.theme,
-    showThis: compObject.showThis,
-    showTheme: compObject.showTheme,
-    showSubmissions: compObject.showSubmissions,
-    showResults: compObject.showResults,
-    submissions: compObject.submissions,
-  };
+  return fixUserSideCompetitionJSONResponse(compObject);
 }
 
 export async function getUserSideCompetitionsFromAPI(
@@ -63,37 +46,27 @@ export async function getUserSideCompetitionsFromAPI(
   );
 
   return (await response.json()).map((comp: any) => {
-    return <UserSideCompetition>{
-      id: comp.id,
-      name: comp.name,
-      location: comp.location,
-      start: comp.start != null ? new Date(comp.start) : null,
-      end: comp.end != null ? new Date(comp.end) : null,
-      yearRange: comp.yearRange,
-      theme: comp.theme,
-      showThis: comp.showThis,
-      showTheme: comp.showTheme,
-      showSubmissions: comp.showSubmissions,
-      showResults: comp.showResults,
-      submissions: comp.submissions,
-    };
+    return fixUserSideCompetitionJSONResponse(comp);
   });
 }
 
 export async function getUserSideCompetitionYearsFromAPI(): Promise<string[]> {
-  const response = await fetch("/api/competitions?yearsOnly");
-  const comp = await response.json();
-  comp.start = comp.start != null ? new Date(comp.start) : null;
-  comp.end = comp.end != null ? new Date(comp.end) : null;
-  return comp;
+  const response = await fetch("/api/competitions/years");
+  return await response.json();
+}
+
+export async function getUserSideCompetitionNamesFromAPI(
+  year?: string | null,
+): Promise<string[]> {
+  const response = await fetch(
+    `/api/competitions/names${year !== null ? `?year=${year}` : ""}`,
+  );
+  return await response.json();
 }
 
 export async function getUserSideCompetitionByNameFromAPI(
   name: string,
 ): Promise<UserSideCompetition | null> {
   const response = await fetch(`/api/competitions?name=${name}`);
-  const comp = await response.json();
-  comp.start = comp.start != null ? new Date(comp.start) : null;
-  comp.end = comp.end != null ? new Date(comp.end) : null;
-  return comp;
+  return fixUserSideCompetitionJSONResponse(await response.json());
 }

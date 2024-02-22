@@ -20,6 +20,7 @@ import {
   formatDateAndTime,
   formatDuration,
 } from "@/scripts/Utils/DateAndTime/Format";
+import SubmissionsTable from "@/components/Submissions";
 
 type CompetitionProps = {
   name: string;
@@ -145,6 +146,8 @@ export default function Competition({
             );
         }
       })()}
+      <h2>Results</h2>
+      <SubmissionsTable name={name} />
     </Layout>
   );
 }

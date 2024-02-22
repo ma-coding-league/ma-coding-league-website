@@ -7,8 +7,6 @@ import {
   getCompetitionByNameAsUser,
   getCompetitionsAsServer,
   getCompetitionsAsUser,
-  getCompetitionYearsAsServer,
-  getCompetitionYearsAsUser,
 } from "@/database/competitions";
 
 export default async function handler(
@@ -40,12 +38,8 @@ export default async function handler(
   } else {
     let year: null | string = null;
     let name: null | string = null;
-    let yearsOnly = false;
     if (req.query.name !== undefined) {
       name = req.query.name as string;
-    }
-    if (req.query.yearsOnly !== undefined) {
-      yearsOnly = true;
     }
     if (req.query.year !== undefined) {
       year = req.query.year as string;
@@ -64,22 +58,6 @@ export default async function handler(
         }, //
         async () => {
           res.status(200).json(await getCompetitionByNameAsUser(xata, name!));
-        },
-      );
-    } else if (yearsOnly) {
-      await authorizeToRunCallback(
-        req,
-        res,
-        xata,
-        "admin", //
-        async (_) => {
-          res.status(200).json(await getCompetitionYearsAsServer(xata));
-        }, //
-        async (_) => {
-          res.status(200).json(await getCompetitionYearsAsUser(xata));
-        }, //
-        async () => {
-          res.status(200).json(await getCompetitionYearsAsUser(xata));
         },
       );
     } else {

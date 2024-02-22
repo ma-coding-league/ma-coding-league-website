@@ -41,11 +41,18 @@ export default function CompetitionsYear({
     case "loaded":
       return (
         <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
-          {competitions.map((competition) => {
-            return (
-              <CompetitionCard key={competition.id} competition={competition} />
-            );
-          })}
+          {competitions
+            .sort((a, b) => {
+              return (b.start?.getTime() ?? 0) - (a.start?.getTime() ?? 0);
+            })
+            .map((competition) => {
+              return (
+                <CompetitionCard
+                  key={competition.id}
+                  competition={competition}
+                />
+              );
+            })}
         </div>
       );
     case "error":

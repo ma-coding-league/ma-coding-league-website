@@ -182,6 +182,7 @@ export async function getCompetitionByNameAsServer(
           submissionURL: dbSub.submissionURL,
           scoreNumerator: dbSub.scoreNumerator,
           scoreDenominator: dbSub.scoreDenominator,
+          passcode: dbSub.passcode,
         };
       }),
     };
@@ -212,14 +213,18 @@ export async function getCompetitionByNameAsUser(
       showTheme: dbComp.showTheme,
       showSubmissions: dbComp.showSubmissions,
       showResults: dbComp.showResults,
-      submissions: dbComp.submissions.map((dbSub: any) => {
-        return {
-          team: dbSub.team,
-          submissionURL: dbSub.submissionURL,
-          scoreNumerator: dbSub.scoreNumerator,
-          scoreDenominator: dbSub.scoreDenominator,
-        };
-      }),
+      submissions: dbComp.showSubmissions
+        ? dbComp.submissions.map((dbSub: any) => {
+            return {
+              team: dbSub.team,
+              submissionURL: dbSub.submissionURL,
+              scoreNumerator: dbComp.showResults ? dbSub.scoreNumerator : null,
+              scoreDenominator: dbComp.showResults
+                ? dbSub.scoreDenominator
+                : null,
+            };
+          })
+        : null,
     };
   }
 }

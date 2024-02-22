@@ -29,6 +29,12 @@ export default function AdminDashboard({
       linkText: "Manage competitions",
     },
     {
+      name: "Submissions manager",
+      description: "Manage the submissions for a MCL competition.",
+      link: "/admin/submissions",
+      linkText: "Manage submissions",
+    },
+    {
       name: "Team manager",
       description: "Manage the teams that have signed up for the MCL.",
       link: "/admin/teams",
