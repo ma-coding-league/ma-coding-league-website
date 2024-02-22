@@ -1,12 +1,6 @@
 import { UserSideCompetition } from "@/scripts/API/Competitions/UserSide";
 import { fixServerSideCompetitionJSONResponse } from "@/scripts/API/Competitions/helpers";
-
-export type ServerSideSubmission = {
-  team: string;
-  submissionURL: string | null;
-  scoreNumerator: number | null;
-  scoreDenominator: number;
-};
+import { ServerSideSubmission } from "@/scripts/API/Submissions/ServerSide";
 
 export type ServerSideCompetition = {
   id: string;
@@ -63,6 +57,15 @@ export async function getServerSideCompetitionYearsFromAPI(): Promise<
   string[]
 > {
   const response = await fetch("/api/competitions/years");
+  return await response.json();
+}
+
+export async function getServerSideCompetitionNamesFromAPI(
+  year?: string | null,
+): Promise<string[]> {
+  const response = await fetch(
+    `/api/competitions/names${year !== null ? `?year=${year}` : ""}`,
+  );
   return await response.json();
 }
 

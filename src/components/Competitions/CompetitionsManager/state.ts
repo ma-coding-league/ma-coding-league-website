@@ -75,7 +75,7 @@ export class CompetitionsManagerFunctions {
           if (res.status !== 201) {
             throw new Error("Failed to create new competition");
           }
-          console.log("CompetitionCard created");
+          console.log("Competition created");
           return this.refreshCompetitions();
         })
         .then(() => {
@@ -105,7 +105,7 @@ export class CompetitionsManagerFunctions {
           if (res.status !== 200) {
             throw new Error("Failed to edit competition");
           }
-          console.log("CompetitionCard edited");
+          console.log("Competition edited");
           return this.refreshCompetitions();
         })
         .then(() => {
@@ -135,7 +135,7 @@ export class CompetitionsManagerFunctions {
           if (res.status !== 200) {
             throw new Error("Failed to delete competition");
           }
-          console.log("CompetitionCard deleted");
+          console.log("Competition deleted");
           return this.refreshCompetitions();
         })
         .then(() => {

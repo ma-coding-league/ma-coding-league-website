@@ -41,6 +41,7 @@ export default function CompetitionsYear({
     case "loaded":
       return (
         <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
+          {/* TODO: Sort by date */}
           {competitions.map((competition) => {
             return (
               <CompetitionCard key={competition.id} competition={competition} />
