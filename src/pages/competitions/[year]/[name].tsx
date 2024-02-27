@@ -23,6 +23,7 @@ import {
 import SubmissionsTable from "@/components/Submissions";
 import { isAfterNow, isBeforeNow } from "@/scripts/Utils/DateAndTime/Helpers";
 import SubmitYourCode from "@/components/Submissions/SubmitYourCode";
+import { TextCountdown, TextCountup } from "@/components/TextCountFromDate";
 
 type CompetitionProps = {
   name: string;
@@ -63,6 +64,8 @@ export default function Competition({
       });
   }, [name]);
 
+  const [showSubmit, setShowSubmit] = React.useState<boolean>(false);
+
   return (
     <Layout
       title={pageName}
@@ -95,26 +98,59 @@ export default function Competition({
             return (
               <p className="placeholder-glow">
                 Location:{" "}
-                <a
-                  href={`https://www.google.com/maps/search/${
-                    competition!.location
-                  }`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {competition!.location}
-                </a>
+                {["remote", "online"].includes(
+                  competition!.location?.trim().toLowerCase() as string,
+                ) ? (
+                  <em>{competition!.location}</em>
+                ) : (
+                  <a
+                    href={`https://www.google.com/maps/search/${
+                      competition!.location
+                    }`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {competition!.location}
+                  </a>
+                )}
                 <br />
                 Start:{" "}
                 {competition!.start ? (
-                  formatDateAndTime(competition!.start)
+                  <>
+                    {formatDateAndTime(competition!.start)}
+                    {competition!.end &&
+                    isBeforeNow(competition!.start) &&
+                    isAfterNow(competition!.end) ? (
+                      <>
+                        {" "}
+                        (started <TextCountup date={competition!.start} /> ago)
+                      </>
+                    ) : null}
+                    {isAfterNow(competition!.start) ? (
+                      <>
+                        {" "}
+                        (starts in <TextCountdown date={competition!.start} />
+                        !)
+                      </>
+                    ) : null}
+                  </>
                 ) : (
                   <em>Not set.</em>
                 )}
                 <br />
                 End:{" "}
                 {competition!.end ? (
-                  formatDateAndTime(competition!.end)
+                  <>
+                    {formatDateAndTime(competition!.end)}
+                    {competition!.start &&
+                    isBeforeNow(competition!.start) &&
+                    isAfterNow(competition!.end) ? (
+                      <>
+                        {" "}
+                        (ends in <TextCountdown date={competition!.end} />)
+                      </>
+                    ) : null}
+                  </>
                 ) : (
                   <em>Not set.</em>
                 )}
@@ -180,7 +216,23 @@ export default function Competition({
               return (
                 <div>
                   <p>Submissions are open!</p>
-                  <SubmitYourCode />
+                  <button
+                    type="button"
+                    className={`btn btn-${
+                      showSubmit ? "secondary" : "primary"
+                    } mb-3`}
+                    onClick={() => {
+                      setShowSubmit(!showSubmit);
+                    }}
+                  >
+                    {showSubmit
+                      ? "Hide submission form"
+                      : "Show submission form"}
+                  </button>
+                  {/* TODO: Make as modal */}
+                  {showSubmit ? (
+                    <SubmitYourCode competition={competition!} />
+                  ) : null}
                 </div>
               );
             }
