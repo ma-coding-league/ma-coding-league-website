@@ -21,6 +21,8 @@ import {
   formatDuration,
 } from "@/scripts/Utils/DateAndTime/Format";
 import SubmissionsTable from "@/components/Submissions";
+import { isAfterNow, isBeforeNow } from "@/scripts/Utils/DateAndTime/Helpers";
+import SubmitYourCode from "@/components/Submissions/SubmitYourCode";
 
 type CompetitionProps = {
   name: string;
@@ -146,8 +148,91 @@ export default function Competition({
             );
         }
       })()}
+      <h2>Submit your code</h2>
+      {(() => {
+        switch (state) {
+          case "loading":
+            return (
+              <div className="alert alert-secondary" role="alert">
+                Loading...
+              </div>
+            );
+          case "loaded":
+            if (!competition!.end || !competition!.start) {
+              return (
+                <p>
+                  <em>No dates set.</em>
+                </p>
+              );
+            } else if (isBeforeNow(competition!.end)) {
+              return (
+                <p>
+                  <em>Competition has ended!</em>
+                </p>
+              );
+            } else if (isAfterNow(competition!.start)) {
+              return (
+                <p>
+                  <em>Competition has not begun yet!</em>
+                </p>
+              );
+            } else {
+              return (
+                <div>
+                  <p>Submissions are open!</p>
+                  <SubmitYourCode />
+                </div>
+              );
+            }
+          default:
+          case "error":
+            return (
+              <div className="alert alert-warning" role="alert">
+                Error fetching competition information, try refreshing the page!
+              </div>
+            );
+        }
+      })()}
       <h2>Results</h2>
-      <SubmissionsTable name={name} />
+      {(() => {
+        switch (state) {
+          case "loading":
+            return (
+              <div className="alert alert-secondary" role="alert">
+                Loading...
+              </div>
+            );
+          case "loaded":
+            if (!competition!.end || !competition!.start) {
+              return (
+                <p>
+                  <em>No dates set.</em>
+                </p>
+              );
+            } else if (isBeforeNow(competition!.end)) {
+              return <SubmissionsTable name={name} />;
+            } else if (isBeforeNow(competition!.start)) {
+              return (
+                <p>
+                  <em>Competition has not ended yet!</em>
+                </p>
+              );
+            } else {
+              return (
+                <p>
+                  <em>Competition has not begun yet!</em>
+                </p>
+              );
+            }
+          default:
+          case "error":
+            return (
+              <div className="alert alert-warning" role="alert">
+                Error fetching competition results, try refreshing the page!
+              </div>
+            );
+        }
+      })()}
     </Layout>
   );
 }
