@@ -9,7 +9,9 @@ import Analytics from "../components/Analytics";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { SessionProvider } from "next-auth/react";
 
-export const BootstrapLibContext = React.createContext<any>(null);
+export const BootstrapLibContext = React.createContext<
+  typeof import("bootstrap") | null
+>(null);
 
 export default function MassachusettsCodingLeague({
   Component,

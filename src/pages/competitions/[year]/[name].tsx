@@ -24,6 +24,8 @@ import SubmissionsTable from "@/components/Submissions";
 import { isAfterNow, isBeforeNow } from "@/scripts/Utils/DateAndTime/Helpers";
 import SubmitYourCode from "@/components/Submissions/SubmitYourCode";
 import { TextCountdown, TextCountup } from "@/components/TextCountFromDate";
+import { BootstrapLibContext } from "@/pages/_app";
+import ViewYourCode from "@/components/Submissions/ViewYourCode";
 
 type CompetitionProps = {
   name: string;
@@ -42,6 +44,7 @@ export default function Competition({
   appProps,
 }: CompetitionProps): React.ReactNode {
   const pageName = name;
+  const bootstrapLib = React.useContext(BootstrapLibContext);
 
   const [state, setState] = React.useState<"loading" | "loaded" | "error">(
     "loading",
@@ -49,7 +52,7 @@ export default function Competition({
   const [competition, setCompetition] =
     React.useState<UserSideCompetition | null>(null);
 
-  React.useEffect(() => {
+  const refreshCompetition = () => {
     setCompetition(null);
     setState("loading");
     getUserSideCompetitionByNameFromAPI(name)
@@ -62,9 +65,12 @@ export default function Competition({
         setCompetition(null);
         setState("error");
       });
-  }, [name]);
+  };
 
-  const [showSubmit, setShowSubmit] = React.useState<boolean>(false);
+  React.useEffect(() => {
+    refreshCompetition();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name]);
 
   return (
     <Layout
@@ -147,7 +153,21 @@ export default function Competition({
                     isAfterNow(competition!.end) ? (
                       <>
                         {" "}
-                        (ends in <TextCountdown date={competition!.end} />)
+                        (ends in{" "}
+                        <TextCountdown
+                          date={competition!.end}
+                          onEnd={() => {
+                            if (bootstrapLib !== null) {
+                              const modal =
+                                bootstrapLib.Modal.getOrCreateInstance(
+                                  "#submitCodeModal",
+                                );
+                              modal.hide();
+                            }
+                            refreshCompetition();
+                          }}
+                        />
+                        )
                       </>
                     ) : null}
                   </>
@@ -202,9 +222,37 @@ export default function Competition({
               );
             } else if (isBeforeNow(competition!.end)) {
               return (
-                <p>
-                  <em>Competition has ended!</em>
-                </p>
+                <>
+                  <p>
+                    <em>Competition has ended!</em>
+                  </p>
+                  {competition!.showSubmissions ? (
+                    <p>
+                      Since results have been released, there is no need to
+                      input a passcode anymore!
+                    </p>
+                  ) : (
+                    <>
+                      <p>
+                        Since results have not been released yet, you need your
+                        team{"'"}s passcode to view your own team{"'"}s code,
+                        click the button below!
+                      </p>
+                      <button
+                        type="button"
+                        className="btn btn-primary mb-3"
+                        data-bs-toggle="modal"
+                        data-bs-target="#viewCodeModal"
+                      >
+                        View your code
+                      </button>
+                      <ViewYourCode
+                        id="viewCodeModal"
+                        competition={competition!}
+                      />
+                    </>
+                  )}
+                </>
               );
             } else if (isAfterNow(competition!.start)) {
               return (
@@ -218,21 +266,16 @@ export default function Competition({
                   <p>Submissions are open!</p>
                   <button
                     type="button"
-                    className={`btn btn-${
-                      showSubmit ? "secondary" : "primary"
-                    } mb-3`}
-                    onClick={() => {
-                      setShowSubmit(!showSubmit);
-                    }}
+                    className="btn btn-primary mb-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#submitCodeModal"
                   >
-                    {showSubmit
-                      ? "Hide submission form"
-                      : "Show submission form"}
+                    Open submission form
                   </button>
-                  {/* TODO: Make as modal */}
-                  {showSubmit ? (
-                    <SubmitYourCode competition={competition!} />
-                  ) : null}
+                  <SubmitYourCode
+                    id="submitCodeModal"
+                    competition={competition!}
+                  />
                 </div>
               );
             }

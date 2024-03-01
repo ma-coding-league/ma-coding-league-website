@@ -1,33 +1,20 @@
+import { UserSideCompetition } from "@/scripts/API/Competitions/UserSide";
 import React from "react";
 import TeamSelector from "@/components/Teams/TeamSelector";
-import { isAfterNow } from "@/scripts/Utils/DateAndTime/Helpers";
-import { UserSideCompetition } from "@/scripts/API/Competitions/UserSide";
-import { TextCountdown } from "../TextCountFromDate";
 
-export default function SubmitYourCode({
+export default function ViewYourCode({
   id,
   competition,
 }: {
   id: string;
   competition: UserSideCompetition;
 }): React.ReactNode {
-  // TODO: Handle submissions actually, on server and client, display messages, etc.
+  // TODO: Handle viewing your submission, on server and client, display messages, etc.
 
   const [teamSelectorState, setTeamSelectorState] = React.useState<
     "loading" | "loaded" | "error"
   >("loading");
   const [teamSelected, setTeamSelected] = React.useState<string | null>(null);
-  const [canSubmit, setCanSubmit] = React.useState<boolean>(true);
-
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCanSubmit(isAfterNow(competition.end!));
-    }, 100);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [competition.end]);
 
   return (
     <div
@@ -41,7 +28,7 @@ export default function SubmitYourCode({
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id={`${id}Label`}>
-              Submit your code
+              View your code
             </h1>
             <button
               type="button"
@@ -57,43 +44,20 @@ export default function SubmitYourCode({
                 <TeamSelector
                   setSelectedCallback={setTeamSelected}
                   setStateCallback={setTeamSelectorState}
-                  disabled={!canSubmit}
-                />
-              </div>
-              <div className="mb-2">
-                <label className="form-label">URL</label>
-                <input
-                  type="url"
-                  className="form-control"
-                  disabled={!canSubmit}
                 />
               </div>
               <div className="mb-2">
                 <label className="form-label">Passcode</label>
-                <input
-                  type="number"
-                  min={0}
-                  className="form-control"
-                  disabled={!canSubmit}
-                />
+                <input type="number" min={0} className="form-control" />
                 <div className="form-text">
                   This passcode, for verification purposes, should have been
                   provided to your at the start of the competition.
                 </div>
               </div>
               <p>
-                {canSubmit ? (
-                  <>
-                    You have <TextCountdown date={competition.end!} /> to submit
-                    your code!
-                  </>
-                ) : (
-                  <em>The competition has ended!</em>
-                )}
-              </p>
-              <p>
-                You can submit more than once, the last URL to be submitted
-                before the competition ends will be the one that is graded.
+                If you do not have a passcode for <b>your team</b>, you must
+                wait until the results have been released. Check back later to
+                see when they get released!
               </p>
             </form>
           </div>
@@ -109,13 +73,9 @@ export default function SubmitYourCode({
               type="submit"
               className="btn btn-primary"
               form={`${id}Form`}
-              disabled={
-                teamSelected === null ||
-                teamSelectorState !== "loaded" ||
-                !canSubmit
-              }
+              disabled={teamSelected === null || teamSelectorState !== "loaded"}
             >
-              Submit
+              View
             </button>
           </div>
         </div>

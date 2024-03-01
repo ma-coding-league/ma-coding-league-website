@@ -4,9 +4,11 @@ import React from "react";
 export function TextCountdown({
   date,
   updatePeriod,
+  onEnd,
 }: {
   date: Date;
   updatePeriod?: number;
+  onEnd?: () => void;
 }): React.ReactNode {
   const [timeLeft, setTimeLeft] = React.useState<number>(
     date.getTime() - Date.now(),
@@ -15,12 +17,18 @@ export function TextCountdown({
   React.useEffect(() => {
     const interval = setInterval(() => {
       setTimeLeft(date.getTime() - Date.now());
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        if (onEnd) {
+          onEnd();
+        }
+      }
     }, updatePeriod ?? 100);
 
     return () => {
       clearInterval(interval);
     };
-  }, [date, updatePeriod]);
+  }, [date, onEnd, timeLeft, updatePeriod]);
 
   return <>{timeLeft > 0 ? formatDuration(timeLeft, true) : null}</>;
 }
