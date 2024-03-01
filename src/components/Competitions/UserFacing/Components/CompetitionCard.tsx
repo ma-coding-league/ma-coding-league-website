@@ -5,7 +5,12 @@ import {
   formatDateAndTime,
   formatDuration,
 } from "@/scripts/Utils/DateAndTime/Format";
-import { nowBetween } from "@/scripts/Utils/DateAndTime/Helpers";
+import {
+  isAfterNow,
+  isBeforeNow,
+  nowBetween,
+} from "@/scripts/Utils/DateAndTime/Helpers";
+import { TextCountdown, TextCountup } from "@/components/TextCountFromDate";
 
 export default function CompetitionCard({
   competition,
@@ -23,24 +28,57 @@ export default function CompetitionCard({
         <h5 className="card-title">{competition.name}</h5>
         <p className="card-text">
           Location:{" "}
-          <a
-            href={`https://www.google.com/maps/search/${competition.location}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {competition.location}
-          </a>
+          {["remote", "online"].includes(
+            competition.location?.trim().toLowerCase() as string,
+          ) ? (
+            <em>{competition.location}</em>
+          ) : (
+            <a
+              href={`https://www.google.com/maps/search/${competition.location}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {competition.location}
+            </a>
+          )}
           <br />
           Start:{" "}
-          {competition.start !== null && competition.start !== undefined ? (
-            formatDateAndTime(competition.start)
+          {competition!.start ? (
+            <>
+              {formatDateAndTime(competition!.start)}
+              {competition!.end &&
+              isBeforeNow(competition!.start) &&
+              isAfterNow(competition!.end) ? (
+                <>
+                  {" "}
+                  (started <TextCountup date={competition!.start} /> ago)
+                </>
+              ) : null}
+              {isAfterNow(competition!.start) ? (
+                <>
+                  {" "}
+                  (starts in <TextCountdown date={competition!.start} />
+                  !)
+                </>
+              ) : null}
+            </>
           ) : (
             <em>Not set.</em>
           )}
           <br />
           End:{" "}
-          {competition.end !== null && competition.end !== undefined ? (
-            formatDateAndTime(competition.end)
+          {competition!.end ? (
+            <>
+              {formatDateAndTime(competition!.end)}
+              {competition!.start &&
+              isBeforeNow(competition!.start) &&
+              isAfterNow(competition!.end) ? (
+                <>
+                  {" "}
+                  (ends in <TextCountdown date={competition!.end} />)
+                </>
+              ) : null}
+            </>
           ) : (
             <em>Not set.</em>
           )}
@@ -69,7 +107,14 @@ export default function CompetitionCard({
           className="card-link"
         >
           {(() => {
-            if (competition.showResults) {
+            if (
+              competition!.start &&
+              competition!.end &&
+              isAfterNow(competition!.end) &&
+              isBeforeNow(competition!.start)
+            ) {
+              return "Submit your code";
+            } else if (competition.showResults) {
               return "View results";
             } else if (competition.showSubmissions) {
               return "View submissions";

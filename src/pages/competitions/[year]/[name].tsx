@@ -21,6 +21,11 @@ import {
   formatDuration,
 } from "@/scripts/Utils/DateAndTime/Format";
 import SubmissionsTable from "@/components/Submissions";
+import { isAfterNow, isBeforeNow } from "@/scripts/Utils/DateAndTime/Helpers";
+import SubmitYourCode from "@/components/Submissions/SubmitYourCode";
+import { TextCountdown, TextCountup } from "@/components/TextCountFromDate";
+import { BootstrapLibContext } from "@/pages/_app";
+import ViewYourCode from "@/components/Submissions/ViewYourCode";
 
 type CompetitionProps = {
   name: string;
@@ -39,6 +44,7 @@ export default function Competition({
   appProps,
 }: CompetitionProps): React.ReactNode {
   const pageName = name;
+  const bootstrapLib = React.useContext(BootstrapLibContext);
 
   const [state, setState] = React.useState<"loading" | "loaded" | "error">(
     "loading",
@@ -46,7 +52,7 @@ export default function Competition({
   const [competition, setCompetition] =
     React.useState<UserSideCompetition | null>(null);
 
-  React.useEffect(() => {
+  const refreshCompetition = () => {
     setCompetition(null);
     setState("loading");
     getUserSideCompetitionByNameFromAPI(name)
@@ -59,6 +65,11 @@ export default function Competition({
         setCompetition(null);
         setState("error");
       });
+  };
+
+  React.useEffect(() => {
+    refreshCompetition();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
 
   return (
@@ -93,26 +104,73 @@ export default function Competition({
             return (
               <p className="placeholder-glow">
                 Location:{" "}
-                <a
-                  href={`https://www.google.com/maps/search/${
-                    competition!.location
-                  }`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {competition!.location}
-                </a>
+                {["remote", "online"].includes(
+                  competition!.location?.trim().toLowerCase() as string,
+                ) ? (
+                  <em>{competition!.location}</em>
+                ) : (
+                  <a
+                    href={`https://www.google.com/maps/search/${
+                      competition!.location
+                    }`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {competition!.location}
+                  </a>
+                )}
                 <br />
                 Start:{" "}
                 {competition!.start ? (
-                  formatDateAndTime(competition!.start)
+                  <>
+                    {formatDateAndTime(competition!.start)}
+                    {competition!.end &&
+                    isBeforeNow(competition!.start) &&
+                    isAfterNow(competition!.end) ? (
+                      <>
+                        {" "}
+                        (started <TextCountup date={competition!.start} /> ago)
+                      </>
+                    ) : null}
+                    {isAfterNow(competition!.start) ? (
+                      <>
+                        {" "}
+                        (starts in <TextCountdown date={competition!.start} />
+                        !)
+                      </>
+                    ) : null}
+                  </>
                 ) : (
                   <em>Not set.</em>
                 )}
                 <br />
                 End:{" "}
                 {competition!.end ? (
-                  formatDateAndTime(competition!.end)
+                  <>
+                    {formatDateAndTime(competition!.end)}
+                    {competition!.start &&
+                    isBeforeNow(competition!.start) &&
+                    isAfterNow(competition!.end) ? (
+                      <>
+                        {" "}
+                        (ends in{" "}
+                        <TextCountdown
+                          date={competition!.end}
+                          onEnd={() => {
+                            if (bootstrapLib !== null) {
+                              const modal =
+                                bootstrapLib.Modal.getOrCreateInstance(
+                                  "#submitCodeModal",
+                                );
+                              modal.hide();
+                            }
+                            refreshCompetition();
+                          }}
+                        />
+                        )
+                      </>
+                    ) : null}
+                  </>
                 ) : (
                   <em>Not set.</em>
                 )}
@@ -146,8 +204,130 @@ export default function Competition({
             );
         }
       })()}
+      <h2>Submit your code</h2>
+      {(() => {
+        switch (state) {
+          case "loading":
+            return (
+              <div className="alert alert-secondary" role="alert">
+                Loading...
+              </div>
+            );
+          case "loaded":
+            if (!competition!.end || !competition!.start) {
+              return (
+                <p>
+                  <em>No dates set.</em>
+                </p>
+              );
+            } else if (isBeforeNow(competition!.end)) {
+              return (
+                <>
+                  <p>
+                    <em>Competition has ended!</em>
+                  </p>
+                  {competition!.showSubmissions ? (
+                    <p>
+                      Since results have been released, there is no need to
+                      input a passcode anymore!
+                    </p>
+                  ) : (
+                    <>
+                      <p>
+                        Since results have not been released yet, you need your
+                        team{"'"}s passcode to view your own team{"'"}s code,
+                        click the button below!
+                      </p>
+                      <button
+                        type="button"
+                        className="btn btn-primary mb-3"
+                        data-bs-toggle="modal"
+                        data-bs-target="#viewCodeModal"
+                      >
+                        View your code
+                      </button>
+                      <ViewYourCode
+                        id="viewCodeModal"
+                        competition={competition!}
+                      />
+                    </>
+                  )}
+                </>
+              );
+            } else if (isAfterNow(competition!.start)) {
+              return (
+                <p>
+                  <em>Competition has not begun yet!</em>
+                </p>
+              );
+            } else {
+              return (
+                <div>
+                  <p>Submissions are open!</p>
+                  <button
+                    type="button"
+                    className="btn btn-primary mb-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#submitCodeModal"
+                  >
+                    Open submission form
+                  </button>
+                  <SubmitYourCode
+                    id="submitCodeModal"
+                    competition={competition!}
+                  />
+                </div>
+              );
+            }
+          default:
+          case "error":
+            return (
+              <div className="alert alert-warning" role="alert">
+                Error fetching competition information, try refreshing the page!
+              </div>
+            );
+        }
+      })()}
       <h2>Results</h2>
-      <SubmissionsTable name={name} />
+      {(() => {
+        switch (state) {
+          case "loading":
+            return (
+              <div className="alert alert-secondary" role="alert">
+                Loading...
+              </div>
+            );
+          case "loaded":
+            if (!competition!.end || !competition!.start) {
+              return (
+                <p>
+                  <em>No dates set.</em>
+                </p>
+              );
+            } else if (isBeforeNow(competition!.end)) {
+              return <SubmissionsTable name={name} />;
+            } else if (isBeforeNow(competition!.start)) {
+              return (
+                <p>
+                  <em>Competition has not ended yet!</em>
+                </p>
+              );
+            } else {
+              return (
+                <p>
+                  <em>Competition has not begun yet!</em>
+                </p>
+              );
+            }
+          default:
+          case "error":
+            return (
+              <div className="alert alert-warning" role="alert">
+                Error fetching competition results, try refreshing the page!
+              </div>
+            );
+        }
+      })()}
     </Layout>
   );
 }

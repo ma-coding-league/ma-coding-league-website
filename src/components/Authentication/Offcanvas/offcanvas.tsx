@@ -31,7 +31,9 @@ export default function ProfileOffcanvas() {
   }, []);
 
   const hideOffcanvas = () => {
-    bootstrapLib.Offcanvas.getOrCreateInstance("#profileOffcanvas").hide();
+    if (bootstrapLib !== null) {
+      bootstrapLib.Offcanvas.getOrCreateInstance("#profileOffcanvas").hide();
+    }
   };
 
   return (

@@ -51,7 +51,7 @@ export function OfficerApplicationHelp({
         >
           this document
         </a>{" "}
-        and then email a PDF of it to the MA Coding League email address:{" "}
+        and then share the Google Doc to the MA Coding League email address:{" "}
         <a
           href="mailto:macodingleague@gmail.com"
           target="_blank"

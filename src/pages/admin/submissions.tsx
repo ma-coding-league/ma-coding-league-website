@@ -6,7 +6,7 @@ import RequireAdminAuthorized from "@/components/Authorization/RequireAdminAutho
 import { RoleRequirements } from "@/components/Authentication/Roles/RoleBadges";
 import SubmissionsManagerStateProviders from "@/components/Submissions/SubmissionsManager/context";
 import SubmissionsManagerTable from "@/components/Submissions/SubmissionsManager/Table";
-import CompetitionSelector from "@/components/CompetitionSelector";
+import CompetitionSelector from "@/components/Competitions/CompetitionSelector";
 import TeamsManagerStateProviders from "@/components/Teams/TeamsManager/context";
 
 const pageName = "Submissions manager | Admin dashboard";
