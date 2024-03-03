@@ -20,7 +20,7 @@ export default function ProfileOffcanvas() {
 
   const { data: session } = useSession();
   const [providers, setProviders] = React.useState<Record<
-    LiteralUnion<BuiltInProviderType, string>,
+    LiteralUnion<BuiltInProviderType>,
     ClientSafeProvider
   > | null>();
 

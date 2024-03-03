@@ -46,7 +46,7 @@ export default function SubmissionsTable({
         console.error(err);
         setState("error");
       });
-  }, []);
+  }, [name]);
 
   return (
     <ErrorBoundary>

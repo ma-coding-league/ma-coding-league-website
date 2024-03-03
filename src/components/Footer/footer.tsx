@@ -5,7 +5,7 @@ import icon from "../../../public/android-chrome-512x512.png";
 import Image from "next/image";
 import { DEVELOPERS } from "@/people";
 
-function Footer(): JSX.Element {
+function Footer(): React.ReactNode {
   type FooterThing = {
     title: string;
     link: string;
@@ -85,10 +85,10 @@ function Footer(): JSX.Element {
               <td>
                 <table className="table table-sm table-borderless d-none d-sm-table">
                   <tbody>
-                    {footerThings.map((row, rowIndex): JSX.Element => {
+                    {footerThings.map((row, rowIndex): React.ReactNode => {
                       return (
                         <tr key={`row-${rowIndex}`}>
-                          {row.map((thing, colIndex): JSX.Element => {
+                          {row.map((thing, colIndex): React.ReactNode => {
                             if (thing.link.startsWith("/")) {
                               return (
                                 <td key={`col-${colIndex}`}>
@@ -120,7 +120,7 @@ function Footer(): JSX.Element {
         </table>
         <table className="table table-sm table-borderless d-sm-none d-table">
           <tbody>
-            {mobileFooterThings.map((thing, rowIndex): JSX.Element => {
+            {mobileFooterThings.map((thing, rowIndex): React.ReactNode => {
               return (
                 <tr key={`row-${rowIndex}`}>
                   {rowIndex === 0 ? (

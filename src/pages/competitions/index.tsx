@@ -14,7 +14,7 @@ type CompetitionsProps = {
 
 export default function Competitions({
   appProps,
-}: CompetitionsProps): JSX.Element {
+}: CompetitionsProps): React.ReactNode {
   return (
     <Layout
       title={pageName}

@@ -17,7 +17,7 @@ type NavbarProps = {
   appName: string;
   appProps: AppProps;
   currentPage?: string;
-  extraNavbarHTML?: JSX.Element | undefined;
+  extraNavbarHTML?: React.ReactNode | undefined;
   dontShowSignIn?: boolean;
 };
 
@@ -27,7 +27,7 @@ function Navbar({
   currentPage,
   extraNavbarHTML,
   dontShowSignIn,
-}: NavbarProps): JSX.Element {
+}: NavbarProps): React.ReactNode {
   return (
     <nav className="navbar sticky-top bg-body-tertiary navbar-expand-md">
       <div className="container-fluid">
@@ -127,7 +127,7 @@ function Navbar({
           </div>
         </div>
         {(() => {
-          const elements: { key: string; jsx: JSX.Element }[] = [];
+          const elements: { key: string; jsx: React.ReactNode }[] = [];
           if (extraNavbarHTML) {
             elements.push({ key: "extraNavbarHTML", jsx: extraNavbarHTML });
           }

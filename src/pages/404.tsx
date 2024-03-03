@@ -9,7 +9,7 @@ type PageNotFoundProps = { appProps: AppProps };
 
 export default function PageNotFound({
   appProps,
-}: PageNotFoundProps): JSX.Element {
+}: PageNotFoundProps): React.ReactNode {
   return (
     <Layout
       title={pageName}

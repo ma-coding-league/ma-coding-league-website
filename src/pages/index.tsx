@@ -6,7 +6,7 @@ const pageName = "Home";
 
 type HomeProps = { appProps: AppProps };
 
-export default function Home({ appProps }: HomeProps): JSX.Element {
+export default function Home({ appProps }: HomeProps): React.ReactNode {
   return (
     <Layout
       title={pageName}

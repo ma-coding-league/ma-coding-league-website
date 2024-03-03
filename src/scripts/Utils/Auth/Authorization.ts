@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { UsersRecord, XataClient } from "@/xata";
+import { NextauthUsersRecord, XataClient } from "@/xata";
 import { splitRoles } from "@/database/users/roles";
 import {
   SelectableColumnWithObjectNotation,
@@ -17,8 +17,8 @@ export async function getServerSessionAndCheckForRole(
   [
     Session | null,
     SelectedPick<
-      UsersRecord,
-      SelectableColumnWithObjectNotation<UsersRecord, []>[]
+      NextauthUsersRecord,
+      SelectableColumnWithObjectNotation<NextauthUsersRecord, []>[]
     > | null,
     "unauthenticated" | "unauthorized" | null,
   ]
@@ -26,9 +26,11 @@ export async function getServerSessionAndCheckForRole(
   const session = await getServerSession(req, res, authOptions);
 
   if (session) {
-    const user = await dbClient.db.users.read(session.user.id);
-    if (user != null && splitRoles(user.roles).includes(role)) {
-      return [session, user, null];
+    const dbUser = await dbClient.db.nextauth_users
+      .filter("email", session.user.email)
+      .getFirst();
+    if (dbUser !== null && splitRoles(dbUser.roles ?? "").includes(role)) {
+      return [session, dbUser, null];
     } else {
       return [null, null, "unauthorized"];
     }

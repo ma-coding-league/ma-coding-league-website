@@ -11,7 +11,7 @@ type AdminDashboardProps = { appProps: AppProps };
 
 export default function AdminDashboard({
   appProps,
-}: AdminDashboardProps): JSX.Element {
+}: AdminDashboardProps): React.ReactNode {
   const { data: session, status } = useSession();
 
   type AdminPage = {

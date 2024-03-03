@@ -23,7 +23,7 @@ type CompetitionYearParams = {
 export default function CompetitionYear({
   year,
   appProps,
-}: CompetitionYearProps): JSX.Element {
+}: CompetitionYearProps): React.ReactNode {
   const pageName = `${year} competitions`;
 
   return (

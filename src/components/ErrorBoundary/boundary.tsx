@@ -3,7 +3,7 @@ import { copyTextToClipboard } from "@/scripts/Utils/Clipboard";
 import { NotificationType, notify } from "../Notifications";
 
 type ErrorBoundaryProps = {
-  children: JSX.Element | JSX.Element[];
+  children: React.ReactNode | React.ReactNode[];
 };
 
 type ErrorBoundaryState = {
@@ -94,7 +94,7 @@ export class ErrorBoundary extends React.Component {
   }
 }
 
-export function ThrowARenderingExceptionHerePlease(): JSX.Element {
+export function ThrowARenderingExceptionHerePlease(): React.ReactNode {
   throw new Error("LOL");
 }
 

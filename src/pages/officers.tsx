@@ -8,7 +8,7 @@ const pageName = "Officers";
 
 type OfficersProps = { appProps: AppProps };
 
-export default function Officers({ appProps }: OfficersProps): JSX.Element {
+export default function Officers({ appProps }: OfficersProps): React.ReactNode {
   return (
     <Layout
       title={pageName}

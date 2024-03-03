@@ -14,7 +14,7 @@ export function WebsiteAlertRenderer({
 }: {
   alert: WebsiteAlert;
   forceExternal?: boolean;
-}): JSX.Element {
+}): React.ReactNode {
   const [state, setState] = React.useState<"loading" | "loaded" | "error">(
     "loading",
   );

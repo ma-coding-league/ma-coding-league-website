@@ -5,7 +5,7 @@ import getAppProps, { AppProps } from "@/components/WithAppProps";
 
 const pageName = "Help";
 
-export function Help({ appProps }: { appProps: AppProps }): JSX.Element {
+export function Help({ appProps }: { appProps: AppProps }): React.ReactNode {
   type HelpPage = {
     name: string;
     description: string;

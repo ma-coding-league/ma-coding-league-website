@@ -1,4 +1,5 @@
 import getTeamsFromAPI, { Team } from "@/scripts/API/Teams";
+import React from "react";
 
 export type TeamsManagerStatesType = {
   status: "loading" | "loaded" | "error";
