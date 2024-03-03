@@ -12,6 +12,8 @@ export default function TeamSelector({
   >;
   disabled?: boolean;
 }): React.ReactNode {
+  // TODO: Be able to specify competition to select teams from
+
   const [state, setState] = React.useState<"loading" | "loaded" | "error">(
     "loading",
   );

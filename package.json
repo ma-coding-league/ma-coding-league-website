@@ -36,6 +36,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@next-auth/xata-adapter": "^0.2.2",
     "@popperjs/core": "2.11.8",
     "@tippyjs/react": "^4.2.6",
     "@types/bootstrap": "^5.2.6",
