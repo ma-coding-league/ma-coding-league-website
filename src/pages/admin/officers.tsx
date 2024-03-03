@@ -13,7 +13,7 @@ type OfficersManagerProps = { appProps: AppProps };
 
 export default function OfficersManager({
   appProps,
-}: OfficersManagerProps): JSX.Element {
+}: OfficersManagerProps): React.ReactNode {
   const { data: session, status } = useSession();
 
   return (

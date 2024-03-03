@@ -19,7 +19,7 @@ type TermsOfServiceProps = { appProps: AppProps; termsOfServiceHTML: string };
 export function TermsOfService({
   appProps,
   termsOfServiceHTML,
-}: TermsOfServiceProps): JSX.Element {
+}: TermsOfServiceProps): React.ReactNode {
   return (
     <Layout
       title={pageName}

@@ -3,7 +3,7 @@ import { loadingNotify } from "@/components/Notifications";
 import { useSession } from "next-auth/react";
 import { roleHasTechLead } from "@/database/users/roles";
 
-import { Officer } from "../../../scripts/API/Officers";
+import { Officer } from "@/scripts/API/Officers";
 import {
   OfficersManagerStateFunctionsContext,
   OfficersManagerStatesStoreContext,

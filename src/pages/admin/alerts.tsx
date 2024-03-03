@@ -14,7 +14,7 @@ type WebsiteAlertsManagerProps = { appProps: AppProps };
 
 export default function WebsiteAlertsManager({
   appProps,
-}: WebsiteAlertsManagerProps): JSX.Element {
+}: WebsiteAlertsManagerProps): React.ReactNode {
   const { data: session, status } = useSession();
 
   return (

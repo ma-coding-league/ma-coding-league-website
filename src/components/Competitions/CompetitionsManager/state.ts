@@ -2,6 +2,7 @@ import {
   getServerSideCompetitionsFromAPI,
   ServerSideCompetition,
 } from "@/scripts/API/Competitions/ServerSide";
+import React from "react";
 
 export type CompetitionsManagerStatesType = {
   status: "loading" | "loaded" | "error";

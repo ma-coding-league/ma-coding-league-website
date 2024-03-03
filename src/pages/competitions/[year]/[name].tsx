@@ -229,7 +229,7 @@ export default function Competition({
                   {competition!.showSubmissions ? (
                     <p>
                       Since results have been released, there is no need to
-                      input a passcode anymore!
+                      input a passcode to view your submission anymore!
                     </p>
                   ) : (
                     <>

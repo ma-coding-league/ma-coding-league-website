@@ -15,7 +15,7 @@ type SubmissionsManagerProps = { appProps: AppProps };
 
 export default function SubmissionsManager({
   appProps,
-}: SubmissionsManagerProps): JSX.Element {
+}: SubmissionsManagerProps): React.ReactNode {
   const { data: session, status } = useSession();
   const [comp, setComp] = React.useState<string | null>(null);
   const [compSelectorState, setCompSelectorState] = React.useState<

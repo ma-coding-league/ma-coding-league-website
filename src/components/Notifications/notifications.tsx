@@ -133,7 +133,7 @@ export function loadingNotify(
   };
 }
 
-export function Notifications(): JSX.Element {
+export function Notifications(): React.ReactNode {
   const [theme, setTheme] = React.useState<Theme>("light");
 
   function onThemeChange(event: CustomEvent<"Dark" | "Light">) {

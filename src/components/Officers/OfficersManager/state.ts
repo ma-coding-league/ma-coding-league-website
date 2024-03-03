@@ -1,4 +1,5 @@
 import getOfficersFromAPI, { Officer } from "@/scripts/API/Officers";
+import React from "react";
 
 export type OfficersManagerStatesType = {
   status: "loading" | "loaded" | "error";

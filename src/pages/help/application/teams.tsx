@@ -9,7 +9,7 @@ export function TeamApplicationHelp({
   appProps,
 }: {
   appProps: AppProps;
-}): JSX.Element {
+}): React.ReactNode {
   return (
     <Layout
       title={pageName}

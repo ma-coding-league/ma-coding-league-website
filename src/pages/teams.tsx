@@ -7,7 +7,7 @@ const pageName = "Teams";
 
 type TeamsProps = { appProps: AppProps };
 
-export default function Teams({ appProps }: TeamsProps): JSX.Element {
+export default function Teams({ appProps }: TeamsProps): React.ReactNode {
   return (
     <Layout
       title={pageName}

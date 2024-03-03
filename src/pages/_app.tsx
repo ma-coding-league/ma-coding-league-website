@@ -16,7 +16,7 @@ export const BootstrapLibContext = React.createContext<
 export default function MassachusettsCodingLeague({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps): JSX.Element {
+}: AppProps): React.ReactNode {
   const [bootstrapLib, setBootstrapLib] = React.useState<any>(null);
 
   React.useEffect(() => {

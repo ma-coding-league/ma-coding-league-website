@@ -9,7 +9,7 @@ interface AboutProps {
   appProps: AppProps;
 }
 
-export function About({ vercelVars, appProps }: AboutProps): JSX.Element {
+export function About({ vercelVars, appProps }: AboutProps): React.ReactNode {
   return (
     <Layout title={pageName} currentPage={pageName} appProps={appProps}>
       <h1>Environment build variables</h1>

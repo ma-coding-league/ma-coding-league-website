@@ -14,7 +14,7 @@ type CompetitionsManagerProps = { appProps: AppProps };
 
 export default function CompetitionsManager({
   appProps,
-}: CompetitionsManagerProps): JSX.Element {
+}: CompetitionsManagerProps): React.ReactNode {
   const { data: session, status } = useSession();
 
   return (

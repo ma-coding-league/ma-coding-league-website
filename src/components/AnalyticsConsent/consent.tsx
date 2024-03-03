@@ -12,7 +12,7 @@ function AdStorageConsent({
   consentChangedSetter,
 }: {
   consentChangedSetter: React.Dispatch<React.SetStateAction<boolean>>;
-}): JSX.Element {
+}): React.ReactNode {
   const [adStorageConsentValue, setAdStorageConsentValue] =
     React.useState<string>("denied");
 
@@ -49,7 +49,7 @@ function AdsDataRedaction({
   consentChangedSetter,
 }: {
   consentChangedSetter: React.Dispatch<React.SetStateAction<boolean>>;
-}): JSX.Element {
+}): React.ReactNode {
   const [adsDataRedactionValue, setAdsDataRedactionValue] =
     React.useState<string>("denied");
 
@@ -86,7 +86,7 @@ function AnalyticsStorageConsent({
   consentChangedSetter,
 }: {
   consentChangedSetter: React.Dispatch<React.SetStateAction<boolean>>;
-}): JSX.Element {
+}): React.ReactNode {
   const [analyticsStorageConsentValue, setAnalyticsStorageConsentValue] =
     React.useState<string>("denied");
 
@@ -123,7 +123,7 @@ function AnalyticsStorageConsent({
   );
 }
 
-export function AnalyticsConsent(): JSX.Element {
+export function AnalyticsConsent(): React.ReactNode {
   const [showReloadRequired, setShowReloadRequired] =
     React.useState<boolean>(false);
   const [adStorageConsentChanged, setAdStorageConsentChanged] =

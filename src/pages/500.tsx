@@ -9,7 +9,7 @@ type InternalServerErrorProps = { appProps: AppProps };
 
 export default function InternalServerError({
   appProps,
-}: InternalServerErrorProps): JSX.Element {
+}: InternalServerErrorProps): React.ReactNode {
   return (
     <Layout
       title={pageName}

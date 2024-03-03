@@ -9,7 +9,7 @@ export function ApplicationHelp({
   appProps,
 }: {
   appProps: AppProps;
-}): JSX.Element {
+}): React.ReactNode {
   type HelpPage = {
     name: string;
     description: string;

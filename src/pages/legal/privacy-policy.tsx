@@ -19,7 +19,7 @@ type PrivacyPolicyProps = { appProps: AppProps; privacyPolicyHTML: string };
 export function PrivacyPolicy({
   appProps,
   privacyPolicyHTML,
-}: PrivacyPolicyProps): JSX.Element {
+}: PrivacyPolicyProps): React.ReactNode {
   return (
     <Layout
       title={pageName}

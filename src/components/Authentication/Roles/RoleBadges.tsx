@@ -1,5 +1,4 @@
 import { splitRoles } from "@/database/users/roles";
-import { useSession } from "next-auth/react";
 
 type RoleBadge = {
   text: string;
@@ -32,7 +31,7 @@ export function RoleRequirements({
   toEdit: string | null;
   toDelete: string | null;
 }) {
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
 
   return (
     <>

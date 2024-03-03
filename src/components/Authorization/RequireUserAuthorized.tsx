@@ -9,8 +9,8 @@ export default function RequireUserAuthorized({
 }: {
   session: Session | null;
   status: "authenticated" | "loading" | "unauthenticated";
-  children: JSX.Element;
-}): JSX.Element {
+  children: React.ReactNode;
+}): React.ReactNode {
   if (status === "loading") {
     return (
       <div className="placeholder-glow">

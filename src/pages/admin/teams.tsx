@@ -13,7 +13,7 @@ type TeamsManagerProps = { appProps: AppProps };
 
 export default function TeamsManager({
   appProps,
-}: TeamsManagerProps): JSX.Element {
+}: TeamsManagerProps): React.ReactNode {
   const { data: session, status } = useSession();
 
   return (

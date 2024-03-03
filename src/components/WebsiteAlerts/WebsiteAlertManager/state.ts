@@ -1,6 +1,7 @@
 import getWebsiteAlertsFromAPI, {
   WebsiteAlert,
 } from "@/scripts/API/WebsiteAlerts";
+import React from "react";
 
 export type WebsiteAlertManagerStatesType = {
   status: "loading" | "loaded" | "error";
