@@ -12,7 +12,6 @@ export default function SubmitYourCode({
   competition: UserSideCompetition;
 }): React.ReactNode {
   // TODO: Update database to store what school a student is at and what year they graduate so they're automatically put into teams and invalidated when they graduate.
-  //  This allows us to delete the passcode requirement.
   // TODO: Handle submissions actually, on server and client, display messages, etc.
   //  and also show the currently submitted code as a certain time, and refresh button.
 
@@ -62,43 +61,6 @@ export default function SubmitYourCode({
                   setStateCallback={setTeamSelectorState}
                   disabled={!canSubmit}
                 />
-              </div>
-              <div className="row mb-2">
-                <label className="form-label">URL</label>
-                <div className="col-auto">
-                  <input
-                    type="url"
-                    className="form-control"
-                    disabled={!canSubmit}
-                  />
-                </div>
-                <div className="col-auto">
-                  <button type="button" className="btn btn-secondary">
-                    Refresh
-                  </button>
-                </div>
-                <div className="form-text mb-1">
-                  This should be a URL to your public code, such as a public
-                  Repl.it.
-                </div>
-                <div className="form-text">
-                  As of [INSERT TIME], this is the URL that will be graded.
-                  Click the refresh button to see your latest submitted code - a
-                  verification code is required though!
-                </div>
-              </div>
-              <div className="mb-2">
-                <label className="form-label">Passcode</label>
-                <input
-                  type="number"
-                  min={0}
-                  className="form-control"
-                  disabled={!canSubmit}
-                />
-                <div className="form-text">
-                  This passcode, for verification purposes, should have been
-                  provided to your at the start of the competition.
-                </div>
               </div>
               <p>
                 {canSubmit ? (

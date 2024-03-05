@@ -6,7 +6,6 @@ export type ServerSideSubmission = {
   submissionURL: string | null;
   scoreNumerator: number | null;
   scoreDenominator: number;
-  passcode: number;
 };
 
 export function serializeServerSubmission(sub: ServerSideSubmission): string {
@@ -15,7 +14,6 @@ export function serializeServerSubmission(sub: ServerSideSubmission): string {
     submissionURL: sub.submissionURL,
     scoreNumerator: sub.scoreNumerator,
     scoreDenominator: sub.scoreDenominator,
-    passcode: sub.passcode,
   });
 }
 

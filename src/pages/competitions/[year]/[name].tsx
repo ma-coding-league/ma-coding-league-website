@@ -229,13 +229,14 @@ export default function Competition({
                   {competition!.showSubmissions ? (
                     <p>
                       Since results have been released, there is no need to
-                      input a passcode to view your submission anymore!
+                      authorize yourself to view your team{"'"}s submission
+                      anymore!
                     </p>
                   ) : (
                     <>
                       <p>
-                        Since results have not been released yet, you need your
-                        team{"'"}s passcode to view your own team{"'"}s code,
+                        Since results have not been released yet, you{"'"}ll
+                        need to be authorized to view your own team{"'"}s code,
                         click the button below!
                       </p>
                       <button
