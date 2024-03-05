@@ -24,8 +24,6 @@ function SubmissionsTableRow({
     React.useState<ServerSideSubmission>(structuredClone(submission));
   const [editing, setEditing] = React.useState(false);
 
-  const passcodeInputRef = React.useRef<HTMLInputElement>();
-
   const cancelChanges = () => {
     console.log("Cancel changes");
     setEditing(false);
@@ -147,25 +145,6 @@ function SubmissionsTableRow({
             );
           })}
         </select>
-        {/*<input*/}
-        {/*  type="text"*/}
-        {/*  className="form-control"*/}
-        {/*  style={{ width: "16em" }}*/}
-        {/*  value={*/}
-        {/*    !editing && submission.team != null ? submission.team : undefined*/}
-        {/*  }*/}
-        {/*  defaultValue={*/}
-        {/*    editing && submission.team != null ? submission.team : undefined*/}
-        {/*  }*/}
-        {/*  onBlur={(e) => {*/}
-        {/*    const v = e.target.value.trim();*/}
-        {/*    setModifiedSubmission({*/}
-        {/*      ...modifiedSubmission,*/}
-        {/*      team: v,*/}
-        {/*    });*/}
-        {/*  }}*/}
-        {/*  disabled={!editing}*/}
-        {/*/>*/}
       </th>
       <td>
         <input
@@ -243,56 +222,6 @@ function SubmissionsTableRow({
           }}
           disabled={!editing}
         />
-      </td>
-      <td>
-        <div className="row">
-          <div className="col p-0">
-            <input
-              type="number"
-              className="form-control"
-              style={{ width: "8em" }}
-              value={
-                !editing && submission.passcode != null
-                  ? submission.passcode
-                  : undefined
-              }
-              defaultValue={
-                editing && submission.passcode != null
-                  ? submission.passcode
-                  : undefined
-              }
-              onBlur={(e) => {
-                const v = e.target.value.trim();
-                setModifiedSubmission({
-                  ...modifiedSubmission,
-                  passcode: v === "" ? 0 : parseInt(v),
-                });
-              }}
-              // @ts-ignore
-              ref={passcodeInputRef}
-              disabled={!editing}
-            />
-          </div>
-          {editing ? (
-            <div className="col p-0 ms-1">
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                onClick={() => {
-                  const v = Math.floor(Math.random() * 1000000);
-                  // @ts-ignore
-                  passcodeInputRef.current.value = v.toString();
-                  setModifiedSubmission({
-                    ...modifiedSubmission,
-                    passcode: v,
-                  });
-                }}
-              >
-                Generate
-              </button>
-            </div>
-          ) : null}
-        </div>
       </td>
     </tr>
   );

@@ -89,7 +89,6 @@ export default function SubmissionsManagerTable({
               <th scope="col">Submission URL</th>
               <th scope="col">Score numerator</th>
               <th scope="col">Score denominator</th>
-              <th scope="col">Passcode</th>
             </tr>
           </thead>
           <tbody>

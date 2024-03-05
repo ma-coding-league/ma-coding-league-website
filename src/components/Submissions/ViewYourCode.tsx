@@ -46,19 +46,6 @@ export default function ViewYourCode({
                   setStateCallback={setTeamSelectorState}
                 />
               </div>
-              <div className="mb-2">
-                <label className="form-label">Passcode</label>
-                <input type="number" min={0} className="form-control" />
-                <div className="form-text">
-                  This passcode, for verification purposes, should have been
-                  provided to your at the start of the competition.
-                </div>
-              </div>
-              <p>
-                If you do not have a passcode for <b>your team</b>, you must
-                wait until the results have been released. Check back later to
-                see when they get released!
-              </p>
             </form>
           </div>
           <div className="modal-footer">

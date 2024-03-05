@@ -63,6 +63,11 @@ export default function ProfileOffcanvas() {
                   <RoleBadges roles={session.user.roles} />
                 </div>
                 <br />
+                <p>
+                  <Link href="/account" onClick={hideOffcanvas}>
+                    Account dashboard
+                  </Link>
+                </p>
                 {roleHasAdmin(session.user.roles) ? (
                   <p>
                     <Link href="/admin" onClick={hideOffcanvas}>

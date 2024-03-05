@@ -40,6 +40,15 @@ export default function RequireAdminAuthorized({
       <>
         <h1>Unauthenticated</h1>
         <p>You must be signed in to view this admin page.</p>
+        <button
+          type="button"
+          className="btn btn-primary"
+          data-bs-target="#profileOffcanvas"
+          data-bs-toggle="offcanvas"
+          aria-controls="profileOffcanvas"
+        >
+          Sign in
+        </button>
       </>
     );
   }

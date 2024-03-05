@@ -182,7 +182,6 @@ export async function getCompetitionByNameAsServer(
           submissionURL: dbSub.submissionURL,
           scoreNumerator: dbSub.scoreNumerator,
           scoreDenominator: dbSub.scoreDenominator,
-          passcode: dbSub.passcode,
         };
       }),
     };
