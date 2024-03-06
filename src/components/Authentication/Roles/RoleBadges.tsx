@@ -26,10 +26,10 @@ export function RoleRequirements({
   toEdit,
   toDelete,
 }: {
-  toView: string | null;
-  toCreate: string | null;
-  toEdit: string | null;
-  toDelete: string | null;
+  toView?: string | null;
+  toCreate?: string | null;
+  toEdit?: string | null;
+  toDelete?: string | null;
 }) {
   // const { data: session, status } = useSession();
 
