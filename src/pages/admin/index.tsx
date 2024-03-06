@@ -41,6 +41,12 @@ export default function AdminDashboard({
       linkText: "Manage teams",
     },
     {
+      name: "User manager",
+      description: "Manage the users in the MCL.",
+      link: "/admin/users",
+      linkText: "Manage users",
+    },
+    {
       name: "Alert manager",
       description:
         "Manage the alerts (the notifications before the header) that appear on the website.",
