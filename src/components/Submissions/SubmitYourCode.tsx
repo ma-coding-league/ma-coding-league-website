@@ -11,7 +11,6 @@ export default function SubmitYourCode({
   id: string;
   competition: UserSideCompetition;
 }): React.ReactNode {
-  // TODO: Update database to store what school a student is at and what year they graduate so they're automatically put into teams and invalidated when they graduate.
   // TODO: Handle submissions actually, on server and client, display messages, etc.
   //  and also show the currently submitted code as a certain time, and refresh button.
 

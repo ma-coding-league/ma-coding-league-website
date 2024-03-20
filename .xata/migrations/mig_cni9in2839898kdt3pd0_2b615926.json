@@ -1,0 +1,16 @@
+{
+  "id": "mig_cni9in2839898kdt3pd0",
+  "parentID": "mig_cni9ilgjgt5lmn3jo190",
+  "checksum": "1:2b6159269b5422a0e0ad61667e264704525deeedb1e6070ea483f51b056ed3b6",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "refresh_token",
+          "type": "string"
+        },
+        "table": "nextauth_accounts"
+      }
+    }
+  ]
+}

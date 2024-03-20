@@ -21,7 +21,7 @@ export function getDefaultUsersManagerStates(): UsersManagerStatesType {
 }
 
 export class UsersManagerFunctions {
-  static REFRESH_THROTTLE = 200;
+  static REFRESH_THROTTLE = 1000;
 
   public stateStore: UsersManagerStatesType;
   public setStateStoreCallback: React.Dispatch<

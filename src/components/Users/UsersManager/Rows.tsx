@@ -9,11 +9,13 @@ import {
   UsersManagerStatesStoreContext,
 } from "@/components/Users/UsersManager/context";
 import RoleBadges from "@/components/Authentication/Roles/RoleBadges";
+import { TeamsManagerStatesStoreContext } from "@/components/Teams/TeamsManager/context";
 
 function UserTableRow({ user }: { user: User }): React.ReactNode {
   const { data: session } = useSession();
   const state = React.useContext(UsersManagerStatesStoreContext);
   const functions = React.useContext(UsersManagerStateFunctionsContext);
+  const teamState = React.useContext(TeamsManagerStatesStoreContext);
 
   const [modifiedUser, setModifiedUser] = React.useState<User>(
     structuredClone(user),
@@ -160,6 +162,62 @@ function UserTableRow({ user }: { user: User }): React.ReactNode {
             disabled={!editing}
           />
         )}
+      </td>
+      <td>
+        <select
+          className="form-select"
+          style={{ width: "16em" }}
+          value={!editing && user.team != null ? user.team.id : undefined}
+          defaultValue={editing && user.team != null ? user.team.id : undefined}
+          onChange={(e) => {
+            setModifiedUser({
+              ...user,
+              team: { id: e.target.value },
+            });
+          }}
+          disabled={!editing}
+        >
+          <option>Select a team...</option>
+          {teamState?.teams.map((team) => {
+            return (
+              <option key={team.id} value={team.id}>
+                {team.name}
+              </option>
+            );
+          })}
+        </select>
+      </td>
+      <td>
+        <input
+          type="number"
+          step="1"
+          value={!editing ? user.graduationYear ?? undefined : undefined}
+          defaultValue={editing ? user.graduationYear ?? undefined : undefined}
+          onBlur={(e) => {
+            setModifiedUser({
+              ...user,
+              graduationYear: parseInt(e.target.value) ?? null,
+            });
+          }}
+          className="form-control mt-2"
+          placeholder="Graduation year"
+          disabled={!editing}
+        />
+      </td>
+      <td>
+        <input
+          type="checkbox"
+          className="form-check-input"
+          checked={!editing ? user.teamVerified : undefined}
+          defaultChecked={editing ? user.teamVerified : undefined}
+          onChange={(e) => {
+            setModifiedUser({
+              ...user,
+              teamVerified: e.target.checked,
+            });
+          }}
+          disabled={!editing}
+        />
       </td>
     </tr>
   );

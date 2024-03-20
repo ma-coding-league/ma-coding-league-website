@@ -14,10 +14,12 @@ export default async function handler(
   if (req.method === "PUT") {
     await authorizeToRunCallback(req, res, xata, "tech lead", async (_) => {
       const userEdit = deserializeUser(req.body);
-      console.log(JSON.stringify(userEdit, null, 2));
       // @ts-ignore
       await xata.db.nextauth_users.update(userEdit.id, {
         roles: userEdit.roles,
+        team: userEdit.team,
+        graduationYear: userEdit.graduationYear,
+        teamVerified: userEdit.teamVerified,
       });
       res.status(200).end();
     });

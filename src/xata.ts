@@ -45,7 +45,11 @@ const tables = [
       { name: "yearRange", type: "string" },
     ],
   },
-  { name: "teams", columns: [{ name: "name", type: "string", unique: true }] },
+  {
+    name: "teams",
+    columns: [{ name: "name", type: "string", unique: true }],
+    revLinks: [{ column: "team", table: "nextauth_users" }],
+  },
   {
     name: "officers",
     columns: [
@@ -69,6 +73,14 @@ const tables = [
       { name: "name", type: "string" },
       { name: "image", type: "string" },
       { name: "roles", type: "string", defaultValue: "user" },
+      { name: "team", type: "link", link: { table: "teams" } },
+      {
+        name: "teamVerified",
+        type: "bool",
+        notNull: true,
+        defaultValue: "false",
+      },
+      { name: "graduationYear", type: "int" },
     ],
     revLinks: [
       { column: "user", table: "nextauth_accounts" },

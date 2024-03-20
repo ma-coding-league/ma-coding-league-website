@@ -14,7 +14,7 @@ export function getDefaultTeamsManagerStates(): TeamsManagerStatesType {
 }
 
 export class TeamsManagerFunctions {
-  static REFRESH_THROTTLE = 200;
+  static REFRESH_THROTTLE = 1000;
 
   public stateStore: TeamsManagerStatesType;
   public setStateStoreCallback: React.Dispatch<
