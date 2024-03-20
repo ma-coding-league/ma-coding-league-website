@@ -30,6 +30,7 @@ export async function getServerSessionAndCheckForRole(
       .filter("email", session.user.email)
       .getFirst();
     if (dbUser !== null && splitRoles(dbUser.roles ?? "").includes(role)) {
+      // @ts-ignore
       return [session, dbUser, null];
     } else {
       return [null, null, "unauthorized"];
