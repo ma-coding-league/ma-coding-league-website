@@ -16,6 +16,9 @@ declare module "next-auth" {
     user: {
       id: string;
       roles: string;
+      team: string | null;
+      teamVerified: boolean;
+      graduationYear: number | null;
     } & DefaultSession["user"];
   }
 }

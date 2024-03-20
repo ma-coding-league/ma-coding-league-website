@@ -1,10 +1,16 @@
+export type UserDetails = {
+  team: { id: string } | null;
+  graduationYear: number | null;
+};
+
 export type User = {
   id: string;
   name: string;
   email: string;
   roles: string;
   image: string;
-};
+  teamVerified: boolean;
+} & UserDetails;
 
 export function serializeUser(user: User): string {
   return JSON.stringify({
@@ -13,6 +19,9 @@ export function serializeUser(user: User): string {
     email: user.email,
     role: user.roles,
     image: user.image,
+    team: user.team,
+    teamVerified: user.teamVerified,
+    graduationYear: user.graduationYear,
   });
 }
 
@@ -24,6 +33,9 @@ export function deserializeUser(user: string): User {
     email: userObject.email,
     roles: userObject.roles,
     image: userObject.image,
+    team: userObject.team,
+    teamVerified: userObject.teamVerified,
+    graduationYear: userObject.graduationY,
   };
 }
 
@@ -44,6 +56,9 @@ export default async function getUsersPageFromAPI(
       email: user.email,
       roles: user.roles,
       image: user.image,
+      team: user.team,
+      teamVerified: user.teamVerified,
+      graduationYear: user.graduationYear,
     };
   });
 }

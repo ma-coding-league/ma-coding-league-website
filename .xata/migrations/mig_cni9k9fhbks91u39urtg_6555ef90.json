@@ -1,0 +1,16 @@
+{
+  "id": "mig_cni9k9fhbks91u39urtg",
+  "parentID": "mig_cni9k47hbks91u39ursg",
+  "checksum": "1:6555ef9098633021972bf86fa6446887c3cde3107eced6a86b125a32cdb9a8e4",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "expires",
+          "type": "datetime"
+        },
+        "table": "nextauth_sessions"
+      }
+    }
+  ]
+}

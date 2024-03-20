@@ -1,0 +1,18 @@
+{
+  "id": "mig_cntkktu4s0ev2sqkhuj0",
+  "parentID": "mig_cntkkee4s0ev2sqkhui0",
+  "checksum": "1:61ddaf787c08f759b54598bde1cced51b0719d06dca534f53a3d7db4ebfddb09",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "teamVerified",
+          "type": "bool",
+          "notNull": true,
+          "defaultValue": "false"
+        },
+        "table": "nextauth_users"
+      }
+    }
+  ]
+}

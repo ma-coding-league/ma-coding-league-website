@@ -1,0 +1,16 @@
+{
+  "id": "mig_cni9ijgjgt5lmn3jo180",
+  "parentID": "mig_cni9ii2839898kdt3pc0",
+  "checksum": "1:e3d9b8f3a43bd650ab5218cea033ded7bd2ad0f8c37c73a74622791c36834326",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "provider",
+          "type": "string"
+        },
+        "table": "nextauth_accounts"
+      }
+    }
+  ]
+}

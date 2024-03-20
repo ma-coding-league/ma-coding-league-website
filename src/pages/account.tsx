@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import { useSession } from "next-auth/react";
 import RequireUserAuthorized from "@/components/Authorization/RequireUserAuthorized";
 import RoleBadges from "@/components/Authentication/Roles/RoleBadges";
+import AccountPageTeamSection from "@/components/Account/Page/TeamSection";
 
 const pageName = "Account";
 
@@ -39,6 +40,26 @@ export default function Account({ appProps }: AccountProps): React.ReactNode {
         </h1>
         <p>
           <RoleBadges roles={session?.user.roles ?? ""} />
+          <br />
+          {session?.user.team !== null ? (
+            <span className="badge bg-primary me-2">{session?.user.team}</span>
+          ) : (
+            <span className="badge bg-danger me-2">Not part of a team</span>
+          )}
+          {session?.user.graduationYear !== null ? (
+            <span className="badge bg-primary me-2">
+              {session?.user.graduationYear}
+            </span>
+          ) : (
+            <span className="badge bg-danger me-2">
+              Graduation year not set
+            </span>
+          )}
+          {session?.user.teamVerified ? (
+            <span className="badge bg-success me-2">Verified</span>
+          ) : (
+            <span className="badge bg-danger me-2">Unverified</span>
+          )}
         </p>
         <p>
           ID: <code>{session?.user.id}</code>
@@ -55,6 +76,8 @@ export default function Account({ appProps }: AccountProps): React.ReactNode {
           </code>
           <br />
         </p>
+        <h2>Team</h2>
+        <AccountPageTeamSection />
       </RequireUserAuthorized>
     </Layout>
   );

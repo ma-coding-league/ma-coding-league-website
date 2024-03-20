@@ -61,6 +61,30 @@ export default function ProfileOffcanvas() {
               <div className="offcanvas-body">
                 <div>
                   <RoleBadges roles={session.user.roles} />
+                  <br />
+                  {session?.user.team !== null ? (
+                    <span className="badge bg-primary me-2">
+                      {session?.user.team}
+                    </span>
+                  ) : (
+                    <span className="badge bg-danger me-2">
+                      Not part of a team
+                    </span>
+                  )}
+                  {session?.user.graduationYear !== null ? (
+                    <span className="badge bg-primary me-2">
+                      {session?.user.graduationYear}
+                    </span>
+                  ) : (
+                    <span className="badge bg-danger me-2">
+                      Graduation year not set
+                    </span>
+                  )}
+                  {session?.user.teamVerified ? (
+                    <span className="badge bg-success me-2">Verified</span>
+                  ) : (
+                    <span className="badge bg-danger me-2">Unverified</span>
+                  )}
                 </div>
                 <br />
                 <p>

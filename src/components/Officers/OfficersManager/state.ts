@@ -14,7 +14,7 @@ export function getDefaultOfficersManagerStates(): OfficersManagerStatesType {
 }
 
 export class OfficersManagerFunctions {
-  static REFRESH_THROTTLE = 200;
+  static REFRESH_THROTTLE = 1000;
 
   public stateStore: OfficersManagerStatesType;
   public setStateStoreCallback: React.Dispatch<

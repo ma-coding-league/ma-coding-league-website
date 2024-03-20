@@ -30,6 +30,12 @@ export const authOptions = {
       if (dbUser !== null) {
         session.user.id = dbUser.id;
         session.user.roles = dbUser.roles ?? "user";
+        session.user.team =
+          dbUser.team !== null
+            ? (await dbUser.team.read())?.name ?? null
+            : null;
+        session.user.teamVerified = dbUser.teamVerified;
+        session.user.graduationYear = dbUser.graduationYear ?? null;
       }
       return session;
     },

@@ -1,0 +1,16 @@
+{
+  "id": "mig_cni9jai839898kdt3pig",
+  "parentID": "mig_cni9j8i839898kdt3phg",
+  "checksum": "1:cab29f9cf84b9859ab137f3ff043cc27c408fde3c5c9a1351e2acfb44a7f8314",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "identifier",
+          "type": "string"
+        },
+        "table": "nextauth_verificationTokens"
+      }
+    }
+  ]
+}

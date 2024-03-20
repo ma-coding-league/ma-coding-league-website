@@ -1,0 +1,16 @@
+{
+  "id": "mig_cntm02jij48b5dd5k1gg",
+  "parentID": "mig_cntkktu4s0ev2sqkhuj0",
+  "checksum": "1:0b1dd6de3c27f548a65131343c6c0cab634155fa27df1860f2bc7f66a9969b64",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "graduationYear",
+          "type": "int"
+        },
+        "table": "nextauth_users"
+      }
+    }
+  ]
+}

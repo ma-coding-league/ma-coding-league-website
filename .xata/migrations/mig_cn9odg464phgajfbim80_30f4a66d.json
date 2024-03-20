@@ -1,0 +1,16 @@
+{
+  "id": "mig_cn9odg464phgajfbim80",
+  "parentID": "mig_cn20uk6dna9pj9mlo3vg",
+  "checksum": "1:30f4a66de7372ce33126d4cecd2823466203dd930fecacfb47536d73bc1986d0",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "year",
+          "type": "int"
+        },
+        "table": "competitions"
+      }
+    }
+  ]
+}

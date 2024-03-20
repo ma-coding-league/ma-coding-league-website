@@ -18,7 +18,7 @@ export function getDefaultSubmissionsManagerStates(): SubmissionsManagerStatesTy
 }
 
 export class SubmissionsManagerFunctions {
-  static REFRESH_THROTTLE = 200;
+  static REFRESH_THROTTLE = 1000;
 
   public stateStore: SubmissionsManagerStatesType;
   public setStateStoreCallback: React.Dispatch<

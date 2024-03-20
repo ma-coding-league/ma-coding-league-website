@@ -6,6 +6,7 @@ import RequireAdminAuthorized from "@/components/Authorization/RequireAdminAutho
 import { RoleRequirements } from "@/components/Authentication/Roles/RoleBadges";
 import UsersManagerStateProviders from "@/components/Users/UsersManager/context";
 import UsersTable from "@/components/Users/UsersManager/Table";
+import TeamsManagerStateProviders from "@/components/Teams/TeamsManager/context";
 
 const pageName = "Users manager | Admin dashboard";
 
@@ -36,7 +37,9 @@ export default function UsersManager({
           />
           <p>These are all the users in the MCL.</p>
           <UsersManagerStateProviders>
-            <UsersTable />
+            <TeamsManagerStateProviders>
+              <UsersTable />
+            </TeamsManagerStateProviders>
           </UsersManagerStateProviders>
         </>
       </RequireAdminAuthorized>

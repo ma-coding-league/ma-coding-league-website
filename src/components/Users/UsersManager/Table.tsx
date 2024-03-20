@@ -7,15 +7,18 @@ import {
 } from "@/components/Users/UsersManager/context";
 import { UserTableRows } from "@/components/Users/UsersManager/Rows";
 import Pagination from "@/components/Pagination";
+import { TeamsManagerStateFunctionsContext } from "@/components/Teams/TeamsManager/context";
 
 export default function UsersTable() {
   // const { data: session } = useSession();
   const state = React.useContext(UsersManagerStatesStoreContext);
   const functions = React.useContext(UsersManagerStateFunctionsContext);
+  const teamFunctions = React.useContext(TeamsManagerStateFunctionsContext);
 
   React.useEffect(() => {
     functions?.refreshUsers();
-  }, [functions]);
+    teamFunctions?.refreshTeams();
+  }, [functions, teamFunctions]);
 
   return (
     <ErrorBoundary>
@@ -36,6 +39,9 @@ export default function UsersTable() {
             );
             functions
               .refreshUsers()
+              .then(() => {
+                return teamFunctions?.refreshTeams();
+              })
               .then(cbs.successCallback)
               .catch(cbs.errorCallback);
           }}
@@ -50,6 +56,9 @@ export default function UsersTable() {
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Roles</th>
+              <th scope="col">Team</th>
+              <th scope="col">Graduation year</th>
+              <th scope="col">Verified</th>
             </tr>
           </thead>
           <tbody>
@@ -58,7 +67,7 @@ export default function UsersTable() {
                 case "loading":
                   return (
                     <tr>
-                      <td colSpan={5}>
+                      <td colSpan={8}>
                         <div
                           className="alert alert-secondary mb-0"
                           role="alert"
@@ -72,7 +81,7 @@ export default function UsersTable() {
                   if (state?.users.length === 0) {
                     return (
                       <tr>
-                        <td colSpan={5}>
+                        <td colSpan={8}>
                           <div
                             className="alert alert-primary mb-0"
                             role="alert"
@@ -89,7 +98,7 @@ export default function UsersTable() {
                 case "error":
                   return (
                     <tr>
-                      <td colSpan={5}>
+                      <td colSpan={8}>
                         <div className="alert alert-warning mb-0" role="alert">
                           Error fetching users, try refreshing the page!
                         </div>
